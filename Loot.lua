@@ -104,20 +104,20 @@ function CEPGP_announce(link, x, slotNum, quantity)
 		if CEPGP_loot_GUI then
 			CEPGP_callItem(id, gp);
 			CEPGP_SendAddonMsg("CallItem;"..id .. ";" .. gp, "RAID");
-			SendChatMessage("NOW DISTRIBUTING: " .. link .. " for " .. gp .. " GP", "RAID_WARNING", CEPGP_LANGUAGE);
+			SendChatMessage("正在分發: " .. link .. " for " .. gp .. " GP", "RAID_WARNING", CEPGP_LANGUAGE);
 		else
 			SendChatMessage("--------------------------", "RAID", CEPGP_LANGUAGE);
 			if rank > 0 then
 				if quantity > 1 then
-					SendChatMessage("NOW DISTRIBUTING: x" .. quantity .. " " .. link, "RAID_WARNING", CEPGP_LANGUAGE);
+					SendChatMessage("正在分發: x" .. quantity .. " " .. link, "RAID_WARNING", CEPGP_LANGUAGE);
 				else
-					SendChatMessage("NOW DISTRIBUTING: " .. link, "RAID_WARNING", CEPGP_LANGUAGE);
+					SendChatMessage("正在分發: " .. link, "RAID_WARNING", CEPGP_LANGUAGE);
 				end
 			else
 				if quantity > 1 then
-					SendChatMessage("NOW DISTRIBUTING: x" .. quantity .. " " .. link, "RAID", CEPGP_LANGUAGE);
+					SendChatMessage("正在分發: x" .. quantity .. " " .. link, "RAID", CEPGP_LANGUAGE);
 				else
-					SendChatMessage("NOW DISTRIBUTING: " .. link, "RAID", CEPGP_LANGUAGE);
+					SendChatMessage("正在分發: " .. link, "RAID", CEPGP_LANGUAGE);
 				end
 			end
 			if quantity > 1 then
@@ -125,7 +125,7 @@ function CEPGP_announce(link, x, slotNum, quantity)
 			else
 				SendChatMessage("GP Value: " .. gp, "RAID", CEPGP_LANGUAGE);
 			end
-			SendChatMessage("Whisper me " .. CEPGP_keyword .. " for mainspec only", "RAID", CEPGP_LANGUAGE);
+			--SendChatMessage("Whisper me " .. CEPGP_keyword .. " for mainspec only", "RAID", CEPGP_LANGUAGE); --plus
 			SendChatMessage("--------------------------", "RAID", CEPGP_LANGUAGE);
 		end
 		CEPGP_distribute:Show();

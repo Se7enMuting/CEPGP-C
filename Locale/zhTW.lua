@@ -1,0 +1,19 @@
+local L = CEPGP_Locale:NewLocale("CEPGP", "zhTW")
+
+if not L then return end
+
+L["Onyxia"] = "奧妮克希亞"
+L["Lucifron"] = "魯西弗隆"
+L["Magmadar"] = "瑪格曼達"
+L["Gehennas"] = "基赫納斯"
+L["Garr"] = "加爾"
+L["Baron Geddon"] = "迦頓男爵"
+L["Shazzrah"] = "沙斯拉爾"
+L["Sulfuron Harbinger"] = "薩弗隆先驅者"
+L["Golemagg the Incinerator"] = "焚化者古雷曼格"
+L["Majordomo Executus"] = "管理者埃克索圖斯"
+L["Ragnaros"] = "拉格納羅斯"
+L["Flamewaker Elite"] = "烈焰行者精英"
+L["Flamewaker Healer"] = "烈焰行者醫師"
+L["%s have been defeated! %d EP has been awarded to the raid"] = "%s 被打敗了！ %d EP已經被獎勵給團隊"
+L["%s has been defeated! %d EP has been awarded to the raid"] = "%s 被打敗了！ %d EP已經被獎勵給團隊"
