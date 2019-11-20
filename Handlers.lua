@@ -408,7 +408,7 @@ function CEPGP_handleLoot(event, arg1, arg2)
 					SendChatMessage("Awarded " .. _G["CEPGP_distribute_item_name"]:GetText() .. " to ".. CEPGP_distPlayer .. " for " .. math.floor(CEPGP_distribute_GP_value:GetText()*CEPGP_rate) .. " GP", CHANNEL, CEPGP_LANGUAGE); --plus
 					CEPGP_addGP(CEPGP_distPlayer, math.floor(CEPGP_distribute_GP_value:GetText()*CEPGP_rate), CEPGP_DistID, CEPGP_distItemLink); --plus
 				else
-					SendChatMessage("Awarded " .. _G["CEPGP_distribute_item_name"]:GetText() .. " to ".. CEPGP_distPlayer .. " for free", CHANNEL, CEPGP_LANGUAGE);
+					SendChatMessage("Awarded " .. _G["CEPGP_distribute_item_name"]:GetText() .. " to ".. CEPGP_distPlayer .. " for 0 GP", CHANNEL, CEPGP_LANGUAGE);
 					CEPGP_addGP(CEPGP_distPlayer, 0, CEPGP_DistID, CEPGP_distItemLink); --plus
 				end
 				CEPGP_distPlayer = "";

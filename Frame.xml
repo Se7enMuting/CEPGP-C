@@ -4302,7 +4302,7 @@
 					</OnClick>
 				</Scripts>
 			</Button>
-			<Button name="CEPGP_distribute_popup_gp_full" inherits="GameMenuButtonTemplate" text="Give for Full Price"> <!-- plus -->
+			<Button name="CEPGP_distribute_popup_gp_full" inherits="GameMenuButtonTemplate" text="Give for 100% GP"> <!-- plus -->
 				<Size>
 					<AbsDimension x="110" y="30"/>
 				</Size>
@@ -4323,7 +4323,7 @@
 					</OnClick>
 				</Scripts>
 			</Button> <!-- plus -->
-			<Button name="CEPGP_distribute_popup_free" inherits="GameMenuButtonTemplate" text="Give for Free">
+			<Button name="CEPGP_distribute_popup_free" inherits="GameMenuButtonTemplate" text="Give for 0 GP">
 				<Size>
 					<AbsDimension x="110" y="30"/>
 				</Size>

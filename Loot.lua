@@ -121,9 +121,9 @@ function CEPGP_announce(link, x, slotNum, quantity)
 				end
 			end
 			if quantity > 1 then
-				SendChatMessage("GP Value: " .. gp .. " (~" .. math.floor(gp/quantity) .. "GP per unit)", "RAID", CEPGP_LANGUAGE);
+				SendChatMessage("GP 值: " .. gp .. " (~" .. math.floor(gp/quantity) .. "GP per unit)", "RAID", CEPGP_LANGUAGE);
 			else
-				SendChatMessage("GP Value: " .. gp, "RAID", CEPGP_LANGUAGE);
+				SendChatMessage("GP 值: " .. gp, "RAID", CEPGP_LANGUAGE);
 			end
 			--SendChatMessage("Whisper me " .. CEPGP_keyword .. " for mainspec only", "RAID", CEPGP_LANGUAGE); --plus
 			SendChatMessage("--------------------------", "RAID", CEPGP_LANGUAGE);

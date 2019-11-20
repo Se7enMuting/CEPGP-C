@@ -237,11 +237,11 @@ function CEPGP_addGPTooltip(self)
 		local item = Item:CreateFromItemID(tonumber(id));
 		item:ContinueOnItemLoad(function()
 			local gp = CEPGP_calcGP(_, 1, id);
-			GameTooltip:AddLine("GP Value: " .. gp, {1,1,1});	
+			GameTooltip:AddLine("GP 值: " .. gp, {1,1,1});	
 		end);
 	else
 		local gp = CEPGP_calcGP(_, 1, id);
-		GameTooltip:AddLine("GP Value: " .. gp, {1,1,1});
+		GameTooltip:AddLine("GP 值: " .. gp, {1,1,1});
 	end
 	
 end
@@ -254,12 +254,12 @@ function CEPGP_addGPHyperlink(self, iString)
 		local item = Item:CreateFromItemID(tonumber(id));
 		item:ContinueOnItemLoad(function()
 			local gp = CEPGP_calcGP(_, 1, id);
-			ItemRefTooltip:AddLine("GP Value: " .. gp, {1,1,1});
+			ItemRefTooltip:AddLine("GP 值: " .. gp, {1,1,1});
 			ItemRefTooltip:Show();
 		end);
 	else
 		local gp = CEPGP_calcGP(_, 1, id);
-		ItemRefTooltip:AddLine("GP Value: " .. gp, {1,1,1});
+		ItemRefTooltip:AddLine("GP 值: " .. gp, {1,1,1});
 		ItemRefTooltip:Show();
 	end
 end

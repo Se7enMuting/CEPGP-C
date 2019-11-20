@@ -1,19 +1,19 @@
 local L = CEPGP_Locale:GetLocale("CEPGP")
 
 bossNameIndex = {
-    [L["Onyxia"]] = 5,
+    [L["Onyxia"]] = 50,
 
     -- molten core --
-    [L["Lucifron"]] = 5,
-    [L["Magmadar"]] = 5,
-    [L["Gehennas"]] = 5,
-    [L["Garr"]] = 5,
-    [L["Baron Geddon"]] = 5,
-    [L["Shazzrah"]] = 5,
-    [L["Sulfuron Harbinger"]] = 5,
-    [L["Golemagg the Incinerator"]] = 5,
-    [L["Majordomo Executus"]] = 5,
-    [L["Ragnaros"]] = 7,
+    [L["Lucifron"]] = 50,
+    [L["Magmadar"]] = 50,
+    [L["Gehennas"]] = 50,
+    [L["Garr"]] = 50,
+    [L["Baron Geddon"]] = 50,
+    [L["Shazzrah"]] = 50,
+    [L["Sulfuron Harbinger"]] = 50,
+    [L["Golemagg the Incinerator"]] = 50,
+    [L["Majordomo Executus"]] = 50,
+    [L["Ragnaros"]] = 70,
 
     -- blackwing lair --
     [L["Razorgore the Untamed"]] = 7,
