@@ -554,9 +554,9 @@ function CEPGP_rosterUpdate(event)
 					[1] = name,
 					[2] = class,
 					[3] = rank,
-					[4] = 11,
-					[5] = 0,
-					[6] = 1,
+					[4] = 0,
+					[5] = 1,
+					[6] = 0,
 					[7] = 0,
 					[8] = classFileName
 				};
