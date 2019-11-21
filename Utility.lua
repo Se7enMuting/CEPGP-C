@@ -465,6 +465,7 @@ function CEPGP_rosterUpdate(event)
 				name = string.sub(name, 0, string.find(name, "-")-1);
 			end
 			if name then
+			if CEPGP_checkEPGP(offNote) then --plus
 				local EP, GP = CEPGP_getEPGP(officerNote, i, name);
 				local PR = math.floor((EP/GP)*100)/100;
 				CEPGP_roster[name] = {
@@ -492,6 +493,7 @@ function CEPGP_rosterUpdate(event)
 						[4] = classFileName
 					};
 				end
+			end --plus
 			end
 		end
 		CEPGP_groupVersion = CEPGP_tSort(CEPGP_groupVersion, 1);
@@ -555,9 +557,9 @@ function CEPGP_rosterUpdate(event)
 					[2] = class,
 					[3] = rank,
 					[4] = 11,
-					[5] = 0,
-					[6] = 1,
-					[7] = 0,
+					[5] = "N/A", --plus
+					[6] = "N/A", --plus
+					[7] = "N/A", --plus
 					[8] = classFileName
 				};
 			end
