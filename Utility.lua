@@ -465,7 +465,7 @@ function CEPGP_rosterUpdate(event)
 				name = string.sub(name, 0, string.find(name, "-")-1);
 			end
 			if name then
-			if CEPGP_checkEPGP(offNote) then --plus
+			if CEPGP_checkEPGP(officerNote) then --plus
 				local EP, GP = CEPGP_getEPGP(officerNote, i, name);
 				local PR = math.floor((EP/GP)*100)/100;
 				CEPGP_roster[name] = {
