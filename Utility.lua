@@ -449,13 +449,13 @@ function CEPGP_rosterUpdate(event)
 		if CanEditOfficerNote() then
 			ShowUIPanel(CEPGP_guild_add_EP);
 			ShowUIPanel(CEPGP_guild_decay);
-			ShowUIPanel(CEPGP_guild_reset);
+			--ShowUIPanel(CEPGP_guild_reset); --plus
 			ShowUIPanel(CEPGP_raid_add_EP);
 			ShowUIPanel(CEPGP_button_guild_restore);
 		else --[[ Hides context sensitive options if player cannot edit officer notes ]]--
 			HideUIPanel(CEPGP_guild_add_EP);
 			HideUIPanel(CEPGP_guild_decay);
-			HideUIPanel(CEPGP_guild_reset);
+			--HideUIPanel(CEPGP_guild_reset); --plus
 			HideUIPanel(CEPGP_raid_add_EP);
 			HideUIPanel(CEPGP_button_guild_restore);
 		end
