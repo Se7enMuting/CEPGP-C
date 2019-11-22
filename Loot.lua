@@ -104,7 +104,7 @@ function CEPGP_announce(link, x, slotNum, quantity)
 		if CEPGP_loot_GUI then
 			CEPGP_callItem(id, gp);
 			CEPGP_SendAddonMsg("CallItem;"..id .. ";" .. gp, "RAID");
-			SendChatMessage("正在分發: " .. link .. " 爲 " .. gp .. " GP", "RAID_WARNING", CEPGP_LANGUAGE);
+			SendChatMessage("正在分發: " .. link .. " : " .. gp .. " GP", "RAID_WARNING", CEPGP_LANGUAGE);
 		else
 			SendChatMessage("--------------------------", "RAID", CEPGP_LANGUAGE);
 			if rank > 0 then

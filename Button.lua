@@ -255,7 +255,7 @@ function CEPGP_ListButton_OnClick(obj)
 																if CEPGP_context_popup_EP_check:GetChecked() then
 																	CEPGP_addEP(name, tonumber(CEPGP_context_amount:GetText()), CEPGP_context_reason:GetText());
 																else
-																	CEPGP_addGP(name, tonumber(CEPGP_context_amount:GetText()), _, _, CEPGP_context_reason:GetText());
+																	CEPGP_addGP(name, tonumber(CEPGP_context_amount:GetText()), false, _, CEPGP_context_reason:GetText());  --plus _ --> false
 																end
 															end
 														end);

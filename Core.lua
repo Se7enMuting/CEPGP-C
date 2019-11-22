@@ -42,6 +42,7 @@ CEPGP_use = false;
 CEPGP_ignoreUpdates = false;
 CEPGP_award = false;
 CEPGP_rate = 1; --plus
+CEPGP_greedrate = 0.1; --plus
 CEPGP_plugins = {};
 
 --[[ SAVED VARIABLES ]]--
@@ -593,12 +594,12 @@ function CEPGP_addGP(player, amount, itemID, itemLink, msg)
 			if tonumber(amount) < 0 then -- Number is negative  --plus 原<=0
 				amount = string.sub(amount, 2, string.len(amount));
 				if msg ~= "" and msg ~= nil then
-					CEPGP_sendChatMessage(amount .. " GP被取走從" .. player .. "(" .. msg .. ")", CHANNEL);
+					CEPGP_sendChatMessage(amount .. " GP被取走從 " .. player .. " (" .. msg .. ")", CHANNEL);
 					CEPGP_ShareTraffic(player, UnitName("player"), "減去GP " .. amount .. " (" .. msg .. ")", EP, EP, GP - amount, GPB);
 					TRAFFIC[CEPGP_ntgetn(TRAFFIC)+1] = {
 						[1] = player,
 						[2] = UnitName("player"),
-						[3] = "Subtract GP " .. amount .. " (" .. msg .. ")",
+						[3] = "減去GP " .. amount .. " (" .. msg .. ")",
 						[4] = EP,
 						[5] = EP,
 						[6] = GPB,
@@ -606,12 +607,12 @@ function CEPGP_addGP(player, amount, itemID, itemLink, msg)
 						[9] = time()
 					};
 				else
-					CEPGP_sendChatMessage(amount .. " GP被取走從" .. player, CHANNEL);
+					CEPGP_sendChatMessage(amount .. " GP被取走從 " .. player, CHANNEL);
 					CEPGP_ShareTraffic(player, UnitName("player"), "減去GP " .. amount, EP, EP, GP - amount, GPB);
 					TRAFFIC[CEPGP_ntgetn(TRAFFIC)+1] = {
 						[1] = player,
 						[2] = UnitName("player"),
-						[3] = "Subtract GP " .. amount,
+						[3] = "減去GP " .. amount,
 						[4] = EP,
 						[5] = EP,
 						[6] = GPB,
@@ -621,12 +622,12 @@ function CEPGP_addGP(player, amount, itemID, itemLink, msg)
 				end
 			else -- Number is positive or 0
 				if msg ~= "" and msg ~= nil then
-					CEPGP_sendChatMessage(amount .. " GP被增加給" .. player .. " (" .. msg .. ")", CHANNEL);
+					CEPGP_sendChatMessage(amount .. " GP被增加給 " .. player .. " (" .. msg .. ")", CHANNEL);
 					CEPGP_ShareTraffic(player, UnitName("player"), "增加GP " .. amount .. " (" .. msg .. ")", EP, EP, GPB, GP);
 					TRAFFIC[CEPGP_ntgetn(TRAFFIC)+1] = {
 						[1] = player,
 						[2] = UnitName("player"),
-						[3] = "Add GP " .. amount .. " (" .. msg .. ")",
+						[3] = "增加GP " .. amount .. " (" .. msg .. ")",
 						[4] = EP,
 						[5] = EP,
 						[6] = GPB,
@@ -634,12 +635,12 @@ function CEPGP_addGP(player, amount, itemID, itemLink, msg)
 						[9] = time()
 					};
 				else
-					CEPGP_sendChatMessage(amount .. " GP被增加給" .. player, CHANNEL);
+					CEPGP_sendChatMessage(amount .. " GP被增加給 " .. player, CHANNEL);
 					CEPGP_ShareTraffic(player, UnitName("player"), "增加GP " .. amount, EP, EP, GPB, GP);
 					TRAFFIC[CEPGP_ntgetn(TRAFFIC)+1] = {
 						[1] = player,
 						[2] = UnitName("player"),
-						[3] = "Add GP " .. amount,
+						[3] = "增加GP " .. amount,
 						[4] = EP,
 						[5] = EP,
 						[6] = GPB,
@@ -656,7 +657,7 @@ function CEPGP_addGP(player, amount, itemID, itemLink, msg)
 				TRAFFIC[CEPGP_ntgetn(TRAFFIC)+1] = {
 					[1] = player,
 					[2] = UnitName("player"),
-					[3] = "Add GP " .. amount .. " (" .. msg .. ")",
+					[3] = "增加GP " .. amount .. " (" .. msg .. ")",
 					[4] = EP,
 					[5] = EP,
 					[6] = GPB,
@@ -668,7 +669,7 @@ function CEPGP_addGP(player, amount, itemID, itemLink, msg)
 				TRAFFIC[CEPGP_ntgetn(TRAFFIC)+1] = {
 					[1] = player,
 					[2] = UnitName("player"),
-					[3] = "Add GP " .. amount,
+					[3] = "增加GP " .. amount,
 					[4] = EP,
 					[5] = EP,
 					[6] = GPB,
@@ -687,10 +688,8 @@ function CEPGP_addGP(player, amount, itemID, itemLink, msg)
 			else
 				if msg ~= "" and msg ~= nil then
 					CEPGP_ShareTraffic(player, UnitName("player"), "增加GP " .. amount .. " (" .. msg .. ")", EP, EP, GPB, GP);
-					CEPGP_sendChatMessage(amount .. " GP被增加給" .. player .. " (" .. msg .. ")", CHANNEL);  --plus
 				else
 					CEPGP_ShareTraffic(player, UnitName("player"), "增加GP " .. amount, EP, EP, GPB, GP);
-					CEPGP_sendChatMessage(amount .. " GP被增加給" .. player, CHANNEL); --plus
 				end
 				
 			end
@@ -730,7 +729,7 @@ function CEPGP_addEP(player, amount, msg)
 		if tonumber(amount) <= 0 then
 			if msg ~= "" and msg ~= nil then
 				amount = string.sub(amount, 2, string.len(amount));
-				CEPGP_sendChatMessage(amount .. " EP被取走從" .. player .. " (" .. msg .. ")", CHANNEL);
+				CEPGP_sendChatMessage(amount .. " EP被取走從 " .. player .. " (" .. msg .. ")", CHANNEL);
 				TRAFFIC[CEPGP_ntgetn(TRAFFIC)+1] = {
 					[1] = player,
 					[2] = UnitName("player"),
@@ -744,7 +743,7 @@ function CEPGP_addEP(player, amount, msg)
 				CEPGP_ShareTraffic(player, UnitName("player"), "減少EP -" .. amount .. " (" .. msg .. ")", EPB, EP, GP, GP);
 			else
 				amount = string.sub(amount, 2, string.len(amount));
-				CEPGP_sendChatMessage(amount .. " EP被取走從" .. player, CHANNEL);
+				CEPGP_sendChatMessage(amount .. " EP被取走從 " .. player, CHANNEL);
 				TRAFFIC[CEPGP_ntgetn(TRAFFIC)+1] = {
 					[1] = player,
 					[2] = UnitName("player"),
@@ -759,7 +758,7 @@ function CEPGP_addEP(player, amount, msg)
 			end
 		else
 			if msg ~= "" and msg ~= nil then
-				CEPGP_sendChatMessage(amount .. " EP增加給" .. player .. " (" .. msg .. ")", CHANNEL);
+				CEPGP_sendChatMessage(amount .. " EP增加給 " .. player .. " (" .. msg .. ")", CHANNEL);
 				TRAFFIC[CEPGP_ntgetn(TRAFFIC)+1] = {
 					[1] = player,
 					[2] = UnitName("player"),
