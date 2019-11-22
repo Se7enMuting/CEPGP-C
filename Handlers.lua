@@ -35,7 +35,7 @@ function CEPGP_handleComms(event, arg1, arg2)
 					CEPGP_SendAddonMsg(arg2..";distslot;"..CEPGP_distSlot, "RAID");
 					if CEPGP_distributing then
 						if inGuild and not CEPGP_suppress_announcements then
-							CEPGP_sendChatMessage(arg2 .. " (" .. class .. ") needs. (" .. math.floor((EP/GP)*100)/100 .. " PR)", CEPGP_lootChannel);
+							CEPGP_sendChatMessage(arg2 .. " (" .. class .. ") 申請 (" .. math.floor((EP/GP)*100)/100 .. " PR)", CEPGP_lootChannel);
 							
 						elseif not CEPGP_suppress_announcements then
 							local total = GetNumGroupMembers();
@@ -44,7 +44,7 @@ function CEPGP_handleComms(event, arg1, arg2)
 									_, _, _, _, class = GetRaidRosterInfo(i);
 								end
 							end
-								CEPGP_sendChatMessage(arg2 .. " (" .. class .. ") needs. (Non-guild member)", CEPGP_lootChannel);
+								CEPGP_sendChatMessage(arg2 .. " (" .. class .. ") 申請(不是公會成員)", CEPGP_lootChannel);
 						end
 						if CEPGP_isML() == 0 then --If you are the master looter
 							CEPGP_SendAddonMsg("!need;"..arg2..";"..CEPGP_DistID, "RAID"); --!need;playername;itemID (of the item being distributed) is sent for sharing with raid assist
@@ -70,7 +70,7 @@ function CEPGP_handleComms(event, arg1, arg2)
 				CEPGP_SendAddonMsg(arg2..";distslot;"..CEPGP_distSlot, "RAID");
 				if CEPGP_distributing then
 					if inGuild and not CEPGP_suppress_announcements then
-						CEPGP_sendChatMessage(arg2 .. " (" .. class .. ") needs. (" .. math.floor((EP/GP)*100)/100 .. " PR)", CEPGP_lootChannel);
+						CEPGP_sendChatMessage(arg2 .. " (" .. class .. ") 申請 (" .. math.floor((EP/GP)*100)/100 .. " PR)", CEPGP_lootChannel);
 					elseif not CEPGP_suppress_announcements then
 						local total = GetNumGroupMembers();
 						for i = 1, total do
@@ -78,7 +78,7 @@ function CEPGP_handleComms(event, arg1, arg2)
 								_, _, _, _, class = GetRaidRosterInfo(i);
 							end
 						end
-						CEPGP_sendChatMessage(arg2 .. " (" .. class .. ") needs. (Non-guild member)", CEPGP_lootChannel);
+						CEPGP_sendChatMessage(arg2 .. " (" .. class .. ") 申請(不是公會成員)", CEPGP_lootChannel);
 					end
 					if CEPGP_isML() == 0 then --If you are the master looter
 						CEPGP_SendAddonMsg("!need;"..arg2..";"..CEPGP_DistID, "RAID"); --!need;playername;itemID (of the item being distributed) is sent for sharing with raid assist
@@ -405,10 +405,10 @@ function CEPGP_handleLoot(event, arg1, arg2)
 			if CEPGP_distPlayer ~= "" and CEPGP_award then
 				CEPGP_distributing = false;
 				if CEPGP_distGP then
-					SendChatMessage("Awarded " .. _G["CEPGP_distribute_item_name"]:GetText() .. " to ".. CEPGP_distPlayer .. " for " .. math.floor(CEPGP_distribute_GP_value:GetText()*CEPGP_rate) .. " GP", CHANNEL, CEPGP_LANGUAGE); --plus
+					SendChatMessage("獎勵" .. _G["CEPGP_distribute_item_name"]:GetText() .. "給".. CEPGP_distPlayer .. "爲" .. math.floor(CEPGP_distribute_GP_value:GetText()*CEPGP_rate) .. " GP", CHANNEL, CEPGP_LANGUAGE); --plus
 					CEPGP_addGP(CEPGP_distPlayer, math.floor(CEPGP_distribute_GP_value:GetText()*CEPGP_rate), CEPGP_DistID, CEPGP_distItemLink); --plus
 				else
-					SendChatMessage("Awarded " .. _G["CEPGP_distribute_item_name"]:GetText() .. " to ".. CEPGP_distPlayer .. " for 0 GP", CHANNEL, CEPGP_LANGUAGE);
+					SendChatMessage("獎勵" .. _G["CEPGP_distribute_item_name"]:GetText() .. "給".. CEPGP_distPlayer .. "爲 0 GP", CHANNEL, CEPGP_LANGUAGE);
 					CEPGP_addGP(CEPGP_distPlayer, 0, CEPGP_DistID, CEPGP_distItemLink); --plus
 				end
 				CEPGP_distPlayer = "";
@@ -418,7 +418,7 @@ function CEPGP_handleLoot(event, arg1, arg2)
 				CEPGP_loot:Show();
 			else
 				CEPGP_distributing = false;
-				--SendChatMessage(_G["CEPGP_distribute_item_name"]:GetText() .. " has been distributed without EPGP", CHANNEL, CEPGP_LANGUAGE); --plus
+				SendChatMessage(_G["CEPGP_distribute_item_name"]:GetText() .. "沒有通過EPGP被分配", CHANNEL, CEPGP_LANGUAGE); --plus
 				CEPGP_distribute_popup:Hide();
 				CEPGP_distribute:Hide();
 				_G["distributing"]:Hide();
