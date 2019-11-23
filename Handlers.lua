@@ -2,7 +2,7 @@ local L = CEPGP_Locale:GetLocale("CEPGP")
 
 function CEPGP_handleComms(event, arg1, arg2)
 	--arg1 = message; arg2 = sender
-	if event == "CHAT_MSG_WHISPER" and string.lower(arg1) == string.lower(CEPGP_keyword) and CEPGP_distributing then
+	if event == "CHAT_MSG_WHISPER" and (string.lower(arg1) == string.lower(CEPGP_keyword) or string.lower(arg1) == string.lower(CEPGP_keyword_2)) and CEPGP_distributing then --plus
 		local duplicate = false;
 		for i = 1, table.getn(CEPGP_responses) do
 			if CEPGP_responses[i] == arg2 then
@@ -16,11 +16,11 @@ function CEPGP_handleComms(event, arg1, arg2)
 			if CEPGP_debugMode then
 				CEPGP_print(arg2 .. " registered (" .. CEPGP_keyword .. ")");
 			end
-			local _, _, _, _, _, _, _, _, slot = GetItemInfo(CEPGP_DistID);
+			local _, itemLink , _, _, _, _, _, _, slot = GetItemInfo(CEPGP_DistID);
 			if not slot and CEPGP_itemExists(CEPGP_DistID) then
 				local item = Item:CreateFromItemID(CEPGP_DistID);
 				item:ContinueOnItemLoad(function()
-					local _, _, _, _, _, _, _, _, slot = GetItemInfo(CEPGP_DistID)
+					local _, itemLink , _, _, _, _, _, _, slot = GetItemInfo(CEPGP_DistID)
 					local EP, GP = nil;
 					local inGuild = false;
 					if CEPGP_tContains(CEPGP_roster, arg2, true) then
@@ -32,11 +32,14 @@ function CEPGP_handleComms(event, arg1, arg2)
 						class = CEPGP_roster[arg2][2];
 						inGuild = true;
 					end
-					CEPGP_SendAddonMsg(arg2..";distslot;"..CEPGP_distSlot, "RAID");
+					--CEPGP_SendAddonMsg(arg2..";distslot;"..CEPGP_distSlot, "RAID");--解放锁私聊（原只能1次），master修改即可
 					if CEPGP_distributing then
 						if inGuild and not CEPGP_suppress_announcements then
-							CEPGP_sendChatMessage(arg2 .. " (" .. class .. ") 申請 (" .. math.floor((EP/GP)*100)/100 .. " PR)", CEPGP_lootChannel);
-							
+							if string.lower(arg1) == string.lower(CEPGP_keyword_2) then  --plus
+								CEPGP_sendChatMessage(arg2 .. " (" .. class .. ") 貪婪 " .. itemLink, CEPGP_lootChannel);
+							else
+								CEPGP_sendChatMessage(arg2 .. " (" .. class .. ") 需求 " .. itemLink .. " (" .. math.floor((EP/GP)*100)/100 .. " PR)", CEPGP_lootChannel);
+							end
 						elseif not CEPGP_suppress_announcements then
 							local total = GetNumGroupMembers();
 							for i = 1, total do
@@ -67,10 +70,14 @@ function CEPGP_handleComms(event, arg1, arg2)
 					class = CEPGP_roster[arg2][2];
 					inGuild = true;
 				end
-				CEPGP_SendAddonMsg(arg2..";distslot;"..CEPGP_distSlot, "RAID");
+				--CEPGP_SendAddonMsg(arg2..";distslot;"..CEPGP_distSlot, "RAID"); --解放锁私聊（原只能1次），master修改即可
 				if CEPGP_distributing then
 					if inGuild and not CEPGP_suppress_announcements then
-						CEPGP_sendChatMessage(arg2 .. " (" .. class .. ") 申請 (" .. math.floor((EP/GP)*100)/100 .. " PR)", CEPGP_lootChannel);
+							if string.lower(arg1) == string.lower(CEPGP_keyword_2) then  --plus
+								CEPGP_sendChatMessage(arg2 .. " (" .. class .. ") 貪婪 " .. itemLink, CEPGP_lootChannel);
+							else
+								CEPGP_sendChatMessage(arg2 .. " (" .. class .. ") 需求 " .. itemLink .. " (" .. math.floor((EP/GP)*100)/100 .. " PR)", CEPGP_lootChannel);
+							end
 					elseif not CEPGP_suppress_announcements then
 						local total = GetNumGroupMembers();
 						for i = 1, total do

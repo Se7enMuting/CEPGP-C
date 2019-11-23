@@ -4208,7 +4208,7 @@
 		</Scripts>
 	</Frame>
 	
-	<Frame name="CEPGP_distribute_popup" toplevel="true" frameStrata="DIALOG" enableMouse="true" parent="UIParent" hidden="true" clampedToScreen="true">
+	<Frame name="CEPGP_distribute_popup" toplevel="true" frameStrata="DIALOG" enableMouse="true" movable="true" parent="UIParent" hidden="true" clampedToScreen="true">
 		<Size>
 			<AbsDimension x="400" y="100"/>
 		</Size>
@@ -4281,7 +4281,7 @@
 					</OnClick>
 				</Scripts>
 			</Button>
-			<Button name="CEPGP_distribute_popup_gp" inherits="GameMenuButtonTemplate" text="貪婪 10% GP">
+			<Button name="CEPGP_distribute_popup_gp" inherits="GameMenuButtonTemplate" text="貪婪 10% GP"> <!-- plus -->
 				<Size>
 					<AbsDimension x="110" y="30"/>
 				</Size>
@@ -4350,6 +4350,12 @@
 				self:RegisterEvent("CHAT_MSG_LOOT");
 				self:RegisterForDrag("LeftButton");
 			</OnLoad>
+			<OnMouseDown><!-- plus -->
+				self:StartMoving();
+			</OnMouseDown><!-- plus -->
+			<OnMouseUp><!-- plus -->
+				self:StopMovingOrSizing();
+			</OnMouseUp><!-- plus -->
 			<OnShow>
 			</OnShow>
 			<OnEvent>

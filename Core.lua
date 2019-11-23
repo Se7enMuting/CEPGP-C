@@ -61,6 +61,7 @@ CEPGP_standby_accept_whispers = false;
 CEPGP_standby_share = false;
 CEPGP_standby_whisper_msg = "standby";
 CEPGP_keyword = nil;
+CEPGP_keyword_2 = "2"; --plus
 CEPGP_standby_byrank = true;
 CEPGP_standby_manual = false;
 CEPGP_notice = false;
@@ -117,7 +118,7 @@ function CEPGP_OnEvent(event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, ar
 						not CEPGP_tContains(CEPGP_standbyRoster, name) and not inRaid and CEPGP_tContains(CEPGP_roster, name, true) then
 						CEPGP_addToStandby(name);
 					end
-				elseif (string.lower(arg1) == string.lower(CEPGP_keyword) and CEPGP_distributing) or
+				elseif ((string.lower(arg1) == string.lower(CEPGP_keyword) or string.lower(arg1) == string.lower(CEPGP_keyword_2)) and CEPGP_distributing) or --plus
 						(string.lower(arg1) == "!info" or string.lower(arg1) == "!infoguild" or
 						string.lower(arg1) == "!inforaid" or string.lower(arg1) == "!infoclass") then
 						CEPGP_handleComms("CHAT_MSG_WHISPER", arg1, name);
@@ -134,7 +135,7 @@ function CEPGP_OnEvent(event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, ar
 			CEPGP_addToStandby(arg5);
 		end
 			
-	elseif (event == "CHAT_MSG_WHISPER" and string.lower(arg1) == string.lower(CEPGP_keyword) and CEPGP_distributing) or
+	elseif (event == "CHAT_MSG_WHISPER" and (string.lower(arg1) == string.lower(CEPGP_keyword) or string.lower(arg1) == string.lower(CEPGP_keyword_2)) and CEPGP_distributing) or --plus
 		(event == "CHAT_MSG_WHISPER" and string.lower(arg1) == "!info") or
 		(event == "CHAT_MSG_WHISPER" and (string.lower(arg1) == "!infoguild" or string.lower(arg1) == "!inforaid" or string.lower(arg1) == "!infoclass")) then
 			CEPGP_handleComms(event, arg1, arg5);
