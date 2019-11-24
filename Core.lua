@@ -121,7 +121,7 @@ function CEPGP_OnEvent(event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, ar
 					end
 				elseif ((string.lower(arg1) == string.lower(CEPGP_keyword) or string.lower(arg1) == string.lower(CEPGP_keyword_2)) and CEPGP_distributing) or --plus
 						(string.lower(arg1) == "!info" or string.lower(arg1) == "!infoguild" or
-						string.lower(arg1) == "!inforaid" or string.lower(arg1) == "!infoclass") then
+						string.lower(arg1) == "!inforaid" or string.lower(arg1) == "!infoclass" or string.lower(arg1) == "!infoavegp") then --plus
 						CEPGP_handleComms("CHAT_MSG_WHISPER", arg1, name);
 				end
 				return;
@@ -138,7 +138,7 @@ function CEPGP_OnEvent(event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, ar
 			
 	elseif (event == "CHAT_MSG_WHISPER" and (string.lower(arg1) == string.lower(CEPGP_keyword) or string.lower(arg1) == string.lower(CEPGP_keyword_2)) and CEPGP_distributing) or --plus
 		(event == "CHAT_MSG_WHISPER" and string.lower(arg1) == "!info") or
-		(event == "CHAT_MSG_WHISPER" and (string.lower(arg1) == "!infoguild" or string.lower(arg1) == "!inforaid" or string.lower(arg1) == "!infoclass")) then
+		(event == "CHAT_MSG_WHISPER" and (string.lower(arg1) == "!infoguild" or string.lower(arg1) == "!inforaid" or string.lower(arg1) == "!infoclass" or string.lower(arg1) == "!infoavegp")) then --plus
 			CEPGP_handleComms(event, arg1, arg5);
 	
 	elseif (event == "CHAT_MSG_ADDON") then
