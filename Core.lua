@@ -62,6 +62,7 @@ CEPGP_standby_share = false;
 CEPGP_standby_whisper_msg = "standby";
 CEPGP_keyword = nil;
 CEPGP_keyword_2 = "2"; --plus
+CEPGP_response_buttons = {[1]="需求",[2]="貪婪"}; --plus
 CEPGP_standby_byrank = true;
 CEPGP_standby_manual = false;
 CEPGP_notice = false;

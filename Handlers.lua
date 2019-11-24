@@ -47,11 +47,12 @@ function CEPGP_handleComms(event, arg1, arg2)
 									_, _, _, _, class = GetRaidRosterInfo(i);
 								end
 							end
-								CEPGP_sendChatMessage(arg2 .. " (" .. class .. ") 申請(不是公會成員)", CEPGP_lootChannel);
+								CEPGP_sendChatMessage(arg2 .. " (" .. class .. ") " .. CEPGP_response_buttons[tonumber(arg1)] .. " (不是公會成員)", CEPGP_lootChannel);
 						end
 						if CEPGP_isML() == 0 then --If you are the master looter
 							CEPGP_SendAddonMsg("!need;"..arg2..";"..CEPGP_DistID, "RAID"); --!need;playername;itemID (of the item being distributed) is sent for sharing with raid assist
 							CEPGP_itemsTable[arg2] = {};
+							CEPGP_itemsTable[arg2][3] = CEPGP_response_buttons[tonumber(arg1)]; --plus
 						end
 					end
 					CEPGP_UpdateLootScrollBar();
@@ -85,11 +86,12 @@ function CEPGP_handleComms(event, arg1, arg2)
 								_, _, _, _, class = GetRaidRosterInfo(i);
 							end
 						end
-						CEPGP_sendChatMessage(arg2 .. " (" .. class .. ") 申請(不是公會成員)", CEPGP_lootChannel);
+						CEPGP_sendChatMessage(arg2 .. " (" .. class .. ") " .. CEPGP_response_buttons[tonumber(arg1)] .. " (不是公會成員)", CEPGP_lootChannel);
 					end
 					if CEPGP_isML() == 0 then --If you are the master looter
 						CEPGP_SendAddonMsg("!need;"..arg2..";"..CEPGP_DistID, "RAID"); --!need;playername;itemID (of the item being distributed) is sent for sharing with raid assist
 						CEPGP_itemsTable[arg2] = {};
+						CEPGP_itemsTable[arg2][3] = CEPGP_response_buttons[tonumber(arg1)]; --plus
 					end
 				end
 				CEPGP_UpdateLootScrollBar();

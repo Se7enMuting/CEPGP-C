@@ -2,21 +2,47 @@ function CEPGP_UpdateLootScrollBar()
 	local tempTable = {};
 	local count = 1;
 	for name, id in pairs(CEPGP_itemsTable) do
-		local EP, GP = CEPGP_getEPGP(CEPGP_roster[name][5], CEPGP_roster[name][1], name)
-		if not EP then EP = 0; end
-		if not GP then GP = BASEGP; end
-		tempTable[count] = {
-			[1] = name,
-			[2] = CEPGP_roster[name][2], --Class
-			[3] = CEPGP_roster[name][3], --Rank
-			[4] = CEPGP_roster[name][4], --RankIndex
-			[5] = EP,
-			[6] = GP,
-			[7] = math.floor((tonumber(EP)/tonumber(GP))*100)/100,
-			[8] = CEPGP_itemsTable[name][1] or "noitem",
-			[9] = CEPGP_itemsTable[name][2] or "noitem",
-			[10] = CEPGP_roster[name][7] --className in English
-		};
+		local EP, GP; --plus
+		if CEPGP_roster[name] then --plus
+			EP, GP = CEPGP_getEPGP(CEPGP_roster[name][5], CEPGP_roster[name][1], name)
+			tempTable[count] = {
+				[1] = name,
+				[2] = CEPGP_roster[name][2], --Class
+				[3] = CEPGP_roster[name][3], --Rank
+				[4] = CEPGP_roster[name][4], --RankIndex
+				[5] = EP,
+				[6] = GP,
+				[7] = math.floor((tonumber(EP)/tonumber(GP))*100)/100,
+				[8] = CEPGP_itemsTable[name][1] or "noitem",
+				[9] = CEPGP_itemsTable[name][2] or "noitem",
+				[10] = CEPGP_roster[name][7], --className in English
+				[11] = CEPGP_itemsTable[name][3] -- Loot response
+			};
+		else
+			EP = 0;
+			GP = BASEGP;
+			for i = 1, GetNumGroupMembers() do
+				if GetRaidRosterInfo(i) == name then
+					local class = select(5, GetRaidRosterInfo(i))
+					local rank = "Not in Guild";
+					local rankIndex = 11;
+					local classFile = select(6, GetRaidRosterInfo(i));
+					tempTable[count] = {
+					[1] = name,
+					[2] = class,
+					[3] = rank,
+					[4] = rankIndex,
+					[5] = EP,
+					[6] = GP,
+					[7] = math.floor((tonumber(EP)/tonumber(GP))*100)/100,
+					[8] = CEPGP_itemsTable[name][1] or "noitem",
+					[9] = CEPGP_itemsTable[name][2] or "noitem",
+					[10] = classFile,
+					[11] = CEPGP_itemsTable[name][3] -- Loot response
+				};
+				end
+			end
+		end		--plus
 		count = count + 1;
 	end
 	tempTable = CEPGP_tSort(tempTable, CEPGP_criteria);
@@ -56,7 +82,7 @@ function CEPGP_UpdateLootScrollBar()
 						_G["LootDistButton" .. i .. "Info"]:SetTextColor(colour.r, colour.g, colour.b);
 						_G["LootDistButton" .. i .. "Class"]:SetText(tempTable[i][2]);
 						_G["LootDistButton" .. i .. "Class"]:SetTextColor(colour.r, colour.g, colour.b);
-						_G["LootDistButton" .. i .. "Rank"]:SetText(tempTable[i][3]);
+						_G["LootDistButton" .. i .. "Rank"]:SetText(tempTable[i][11]); --plus
 						_G["LootDistButton" .. i .. "Rank"]:SetTextColor(colour.r, colour.g, colour.b);
 						_G["LootDistButton" .. i .. "EP"]:SetText(tempTable[i][5]);
 						_G["LootDistButton" .. i .. "EP"]:SetTextColor(colour.r, colour.g, colour.b);
@@ -89,7 +115,7 @@ function CEPGP_UpdateLootScrollBar()
 					_G["LootDistButton" .. i .. "Info"]:SetTextColor(colour.r, colour.g, colour.b);
 					_G["LootDistButton" .. i .. "Class"]:SetText(tempTable[i][2]);
 					_G["LootDistButton" .. i .. "Class"]:SetTextColor(colour.r, colour.g, colour.b);
-					_G["LootDistButton" .. i .. "Rank"]:SetText(tempTable[i][3]);
+					_G["LootDistButton" .. i .. "Rank"]:SetText(tempTable[i][11]);
 					_G["LootDistButton" .. i .. "Rank"]:SetTextColor(colour.r, colour.g, colour.b);
 					_G["LootDistButton" .. i .. "EP"]:SetText(tempTable[i][5]);
 					_G["LootDistButton" .. i .. "EP"]:SetTextColor(colour.r, colour.g, colour.b);
@@ -134,7 +160,7 @@ function CEPGP_UpdateLootScrollBar()
 						_G["LootDistButton" .. i .. "Info"]:SetTextColor(colour.r, colour.g, colour.b);
 						_G["LootDistButton" .. i .. "Class"]:SetText(tempTable[i][2]);
 						_G["LootDistButton" .. i .. "Class"]:SetTextColor(colour.r, colour.g, colour.b);
-						_G["LootDistButton" .. i .. "Rank"]:SetText(tempTable[i][3]);
+						_G["LootDistButton" .. i .. "Rank"]:SetText(tempTable[i][11]);
 						_G["LootDistButton" .. i .. "Rank"]:SetTextColor(colour.r, colour.g, colour.b);
 						_G["LootDistButton" .. i .. "EP"]:SetText(tempTable[i][5]);
 						_G["LootDistButton" .. i .. "EP"]:SetTextColor(colour.r, colour.g, colour.b);
@@ -167,7 +193,7 @@ function CEPGP_UpdateLootScrollBar()
 					_G["LootDistButton" .. i .. "Info"]:SetTextColor(colour.r, colour.g, colour.b);
 					_G["LootDistButton" .. i .. "Class"]:SetText(tempTable[i][2]);
 					_G["LootDistButton" .. i .. "Class"]:SetTextColor(colour.r, colour.g, colour.b);
-					_G["LootDistButton" .. i .. "Rank"]:SetText(tempTable[i][3]);
+					_G["LootDistButton" .. i .. "Rank"]:SetText(tempTable[i][11]);
 					_G["LootDistButton" .. i .. "Rank"]:SetTextColor(colour.r, colour.g, colour.b);
 					_G["LootDistButton" .. i .. "EP"]:SetText(tempTable[i][5]);
 					_G["LootDistButton" .. i .. "EP"]:SetTextColor(colour.r, colour.g, colour.b);
@@ -203,7 +229,7 @@ function CEPGP_UpdateLootScrollBar()
 			_G["LootDistButton" .. i .. "Info"]:SetTextColor(colour.r, colour.g, colour.b);
 			_G["LootDistButton" .. i .. "Class"]:SetText(tempTable[i][2]);
 			_G["LootDistButton" .. i .. "Class"]:SetTextColor(colour.r, colour.g, colour.b);
-			_G["LootDistButton" .. i .. "Rank"]:SetText(tempTable[i][3]);
+			_G["LootDistButton" .. i .. "Rank"]:SetText(tempTable[i][11]); --plus
 			_G["LootDistButton" .. i .. "Rank"]:SetTextColor(colour.r, colour.g, colour.b);
 			_G["LootDistButton" .. i .. "EP"]:SetText(tempTable[i][5]);
 			_G["LootDistButton" .. i .. "EP"]:SetTextColor(colour.r, colour.g, colour.b);

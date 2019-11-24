@@ -4281,7 +4281,7 @@
 					</OnClick>
 				</Scripts>
 			</Button>
-			<Button name="CEPGP_distribute_popup_gp" inherits="GameMenuButtonTemplate" text="貪婪 10% GP"> <!-- plus -->
+			<Button name="CEPGP_distribute_popup_gp_full" inherits="GameMenuButtonTemplate" text="需求 100% GP"> <!-- plus -->
 				<Size>
 					<AbsDimension x="110" y="30"/>
 				</Size>
@@ -4296,13 +4296,13 @@
 					<OnClick>
 						CEPGP_distGP = true;
 						CEPGP_award = true;
-						CEPGP_rate = CEPGP_greedrate; <!-- plus -->
+						CEPGP_rate = 1; <!-- plus -->
 						PlaySound(799);
 						CEPGP_distribute_popup_give();
 					</OnClick>
 				</Scripts>
 			</Button>
-			<Button name="CEPGP_distribute_popup_gp_full" inherits="GameMenuButtonTemplate" text="需求 100% GP"> <!-- plus -->
+			<Button name="CEPGP_distribute_popup_gp" inherits="GameMenuButtonTemplate" text="貪婪 10% GP"> <!-- plus -->
 				<Size>
 					<AbsDimension x="110" y="30"/>
 				</Size>
@@ -4317,7 +4317,7 @@
 					<OnClick>
 						CEPGP_distGP = true;
 						CEPGP_award = true;
-						CEPGP_rate = 1;
+						CEPGP_rate = CEPGP_greedrate;
 						PlaySound(799);
 						CEPGP_distribute_popup_give();
 					</OnClick>
