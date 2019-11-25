@@ -2532,10 +2532,10 @@
 						<Scripts>
 							<OnClick>
 								if self:GetChecked() then
-									CEPPG_gp_tooltips = true;
+									CEPGP_gp_tooltips = true;
 									CEPGP_print("Enabled GP values on tooltips.");
 								else
-									CEPPG_gp_tooltips = false;
+									CEPGP_gp_tooltips = false;
 									CEPGP_print("Disabled GP values on tooltips");
 								end
 							</OnClick>
@@ -2547,7 +2547,7 @@
 								GameTooltip:Hide();
 							</OnLeave>
 							<OnShow>
-								if CEPPG_gp_tooltips then
+								if CEPGP_gp_tooltips then
 									self:SetChecked(true);
 								else
 									self:SetChecked(false);

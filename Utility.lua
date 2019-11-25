@@ -228,7 +228,7 @@ function CEPGP_calcGP(link, quantity, id)
 end
 
 function CEPGP_addGPTooltip(self)
-	if not CEPPG_gp_tooltips or not self:GetItem() or self:GetItem() == nil or self:GetItem() == "" then return; end
+	if not CEPGP_gp_tooltips or not self:GetItem() or self:GetItem() == nil or self:GetItem() == "" then return; end
 	local _, link = self:GetItem();
 	local id = CEPGP_getItemID(CEPGP_getItemString(link));
 	if not CEPGP_itemExists(tonumber(id)) then return; end
@@ -247,7 +247,7 @@ function CEPGP_addGPTooltip(self)
 end
 
 function CEPGP_addGPHyperlink(self, iString)
-	if not string.find(iString, "item:") or not CEPPG_gp_tooltips then return; end
+	if not string.find(iString, "item:") or not CEPGP_gp_tooltips then return; end
 	local id = CEPGP_getItemID(iString);
 	local name = GetItemInfo(id);
 	if not name and CEPGP_itemExists(tonumber(id)) then
@@ -851,21 +851,16 @@ function CEPGP_getEPGP(offNote, index, name)
 end
 
 function CEPGP_checkEPGP(note)
-	--if not note then return; end
-	if string.find(note, '[^0-9.,-]') then
+	if string.find(note, '[^0-9,-]') or #note == 0 then
 		return false;
 	end
-	if string.find(note, '^[0-9]+,[0-9]+$') or string.find(note, '^[0-9]+.[0-9]+,[0-9]+.[0-9]+$') or
-		string.find(note, '^[0-9]+,[0-9]+.[0-9]+$') or string.find(note, '^[0-9]+.[0-9]+,[0-9]+$') then --EPGP is positive
+	if string.find(note, '^[0-9]+,[0-9]+$') then --EPGP is positive
 		return true;
-	elseif string.find(note, '^%-[0-9]+,[0-9]+$') or string.find(note, '^%-[0-9]+.[0-9]+,[0-9]+.[0-9]+$') or
-		string.find(note, '^%-[0-9]+,[0-9]+.[0-9]+$') or string.find(note, '^%-[0-9]+.[0-9]+,[0-9]+$') then --EP is negative
+	elseif string.find(note, '^%-[0-9]+,[0-9]+$') then --EP is negative
 		return true;
-	elseif string.find(note, '^[0-9]+,%-[0-9]+$') or string.find(note, '^[0-9]+.[0-9]+,%-[0-9]+.[0-9]+$') or
-		string.find(note, '^[0-9]+,%-[0-9]+.[0-9]+$') or string.find(note, '^[0-9]+.[0-9]+,%-[0-9]+$') then --GP is negative
+	elseif string.find(note, '^[0-9]+,%-[0-9]+$') then --GP is negative
 		return true;
-	elseif string.find(note, '^%-[0-9]+,%-[0-9]+$') or string.find(note, '^%-[0-9]+.[0-9]+,%-[0-9]+.[0-9]+$') or
-		string.find(note, '^%-[0-9]+,%-[0-9]+.[0-9]+$') or string.find(note, '^%-[0-9]+.[0-9]+,%-[0-9]+$') then --EPGP is negative
+	elseif string.find(note, '^%-[0-9]+,%-[0-9]+$') then --EPGP is negative
 		return true;
 	else
 		return false;
@@ -882,7 +877,7 @@ function CEPGP_getItemString(link)
 end
 
 function CEPGP_getItemID(iString)
-	if not iString then
+	if not iString or not string.find(iString, "item:") then
 		return nil;
 	end
 	local itemString = string.sub(iString, 6, string.len(iString)-1)--"^[%-?%d:]+");
@@ -1272,7 +1267,7 @@ function CEPGP_getDebugInfo()
 	else
 		info = info .. "Full Raid Loot Visibility: false<br />\n";
 	end
-	if CEPPG_gp_tooltips then
+	if CEPGP_gp_tooltips then
 		info = info .. "GP on Tooltips: true<br />\n";
 	else
 		info = info .. "GP on Tooltips: false<br />\n";
