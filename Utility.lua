@@ -549,7 +549,7 @@ function CEPGP_rosterUpdate(event)
 					[8] = classFileName
 				};
 			else
-				rank = "Not in Guild";
+				rank = "非會員";
 				CEPGP_raidRoster[i] = {
 					[1] = name,
 					[2] = class,

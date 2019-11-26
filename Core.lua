@@ -30,6 +30,10 @@ CEPGP_LANGUAGE = GetDefaultLanguage("player");
 CEPGP_responses = {};
 CEPGP_itemsTable = {};
 CEPGP_roster = {};
+CEPGP_subroster = {[1]={false, "六月悠", "八月悠"},[2]={true , "六月悠", "沉睡之境"},[3]={false, "六月悠", "一月悠"},[4]={true, "二月悠", "一月悠"},[5]={true , "你太傲慢了", "Vela"}}; --plus: [i]={true, "公會內計分角色", "替身"} (true改false表示關閉,替身可以是非公會的)
+CEPGP_subacc_flag = false; -- plus 替身分數累加功能總開關。false：計分角色和替身都在團隊裏，addraidEP加分只會加1次到計分角色上，true：表示會多次加分到計分角色上
+CEPGP_subacc_roster = {["六月悠"]={false, 0 },["八月悠"]={false, 0 },["二月悠"]={false, 0 },["沉睡之境"]={false, 0 },["你太傲慢了"]={false, 0 }}; -- plus 替身分數累加列表
+--CEPGP_subacc_roster = {};
 CEPGP_raidRoster = {};
 CEPGP_vInfo = {};
 CEPGP_vSearch = "GUILD";
@@ -43,6 +47,7 @@ CEPGP_ignoreUpdates = false;
 CEPGP_award = false;
 CEPGP_rate = 1; --plus
 CEPGP_greedrate = 0.1; --plus
+CEPGP_response_buttons = {[1]="需求",[2]="貪婪"}; --plus
 CEPGP_plugins = {};
 
 --[[ SAVED VARIABLES ]]--
@@ -62,7 +67,6 @@ CEPGP_standby_share = false;
 CEPGP_standby_whisper_msg = "standby";
 CEPGP_keyword = nil;
 CEPGP_keyword_2 = "2"; --plus
-CEPGP_response_buttons = {[1]="需求",[2]="貪婪"}; --plus
 CEPGP_standby_byrank = true;
 CEPGP_standby_manual = false;
 CEPGP_notice = false;
@@ -329,19 +333,72 @@ function CEPGP_AddRaidEP(amount, msg, encounter)
 	amount = math.floor(amount);
 	local total = GetNumGroupMembers();
 	local REPtotal = 0; --plus
+	for name,_ in pairs(CEPGP_subacc_roster) do
+		CEPGP_subacc_roster[name][2] = 0;
+	end
 	if total > 0 then
 		for i = 1, total do
 			local name = GetRaidRosterInfo(i);
-			if CEPGP_tContains(CEPGP_roster, name, true) then
+			
+			local calname = nil; --plus
+			local subflat = false; --plus
+			local subacc = 1; --plus
+			
+			for j = 1, CEPGP_ntgetn(CEPGP_subroster) do --plus
+				if CEPGP_subroster[j][3] == name and CEPGP_subroster[j][1] and CEPGP_subroster[j][2] ~= CEPGP_subroster[j][3] then --plus
+					if CEPGP_roster[CEPGP_subroster[j][2]] then --plus
+						calname = CEPGP_subroster[j][2]; --plus
+						if CEPGP_subacc_flag and CEPGP_tContains(CEPGP_subacc_roster, calname, true) then
+							if CEPGP_subacc_roster[calname][1] then
+								CEPGP_subacc_roster[calname][2] = CEPGP_subacc_roster[calname][2] + 1;
+							end
+						end
+						subflat = true; --plus
+						break; --plus
+					end --plus
+				end --plus
+			end --plus
+			
+			if CEPGP_tContains(CEPGP_roster, name, true) and not subflat then
+				if CEPGP_subacc_flag and CEPGP_tContains(CEPGP_subacc_roster, name, true) then
+					if CEPGP_subacc_roster[name][1] then
+						CEPGP_subacc_roster[name][2] = CEPGP_subacc_roster[name][2] + 1;
+						subacc = CEPGP_subacc_roster[name][2];
+					end
+				end
 				local index = CEPGP_getIndex(name, CEPGP_roster[name][1]);
 				if not CEPGP_checkEPGP(CEPGP_roster[name][5]) then
-					GuildRosterSetOfficerNote(index, amount .. "," .. BASEGP);
+					GuildRosterSetOfficerNote(index, (amount*subacc) .. "," .. BASEGP);
 					REPtotal = REPtotal + 1; --plus
 				else
 					EP,GP = CEPGP_getEPGP(CEPGP_roster[name][5]);
 					EP = tonumber(EP);
 					GP = tonumber(GP);
-					EP = EP + amount;
+					EP = EP + (amount*subacc);
+					if GP < BASEGP then
+						GP = BASEGP;
+					end
+					if EP < 0 then
+						EP = 0;
+					end
+					GuildRosterSetOfficerNote(index, EP .. "," .. GP);
+					REPtotal = REPtotal + 1;--plus
+				end
+			elseif subflat then
+				if CEPGP_subacc_flag and CEPGP_tContains(CEPGP_subacc_roster, calname, true) then
+					if CEPGP_subacc_roster[calname][1] then 
+						subacc = CEPGP_subacc_roster[calname][2];
+					end
+				end
+				local index = CEPGP_getIndex(calname, CEPGP_roster[calname][1]);
+				if not CEPGP_checkEPGP(CEPGP_roster[calname][5]) then
+					GuildRosterSetOfficerNote(index, (amount*subacc) .. "," .. BASEGP);
+					REPtotal = REPtotal + 1; --plus
+				else
+					EP,GP = CEPGP_getEPGP(CEPGP_roster[calname][5]);
+					EP = tonumber(EP);
+					GP = tonumber(GP);
+					EP = EP + (amount*subacc);
 					if GP < BASEGP then
 						GP = BASEGP;
 					end

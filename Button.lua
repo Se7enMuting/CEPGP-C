@@ -230,6 +230,22 @@ function CEPGP_ListButton_OnClick(obj)
 		--[[ Raid Menu ]]--
 	elseif strfind(obj, "RaidButton") then --A player from the raid menu is clicked (awards EP)
 		local name = _G[_G[obj]:GetName() .. "Info"]:GetText();
+		local calname = nil; --plus
+		local subflat = false; --plus
+		local orgname = nil; --plus
+		for i = 1, CEPGP_ntgetn(CEPGP_subroster) do --plus
+			if CEPGP_subroster[i][3] == name and CEPGP_subroster[i][1] and CEPGP_subroster[i][2] ~= CEPGP_subroster[i][3] then --plus
+				if CEPGP_roster[CEPGP_subroster[i][2]] then --plus
+					calname = CEPGP_subroster[i][2]; --plus
+					orgname = name; --plus
+					subflat = true; --plus
+					break; --plus
+				end --plus
+			end --plus
+		end --plus
+		if subflat then --plus
+			name = calname; --plus
+		end --plus
 		if not CEPGP_getGuildInfo(name) then
 			CEPGP_print(name .. " is not a guild member - Cannot award EP or GP", true);
 			return;
@@ -243,7 +259,11 @@ function CEPGP_ListButton_OnClick(obj)
 		CEPGP_context_popup_EP_check:SetChecked(1);
 		CEPGP_context_popup_GP_check:SetChecked(nil);
 		CEPGP_context_popup_header:SetText("Raid Moderation");
-		CEPGP_context_popup_title:SetText("Modify EP/GP for " .. name);
+		if subflat then --plus
+			CEPGP_context_popup_title:SetText("Modify EP/GP for " .. orgname .. "(" .. calname .. ")"); --plus
+		else --plus
+			CEPGP_context_popup_title:SetText("Modify EP/GP for " .. name);
+		end --plus
 		CEPGP_context_popup_desc:SetText("Add/Subtract EP");
 		CEPGP_context_amount:SetText("0");
 		CEPGP_context_popup_confirm:SetScript('OnClick', function()
