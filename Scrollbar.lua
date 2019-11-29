@@ -93,6 +93,9 @@ function CEPGP_UpdateLootScrollBar()
 				end
 			end
 		end --plus
+		if CEPGP_itemsTable[name][3] == "貪婪" then --plus
+			tempTable[count][7] = 0; --plus
+		end --plus
 		count = count + 1;
 	end
 	tempTable = CEPGP_tSort(tempTable, CEPGP_criteria);

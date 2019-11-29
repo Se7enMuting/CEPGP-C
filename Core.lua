@@ -30,9 +30,9 @@ CEPGP_LANGUAGE = GetDefaultLanguage("player");
 CEPGP_responses = {};
 CEPGP_itemsTable = {};
 CEPGP_roster = {};
-CEPGP_subroster = {[1]={false, "六月悠", "八月悠"},[2]={false , "六月悠", "Lessness"},[3]={false, "六月悠", "一月悠"},[4]={true, "二月悠", "三月悠"},[5]={true , "你太傲慢了", "Vela"}}; --plus: [i]={true, "公會內計分角色", "替身"} (表示關閉,替身可以是非公會的)
+CEPGP_subroster = {[1]={true, "你太傲慢了", "Vela"},[2]={false , "六月悠", "Lessness"},[3]={false, "六月悠", "一月悠"},[4]={false, "二月悠", "三月悠"},[5]={false, "六月悠", "八月悠"}}; --plus: [i]={true, "公會內計分角色", "替身"} (表示關閉,替身可以是非公會的)
 CEPGP_subacc_flag = false; -- plus 替身分數累加功能總開關。false：若計分角色和替身都在團隊裏，CEPGP_AddRaidEP加EP只會加1次到計分角色上，true：表示會多次累加EP到計分角色上
-CEPGP_subacc_roster = {["六月悠"]={false, 0 },["八月悠"]={false, 0 },["二月悠"]={false, 0 },["沉睡之境"]={false, 0 },["你太傲慢了"]={false, 0 }}; -- plus 替身EP允許累加名單，"0"不能修改，true/false 表示開關，只在CEPGP_AddRaidEP內有效
+CEPGP_subacc_roster = {["你太傲慢了"]={false, 0 },["八月悠"]={false, 0 },["二月悠"]={false, 0 },["Lessness"]={false, 0 },["六月悠"]={false, 0 }}; -- plus 替身EP允許累加名單，"0"不能修改，true/false 表示開關，只在CEPGP_AddRaidEP內有效
 CEPGP_raidRoster = {};
 CEPGP_vInfo = {};
 CEPGP_vSearch = "GUILD";
