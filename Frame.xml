@@ -787,7 +787,7 @@
 						<Anchors>
 							<Anchor point="LEFT" relativePoint="LEFT" relativeTo="CEPGP_distribute_raid_class">
 								<Offset>
-									<AbsDimension x="70" y="0" />
+									<AbsDimension x="110" y="0" />
 								</Offset>
 							</Anchor>
 						</Anchors>
@@ -804,7 +804,7 @@
 						<Anchors>
 							<Anchor point="LEFT" relativePoint="LEFT" relativeTo="CEPGP_distribute_raid_rank">
 								<Offset>
-									<AbsDimension x="90" y="0" />
+									<AbsDimension x="75" y="0" />
 								</Offset>
 							</Anchor>
 						</Anchors>
@@ -838,7 +838,7 @@
 						<Anchors>
 							<Anchor point="TOPRIGHT">
 								<Offset>
-									<AbsDimension x="-75" y="-60" />
+									<AbsDimension x="-55" y="-60" />
 								</Offset>
 							</Anchor>
 						</Anchors>

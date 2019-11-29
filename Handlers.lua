@@ -2,6 +2,19 @@ local L = CEPGP_Locale:GetLocale("CEPGP")
 
 function CEPGP_handleComms(event, arg1, arg2)
 	--arg1 = message; arg2 = sender
+	local calname = nil; --plus
+	local subflat = false; --plus
+	local orgname = arg2; --plus
+	for i = 1, CEPGP_ntgetn(CEPGP_subroster) do --plus
+		if CEPGP_subroster[i][3] == arg2 and CEPGP_subroster[i][1] and CEPGP_subroster[i][2] ~= CEPGP_subroster[i][3] then --plus
+			if CEPGP_roster[CEPGP_subroster[i][2]] then --plus
+				calname = CEPGP_subroster[i][2]; --plus
+				subflat = true; --plus
+				break; --plus
+			end --plus
+		end --plus
+	end --plus
+	
 	if event == "CHAT_MSG_WHISPER" and (string.lower(arg1) == string.lower(CEPGP_keyword) or string.lower(arg1) == string.lower(CEPGP_keyword_2)) and CEPGP_distributing then --plus
 		local duplicate = false;
 		for i = 1, table.getn(CEPGP_responses) do
@@ -22,6 +35,8 @@ function CEPGP_handleComms(event, arg1, arg2)
 				item:ContinueOnItemLoad(function()
 					local _, itemLink , _, _, _, _, _, _, slot = GetItemInfo(CEPGP_DistID)
 					local EP, GP = nil;
+					local SubEP, SubGP = nil; --plus
+					local calname_Mes = ""; --plus
 					local inGuild = false;
 					if CEPGP_tContains(CEPGP_roster, arg2, true) then
 						EP, GP = CEPGP_getEPGP(CEPGP_roster[arg2][5]);
@@ -32,13 +47,32 @@ function CEPGP_handleComms(event, arg1, arg2)
 						class = CEPGP_roster[arg2][2];
 						inGuild = true;
 					end
+					if subflat then --plus
+						SubEP, SubGP = CEPGP_getEPGP(CEPGP_roster[calname][5]); --plus
+						if CEPGP_minEP[1] and CEPGP_minEP[2] > SubEP then
+							CEPGP_print(calname .. " is interested in this item but doesn't have enough EP.");
+							return;
+						end
+						if inGuild == false then
+							local subtotal = GetNumGroupMembers();
+							for i = 1, subtotal do
+								if arg2 == GetRaidRosterInfo(i) then
+									_, _, _, _, class = GetRaidRosterInfo(i);
+								end
+							end
+						end
+					end --plus
 					--CEPGP_SendAddonMsg(arg2..";distslot;"..CEPGP_distSlot, "RAID");--解放锁私聊（原只能1次），master修改即可
 					if CEPGP_distributing then
-						if inGuild and not CEPGP_suppress_announcements then
-							if string.lower(arg1) == string.lower(CEPGP_keyword_2) then  --plus
-								CEPGP_sendChatMessage(arg2 .. " (" .. class .. ") 貪婪 " .. itemLink, CEPGP_lootChannel);
+						if (inGuild or subflat) and not CEPGP_suppress_announcements then --plus
+							if subflat then --plus
+								EP, GP = SubEP, SubGP; --plus
+								calname_Mes = "[" .. calname .. "]"; --plus
+							end --plus
+							if string.lower(arg1) == string.lower(CEPGP_keyword_2) then --plus
+								CEPGP_sendChatMessage(arg2 .. " (" .. class .. ") " .. calname_Mes .. " 貪婪 " .. itemLink, CEPGP_lootChannel); --plus
 							else
-								CEPGP_sendChatMessage(arg2 .. " (" .. class .. ") 需求 " .. itemLink .. " (" .. math.floor((EP/GP)*100)/100 .. " PR)", CEPGP_lootChannel);
+								CEPGP_sendChatMessage(arg2 .. " (" .. class .. ") " .. calname_Mes .. " 需求 " .. itemLink .. " (" .. math.floor((EP/GP)*100)/100 .. " PR)", CEPGP_lootChannel); --plus
 							end
 						elseif not CEPGP_suppress_announcements then
 							local total = GetNumGroupMembers();
@@ -61,6 +95,8 @@ function CEPGP_handleComms(event, arg1, arg2)
 				--	Sends an addon message to the person who whispered !need to me
 				--	See Communications.lua:2 to continue this chain
 				local EP, GP = nil;
+				local SubEP, SubGP = nil; --plus
+				local calname_Mes = ""; --plus
 				local inGuild = false;
 				if CEPGP_tContains(CEPGP_roster, arg2, true) then
 					EP, GP = CEPGP_getEPGP(CEPGP_roster[arg2][5]);
@@ -71,14 +107,33 @@ function CEPGP_handleComms(event, arg1, arg2)
 					class = CEPGP_roster[arg2][2];
 					inGuild = true;
 				end
+				if subflat then --plus
+					SubEP, SubGP = CEPGP_getEPGP(CEPGP_roster[calname][5]); --plus
+					if CEPGP_minEP[1] and CEPGP_minEP[2] > SubEP then
+						CEPGP_print(calname .. " is interested in this item but doesn't have enough EP.");
+						return;
+					end
+					if inGuild == false then
+						local subtotal = GetNumGroupMembers();
+						for i = 1, subtotal do
+							if arg2 == GetRaidRosterInfo(i) then
+								_, _, _, _, class = GetRaidRosterInfo(i);
+							end
+						end
+					end
+				end --plus
 				--CEPGP_SendAddonMsg(arg2..";distslot;"..CEPGP_distSlot, "RAID"); --解放锁私聊（原只能1次），master修改即可
 				if CEPGP_distributing then
-					if inGuild and not CEPGP_suppress_announcements then
-							if string.lower(arg1) == string.lower(CEPGP_keyword_2) then  --plus
-								CEPGP_sendChatMessage(arg2 .. " (" .. class .. ") 貪婪 " .. itemLink, CEPGP_lootChannel);
-							else
-								CEPGP_sendChatMessage(arg2 .. " (" .. class .. ") 需求 " .. itemLink .. " (" .. math.floor((EP/GP)*100)/100 .. " PR)", CEPGP_lootChannel);
-							end
+					if (inGuild or subflat) and not CEPGP_suppress_announcements then
+						if subflat then --plus
+							EP, GP = SubEP, SubGP; --plus
+							calname_Mes = "[" .. calname .. "]"; --plus
+						end --plus
+						if string.lower(arg1) == string.lower(CEPGP_keyword_2) then  --plus
+							CEPGP_sendChatMessage(arg2 .. " (" .. class .. ") " .. calname_Mes .. " 貪婪 " .. itemLink, CEPGP_lootChannel);
+						else
+							CEPGP_sendChatMessage(arg2 .. " (" .. class .. ") " .. calname_Mes .. " 需求 " .. itemLink .. " (" .. math.floor((EP/GP)*100)/100 .. " PR)", CEPGP_lootChannel);
+						end
 					elseif not CEPGP_suppress_announcements then
 						local total = GetNumGroupMembers();
 						for i = 1, total do
@@ -98,12 +153,19 @@ function CEPGP_handleComms(event, arg1, arg2)
 			end
 		end
 	elseif event == "CHAT_MSG_WHISPER" and string.lower(arg1) == "!info" then
-		if CEPGP_getGuildInfo(arg2) ~= nil then
-			local EP, GP = CEPGP_getEPGP(CEPGP_roster[arg2][5]);
-			if not CEPGP_vInfo[arg2] then
-				SendChatMessage("EPGP Standings - EP: " .. EP .. " / GP: " .. GP .. " / PR: " .. math.floor((EP/GP)*100)/100, "WHISPER", CEPGP_LANGUAGE, arg2);
+		if CEPGP_getGuildInfo(arg2) ~= nil or subflat then
+			local EP, GP = nil;
+			local calname_Mes = ""; --plus
+			if subflat then
+				EP, GP = CEPGP_getEPGP(CEPGP_roster[calname][5]);
+				calname_Mes = "[" .. calname .. "]"; --plus
 			else
-				CEPGP_SendAddonMsg("!info;" .. arg2 .. ";EPGP Standings - EP: " .. EP .. " / GP: " .. GP .. " / PR: " .. math.floor((EP/GP)*100)/100, "GUILD");
+				EP, GP = CEPGP_getEPGP(CEPGP_roster[arg2][5]);
+			end
+			if not CEPGP_vInfo[arg2] then
+				SendChatMessage("EPGP Standings" .. calname_Mes .. " - EP: " .. EP .. " / GP: " .. GP .. " / PR: " .. math.floor((EP/GP)*100)/100, "WHISPER", CEPGP_LANGUAGE, arg2);
+			else
+				CEPGP_SendAddonMsg("!info;" .. arg2 .. ";EPGP Standings" .. calname_Mes .. " - EP: " .. EP .. " / GP: " .. GP .. " / PR: " .. math.floor((EP/GP)*100)/100, "GUILD");
 			end
 		end
 	elseif event == "CHAT_MSG_WHISPER" and (string.lower(arg1) == "!infoguild" or string.lower(arg1) == "!inforaid" or string.lower(arg1) == "!infoclass" or string.lower(arg1) == "!infoavegp") then --plus
@@ -247,7 +309,7 @@ function CEPGP_handleComms(event, arg1, arg2)
 									CEPGP_SendAddonMsg("!info;" .. arg2 .. ";EP: " .. rRoster[i][2] .. " / GP: " .. rRoster[i][3] .. " / PR: " .. rRoster[i][4] .. " / PR rank among " .. compClass .. "s in raid: #" .. i, "GUILD");
 								end
 							elseif  string.lower(arg1) == "!infoavegp" then  --plus
-								SendChatMessage("當前團隊的平均GP: " .. CEPGP_ave_raiderGP .. "（已經排除GP值=".. BASEGP .. " 的團員）", "RAID", CEPGP_LANGUAGE, arg2);  --plus
+								SendChatMessage("當前團隊的平均GP: " .. CEPGP_ave_raiderGP .. "（已經排除GP值=".. BASEGP .. " 的團員）", "WHISPER", CEPGP_LANGUAGE, arg2);  --plus
 							else
 								if not CEPGP_vInfo[arg2] then
 									SendChatMessage("EP: " .. rRoster[i][2] .. " / GP: " .. rRoster[i][3] .. " / PR: " .. rRoster[i][4] .. " / PR rank in raid: #" .. i, "WHISPER", CEPGP_LANGUAGE, arg2);
@@ -415,8 +477,23 @@ function CEPGP_handleLoot(event, arg1, arg2)
 	elseif event == "LOOT_OPENED" then --and (UnitInRaid("player") or CEPGP_debugMode) then
 		CEPGP_LootFrame_Update();
 		ShowUIPanel(CEPGP_button_loot_dist);
-
+		
 	elseif event == "LOOT_SLOT_CLEARED" then
+		local calname = nil; --plus
+		local subflat = false; --plus
+		local orgname = CEPGP_distPlayer; --plus
+		local calname_Mes = ""; --plus
+		for i = 1, CEPGP_ntgetn(CEPGP_subroster) do --plus
+			if CEPGP_subroster[i][3] == CEPGP_distPlayer and CEPGP_subroster[i][1] and CEPGP_subroster[i][2] ~= CEPGP_subroster[i][3] then --plus
+				if CEPGP_roster[CEPGP_subroster[i][2]] then --plus
+					calname = CEPGP_subroster[i][2]; --plus
+					subflat = true; --plus
+					calname_Mes = "[" .. calname .. "]"; --plus
+					break; --plus
+				end --plus
+			end --plus
+		end	--plus
+		
 		if CEPGP_isML() == 0 then
 			CEPGP_SendAddonMsg("RaidAssistLootClosed", "RAID");
 		end
@@ -424,7 +501,7 @@ function CEPGP_handleLoot(event, arg1, arg2)
 			if CEPGP_distPlayer ~= "" and CEPGP_award then
 				CEPGP_distributing = false;
 				LootTyp = ""; --plus
-				Dis_GP_value = math.floor(CEPGP_distribute_GP_value:GetText()*CEPGP_rate); --plus
+				local Dis_GP_value = math.floor(CEPGP_distribute_GP_value:GetText()*CEPGP_rate); --plus
 				if CEPGP_distGP then
 					if math.floor(CEPGP_distribute_GP_value:GetText()) ~= 0 and math.floor(CEPGP_distribute_GP_value:GetText()*CEPGP_rate) == 0 and CEPGP_rate ~= 0 then --plus
 						Dis_GP_value = 1; --plus
@@ -440,11 +517,19 @@ function CEPGP_handleLoot(event, arg1, arg2)
 					else --plus
 						LootTyp = ""; --plus
 					end --plus
-					SendChatMessage("獎勵" .. _G["CEPGP_distribute_item_name"]:GetText() .. "給 ".. CEPGP_distPlayer .. " : " .. Dis_GP_value .. " GP".. LootTyp, CHANNEL, CEPGP_LANGUAGE); --plus
-					CEPGP_addGP(CEPGP_distPlayer, Dis_GP_value, CEPGP_DistID, CEPGP_distItemLink, LootTyp); --plus
+					SendChatMessage("獎勵" .. _G["CEPGP_distribute_item_name"]:GetText() .. "給 ".. CEPGP_distPlayer .. calname_Mes .. " : " .. Dis_GP_value .. " GP".. LootTyp, CHANNEL, CEPGP_LANGUAGE); --plus
+					if subflat then
+						CEPGP_addGP(calname, Dis_GP_value, CEPGP_DistID, CEPGP_distItemLink, LootTyp .. "[" .. CEPGP_distPlayer .. "]"); --plus
+					else
+						CEPGP_addGP(CEPGP_distPlayer, Dis_GP_value, CEPGP_DistID, CEPGP_distItemLink, LootTyp); --plus
+					end
 				else
-					SendChatMessage("獎勵" .. _G["CEPGP_distribute_item_name"]:GetText() .. "給 ".. CEPGP_distPlayer .. " : 0 GP", CHANNEL, CEPGP_LANGUAGE);
-					CEPGP_addGP(CEPGP_distPlayer, 0, CEPGP_DistID, CEPGP_distItemLink); --plus
+					SendChatMessage("獎勵" .. _G["CEPGP_distribute_item_name"]:GetText() .. "給 ".. CEPGP_distPlayer .. calname_Mes .. " : 0 GP", CHANNEL, CEPGP_LANGUAGE);
+					if subflat then
+						CEPGP_addGP(calname, 0, CEPGP_DistID, CEPGP_distItemLink, "[" .. CEPGP_distPlayer .. "]"); --plus
+					else
+						CEPGP_addGP(CEPGP_distPlayer, 0, CEPGP_DistID, CEPGP_distItemLink); --plus
+					end
 				end
 				CEPGP_distPlayer = "";
 				CEPGP_distribute_popup:Hide();
