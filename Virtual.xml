@@ -449,7 +449,7 @@
 					<Anchors>
 						<Anchor point="LEFT" relativeTo="$parentAction" relativePoint="RIGHT">
 							<Offset>
-								<AbsDimension x="35" y="0"/>
+								<AbsDimension x="20" y="0"/>
 							</Offset>
 						</Anchor>
 					</Anchors>
@@ -458,7 +458,7 @@
 					<Anchors>
 						<Anchor point="RIGHT" relativeTo="$parentEPBefore" relativePoint="LEFT">
 							<Offset>
-								<AbsDimension x="100" y="0"/>  <!-- x=70 plus -->
+								<AbsDimension x="95" y="0"/>
 							</Offset>
 						</Anchor>
 					</Anchors>
@@ -467,7 +467,7 @@
 					<Anchors>
 						<Anchor point="LEFT" relativeTo="$parentEPAfter" relativePoint="RIGHT">
 							<Offset>
-								<AbsDimension x="40" y="0"/>
+								<AbsDimension x="15" y="0"/>
 							</Offset>
 						</Anchor>
 					</Anchors>
@@ -476,7 +476,7 @@
 					<Anchors>
 						<Anchor point="RIGHT" relativeTo="$parentGPBefore" relativePoint="LEFT">
 							<Offset>
-								<AbsDimension x="80" y="0"/> <!-- x=70 plus -->
+								<AbsDimension x="95" y="0"/>
 							</Offset>
 						</Anchor>
 					</Anchors>
