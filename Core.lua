@@ -30,9 +30,9 @@ CEPGP_LANGUAGE = GetDefaultLanguage("player");
 CEPGP_responses = {};
 CEPGP_itemsTable = {};
 CEPGP_roster = {};
-CEPGP_subroster = {[1]={true, "你太傲慢了", "Vela"},[2]={false , "六月悠", "Lessness"},[3]={false, "六月悠", "一月悠"},[4]={false, "二月悠", "三月悠"},[5]={false, "六月悠", "八月悠"}}; --plus: [i]={true, "公會內計分角色", "替身"} (表示關閉,替身可以是非公會的)
+CEPGP_subroster = {[1]={true, "你太傲慢了", "Vela"},[2]={false , "六月悠", "Lessness"},[3]={false, "二月悠", "沉睡之境"},[4]={false, "二月悠", "一月悠"},[5]={false, "二月悠", "六月悠"},[6]={false, "三月悠", "八月悠"}}; --plus: [i]={true, "公會內計分角色", "替身"} (表示關閉,替身可以是非公會的)
 CEPGP_subacc_flag = false; -- plus 替身分數累加功能總開關。false：若計分角色和替身都在團隊裏，CEPGP_AddRaidEP加EP只會加1次到計分角色上，true：表示會多次累加EP到計分角色上
-CEPGP_subacc_roster = {["你太傲慢了"]={false, 0 },["八月悠"]={false, 0 },["二月悠"]={false, 0 },["Lessness"]={false, 0 },["六月悠"]={false, 0 }}; -- plus 替身EP允許累加名單，"0"不能修改，true/false 表示開關，只在CEPGP_AddRaidEP內有效
+CEPGP_subacc_roster = {["你太傲慢了"]={false, 0 },["八月悠"]={false, 0 },["二月悠"]={false, 0 },["Lessness"]={false, 0 },["三月悠"]={false, 0 }}; -- plus 替身EP允許累加名單，"0"不能修改，true/false 表示開關，只在CEPGP_AddRaidEP內有效
 CEPGP_raidRoster = {};
 CEPGP_vInfo = {};
 CEPGP_vSearch = "GUILD";
@@ -332,13 +332,26 @@ function CEPGP_AddRaidEP(amount, msg, encounter)
 	amount = math.floor(amount);
 	local total = GetNumGroupMembers();
 	local REPtotal = 0; --plus
-	for name,_ in pairs(CEPGP_subacc_roster) do --plus
-		CEPGP_subacc_roster[name][2] = 0; --plus
+	local tempTable = {}; --plus
+	for xname,_ in pairs(CEPGP_subacc_roster) do --plus
+		CEPGP_subacc_roster[xname][2] = 0;
+	end --plus
+	for k = 1, CEPGP_ntgetn(CEPGP_subroster) do --plus
+		if CEPGP_subroster[k][1] then
+			tempTable[CEPGP_subroster[k][2]] = { --plus 替身且不在raid隊中
+				[1] = 0 --plus 累加次數
+				};
+		end --plus
 	end --plus
 	if total > 0 then
+		for k = 1, total do --plus
+			local tname = GetRaidRosterInfo(k); --plus
+			tempTable[tname] = { --plus
+				[1] = 0 --plus 累加次數
+				}; --plus
+		end
 		for i = 1, total do
 			local name = GetRaidRosterInfo(i);
-			--plus[
 			local calname = nil; --plus
 			local subflat = false; --plus
 			local subacc = 1; --plus
@@ -368,7 +381,7 @@ function CEPGP_AddRaidEP(amount, msg, encounter)
 				local index = CEPGP_getIndex(name, CEPGP_roster[name][1]);
 				if not CEPGP_checkEPGP(CEPGP_roster[name][5]) then
 					GuildRosterSetOfficerNote(index, (amount*subacc) .. "," .. BASEGP); --plus
-					REPtotal = REPtotal + 1; --plus
+					tempTable[name][1] = subacc; --plus
 				else
 					EP,GP = CEPGP_getEPGP(CEPGP_roster[name][5]);
 					EP = tonumber(EP);
@@ -381,7 +394,7 @@ function CEPGP_AddRaidEP(amount, msg, encounter)
 						EP = 0;
 					end
 					GuildRosterSetOfficerNote(index, EP .. "," .. GP);
-					REPtotal = REPtotal + 1;--plus
+					tempTable[name][1] = subacc; --plus
 				end
 			elseif subflat then --plus
 				if CEPGP_subacc_flag and CEPGP_tContains(CEPGP_subacc_roster, calname, true) then --plus
@@ -392,7 +405,7 @@ function CEPGP_AddRaidEP(amount, msg, encounter)
 				local index = CEPGP_getIndex(calname, CEPGP_roster[calname][1]); --plus
 				if not CEPGP_checkEPGP(CEPGP_roster[calname][5]) then --plus
 					GuildRosterSetOfficerNote(index, (amount*subacc) .. "," .. BASEGP); --plus
-					REPtotal = REPtotal + 1; --plus
+					tempTable[calname][1] = subacc; --plus
 				else
 					EP,GP = CEPGP_getEPGP(CEPGP_roster[calname][5]); --plus
 					EP = tonumber(EP);
@@ -405,9 +418,12 @@ function CEPGP_AddRaidEP(amount, msg, encounter)
 						EP = 0;
 					end
 					GuildRosterSetOfficerNote(index, EP .. "," .. GP);
-					REPtotal = REPtotal + 1; --plus
+					tempTable[calname][1] = subacc; --plus
 				end
 			end
+		end
+		for xname,_ in pairs(tempTable) do --plus
+			REPtotal = REPtotal + tempTable[xname][1];
 		end
 	end
 	if msg ~= "" and msg ~= nil or encounter then

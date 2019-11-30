@@ -162,11 +162,11 @@ function CEPGP_handleComms(event, arg1, arg2)
 			else
 				EP, GP = CEPGP_getEPGP(CEPGP_roster[arg2][5]);
 			end
-			if not CEPGP_vInfo[arg2] then
+			-- if not CEPGP_vInfo[arg2] then --plus
 				SendChatMessage("EPGP Standings" .. calname_Mes .. " - EP: " .. EP .. " / GP: " .. GP .. " / PR: " .. math.floor((EP/GP)*100)/100, "WHISPER", CEPGP_LANGUAGE, arg2);
-			else
-				CEPGP_SendAddonMsg("!info;" .. arg2 .. ";EPGP Standings" .. calname_Mes .. " - EP: " .. EP .. " / GP: " .. GP .. " / PR: " .. math.floor((EP/GP)*100)/100, "GUILD");
-			end
+			-- else --plus
+				-- CEPGP_SendAddonMsg("!info;" .. arg2 .. ";EPGP Standings" .. calname_Mes .. " - EP: " .. EP .. " / GP: " .. GP .. " / PR: " .. math.floor((EP/GP)*100)/100, "GUILD"); --plus
+			-- end --plus
 		end
 	elseif event == "CHAT_MSG_WHISPER" and (string.lower(arg1) == "!infoguild" or string.lower(arg1) == "!inforaid" or string.lower(arg1) == "!infoclass" or string.lower(arg1) == "!infoavegp") then --plus
 		if CEPGP_getGuildInfo(arg2) ~= nil then
@@ -265,20 +265,59 @@ function CEPGP_handleComms(event, arg1, arg2)
 						end
 					end
 				else --Raid
+					local xname = nil; --plus
+					local xcalinraidacc = {}; --plus
+					for k = 1, CEPGP_ntgetn(CEPGP_subroster) do --plus
+						if CEPGP_subroster[k][1] then
+							xname = CEPGP_subroster[k][2];
+							xcalinraidacc[xname] = { --plus
+								[1] = 0
+							};
+						end
+					end --plus
 					for i = 1, GetNumGroupMembers() do
 						name = GetRaidRosterInfo(i);
 						if string.find(name, "-") then
 							name = string.sub(name, 0, string.find(name, "-")-1);
 						end
-						if not CEPGP_roster[name] then
+						local xcalname = nil; --plus
+						local xsubflat = false; --plus
+						for i = 1, CEPGP_ntgetn(CEPGP_subroster) do --plus
+							if CEPGP_subroster[i][3] == name and CEPGP_subroster[i][1] and CEPGP_subroster[i][2] ~= CEPGP_subroster[i][3] then --plus
+								if CEPGP_roster[CEPGP_subroster[i][2]] then --plus
+									xcalname = CEPGP_subroster[i][2]; --plus
+									xsubflat = true; --plus
+									break; --plus
+								end --plus
+							end --plus
+						end --plus
+						if xsubflat then --plus
+							EP, GP = CEPGP_getEPGP(CEPGP_roster[xcalname][5]); --plus
+							class = CEPGP_roster[xcalname][2]; --plus
+							if xcalinraidacc[xcalname][1] == 0 then
+								if GP > BASEGP then --plus 排斥GP=BASEGP的
+									totalraiderGP = totalraiderGP + GP; --plus
+									totalraiderNum = totalraiderNum + 1; --plus
+									xcalinraidacc[xcalname][1] = xcalinraidacc[xcalname][1] + 1; --plus
+								end --plus
+							end
+						elseif not CEPGP_roster[name] and not xsubflat then --plus
 							EP, GP = 0, BASEGP;
 							class = UnitClass("raid"..i);
 						else
 							EP, GP = CEPGP_getEPGP(CEPGP_roster[name][5]);
 							class = CEPGP_roster[name][2];
 							if GP > BASEGP then --plus 排斥GP=BASEGP的
-								totalraiderGP = totalraiderGP + GP; --plus
-								totalraiderNum = totalraiderNum + 1; --plus
+								if CEPGP_tContains(xcalinraidacc, name, true) then --plus
+									if xcalinraidacc[name][1] == 0 then
+										totalraiderGP = totalraiderGP + GP; --plus
+										totalraiderNum = totalraiderNum + 1; --plus
+										xcalinraidacc[name][1] = xcalinraidacc[name][1] + 1; --plus
+									end
+								else
+									totalraiderGP = totalraiderGP + GP; --plus
+									totalraiderNum = totalraiderNum + 1; --plus
+								end --plus
 							end --plus
 						end
 						count = count + 1;
@@ -309,7 +348,7 @@ function CEPGP_handleComms(event, arg1, arg2)
 									CEPGP_SendAddonMsg("!info;" .. arg2 .. ";EP: " .. rRoster[i][2] .. " / GP: " .. rRoster[i][3] .. " / PR: " .. rRoster[i][4] .. " / PR rank among " .. compClass .. "s in raid: #" .. i, "GUILD");
 								end
 							elseif  string.lower(arg1) == "!infoavegp" then  --plus
-								SendChatMessage("當前團隊的平均GP: " .. CEPGP_ave_raiderGP .. "（已經排除GP值=".. BASEGP .. " 的團員）", "WHISPER", CEPGP_LANGUAGE, arg2);  --plus
+								SendChatMessage("當前團隊的平均GP: " .. CEPGP_ave_raiderGP .. "（有效人數:" .. totalraiderNum .. "人。已經排除GP值=".. BASEGP .. " 的團員）", "WHISPER", CEPGP_LANGUAGE, arg2);  --plus
 							else
 								if not CEPGP_vInfo[arg2] then
 									SendChatMessage("EP: " .. rRoster[i][2] .. " / GP: " .. rRoster[i][3] .. " / PR: " .. rRoster[i][4] .. " / PR rank in raid: #" .. i, "WHISPER", CEPGP_LANGUAGE, arg2);
