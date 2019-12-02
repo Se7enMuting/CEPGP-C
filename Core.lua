@@ -52,6 +52,7 @@ CEPGP_plugins = {};
 --[[ SAVED VARIABLES ]]--
 CHANNEL = nil;
 CEPGP_lootChannel = nil;
+MyRecordChannel = "記錄沉睡私人"; --plus
 MOD = nil;
 COEF = nil;
 MOD_COEF = nil;
@@ -431,6 +432,7 @@ function CEPGP_AddRaidEP(amount, msg, encounter)
 			TRAFFIC[CEPGP_ntgetn(TRAFFIC)+1] = {"Raid", UnitName("player"), "[" .. REPtotal .. "]增加團隊EP +" .. amount .. " - " .. encounter, "", "", "", "", "", time()}; --plus:[" .. REPtotal .. "] after "
 			CEPGP_ShareTraffic("Raid", UnitName("player"), "[" .. REPtotal .. "]增加團隊EP +" .. amount .. " - " .. encounter); --plus:[" .. REPtotal .. "] after "
 			CEPGP_sendChatMessage(msg .. "[" .. REPtotal .. "]", CHANNEL); --plus: .. "[" .. REPtotal .. "]"
+			CEPGP_sendChatMessage(msg .. "[" .. REPtotal .. "]", MyRecordChannel); --plus MyRecordChannel
 		else -- EP was manually given, could be either positive or negative, and a message was written
 			if tonumber(amount) <= 0 then
 				TRAFFIC[CEPGP_ntgetn(TRAFFIC)+1] = {"Raid", UnitName("player"), "[" .. REPtotal .. "]減去團隊EP -" .. amount .. " (" .. msg .. ")", "", "", "", "", "", time()}; --plus:[" .. REPtotal .. "] after "
