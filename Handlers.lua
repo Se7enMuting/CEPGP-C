@@ -2,7 +2,7 @@ local L = CEPGP_Locale:GetLocale("CEPGP")
 
 function CEPGP_handleComms(event, arg1, arg2)
 	--arg1 = message; arg2 = sender
-	local calname = nil; --plus
+	local calname = ""; --plus
 	local subflat = false; --plus
 	local orgname = arg2; --plus
 	for i = 1, CEPGP_ntgetn(CEPGP_subroster) do --plus
@@ -74,6 +74,21 @@ function CEPGP_handleComms(event, arg1, arg2)
 							else
 								CEPGP_sendChatMessage(arg2 .. " (" .. class .. ") " .. calname_Mes .. " 需求 " .. itemLink .. " (" .. math.floor((EP/GP)*100)/100 .. " PR)", CEPGP_lootChannel); --plus
 							end
+							if CEPGP_DistID == MulDistID then --plus 歷史獲取
+								local xcount = 0;
+								local tname = "";
+								for i=1, CEPGP_ntgetn(TRAFFIC) do
+									if subflat then 
+										tname = calname;
+									else
+										tname = arg2;
+									end
+									if TRAFFIC[i][8] == itemLink and TRAFFIC[i][1] == tname then
+										xcount = xcount + 1;
+									end
+								end
+								CEPGP_sendChatMessage(arg2 .. " (" .. class .. ") " .. calname_Mes .. " 歷史獲取 " .. itemLink .. " 爲 " .. xcount .. " 次", CEPGP_lootChannel);
+							end --plus
 						elseif not CEPGP_suppress_announcements then
 							local total = GetNumGroupMembers();
 							for i = 1, total do
@@ -129,11 +144,26 @@ function CEPGP_handleComms(event, arg1, arg2)
 							EP, GP = SubEP, SubGP; --plus
 							calname_Mes = "[" .. calname .. "]"; --plus
 						end --plus
-						if string.lower(arg1) == string.lower(CEPGP_keyword_2) then  --plus
+						if string.lower(arg1) == string.lower(CEPGP_keyword_2) then --plus
 							CEPGP_sendChatMessage(arg2 .. " (" .. class .. ") " .. calname_Mes .. " 貪婪 " .. itemLink, CEPGP_lootChannel);
 						else
 							CEPGP_sendChatMessage(arg2 .. " (" .. class .. ") " .. calname_Mes .. " 需求 " .. itemLink .. " (" .. math.floor((EP/GP)*100)/100 .. " PR)", CEPGP_lootChannel);
 						end
+						if CEPGP_DistID == MulDistID then --plus 歷史獲取
+							local xcount = 0;
+							local tname = "";
+							for i=1, CEPGP_ntgetn(TRAFFIC) do
+								if subflat then 
+									tname = calname;
+								else
+									tname = arg2;
+								end
+								if TRAFFIC[i][8] == itemLink and TRAFFIC[i][1] == tname then
+									xcount = xcount + 1;
+								end
+							end
+							CEPGP_sendChatMessage(arg2 .. " (" .. class .. ") " .. calname_Mes .. " 歷史獲取 " .. itemLink .. " 爲 " .. xcount .. " 次", CEPGP_lootChannel);
+						end --plus
 					elseif not CEPGP_suppress_announcements then
 						local total = GetNumGroupMembers();
 						for i = 1, total do

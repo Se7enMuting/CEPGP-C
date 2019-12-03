@@ -439,8 +439,13 @@ function CEPGP_defChannelDropdown(frame, level, menuList)
 		[5] = "Guild",
 		[6] = "Officer",
 	};
+	local nilnum = 0; --plus bug fix
 	for i = 4, C_ChatInfo.GetNumActiveChannels() do
-		channels[i+3] = select(2, GetChannelName(i));
+		if select(2, GetChannelName(i)) ~= nil then --plus bug fix
+			channels[i+3-nilnum] = select(2, GetChannelName(i));
+		else --plus bug fix
+			nilnum = nilnum + 1; --plus bug fix
+		end --plus bug fix
 	end
 	for index, value in ipairs(channels) do
 		local info = {
@@ -476,8 +481,13 @@ function CEPGP_lootChannelDropdown(frame, level, menuList)
 		[5] = "Guild",
 		[6] = "Officer",
 	};
+	local nilnum = 0; --plus bug fix
 	for i = 4, C_ChatInfo.GetNumActiveChannels() do
-		channels[i+3] = select(2, GetChannelName(i));
+		if select(2, GetChannelName(i)) ~= nil then --plus bug fix
+			channels[i+3-nilnum] = select(2, GetChannelName(i));
+		else --plus bug fix
+			nilnum = nilnum + 1; --plus bug fix
+		end --plus bug fix
 	end
 	for index, value in ipairs(channels) do
 		local info = {

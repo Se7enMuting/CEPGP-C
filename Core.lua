@@ -30,7 +30,7 @@ CEPGP_LANGUAGE = GetDefaultLanguage("player");
 CEPGP_responses = {};
 CEPGP_itemsTable = {};
 CEPGP_roster = {};
-CEPGP_subroster = {[1]={true, "你太傲慢了", "Vela"},[2]={false , "六月悠", "Lessness"},[3]={false, "二月悠", "沉睡之境"},[4]={false, "二月悠", "一月悠"},[5]={false, "二月悠", "六月悠"},[6]={false, "三月悠", "八月悠"}}; --plus: [i]={true, "公會內計分角色", "替身"} (true/false表示關閉,替身可以是非公會的，請至少保留1個數組)
+CEPGP_subroster = {[1]={true, "你太傲慢了", "Vela"},[2]={false , "六月悠", "六月悠"},[3]={false, "二月悠", "沉睡之境"},[4]={false, "二月悠", "一月悠"},[5]={false, "二月悠", "六月悠"},[6]={false, "三月悠", "八月悠"}}; --plus: [i]={true, "公會內計分角色", "替身"} (true/false表示關閉,替身可以是非公會的，請至少保留1個數組)
 CEPGP_subacc_flag = false; -- plus 替身分數累加功能總開關。false：若計分角色和替身都在團隊裏，CEPGP_AddRaidEP加EP只會加1次到計分角色上，true：表示會多次累加EP到計分角色上
 CEPGP_subacc_roster = {["你太傲慢了"]={false, 0 },["八月悠"]={false, 0 },["二月悠"]={false, 0 },["Lessness"]={false, 0 },["三月悠"]={false, 0 }}; -- plus 替身EP允許累加名單，"0"不能修改，請至少保留1個數組，true/false 表示開關，只在CEPGP_AddRaidEP內有效
 CEPGP_raidRoster = {};
@@ -47,6 +47,7 @@ CEPGP_award = false;
 CEPGP_rate = 1; --plus
 CEPGP_greedrate = 0.1; --plus
 CEPGP_response_buttons = {[1]="需求",[2]="貪婪"}; --plus
+MulDistID = "17966"; --plus 奧妮克希亞皮袋 17966 亞麻布 2589
 CEPGP_plugins = {};
 
 --[[ SAVED VARIABLES ]]--

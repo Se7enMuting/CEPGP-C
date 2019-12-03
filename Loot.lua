@@ -127,6 +127,9 @@ function CEPGP_announce(link, x, slotNum, quantity)
 			end
 			--SendChatMessage("Whisper me " .. CEPGP_keyword .. " for mainspec only", "RAID", CEPGP_LANGUAGE); --plus
 			SendChatMessage("--------------------------", "RAID", CEPGP_LANGUAGE);
+			if CEPGP_DistID == MulDistID then --plus 奧妮克希亞皮袋 17966
+				SendChatMessage("沒拿過的請Roll點", "RAID", CEPGP_LANGUAGE); --plus
+			end --plus
 		end
 		CEPGP_distribute:Show();
 		CEPGP_loot:Hide();
