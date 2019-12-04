@@ -1046,6 +1046,23 @@ function CEPGP_tSort(t, index)
 	return t2;
 end
 
+function CEPGP_sortDistList(list)
+	local result = {};
+	for i = 1, #list do
+		result[i] = list[i];
+	end
+	for x = 1, #result do
+		for z = x+1, #result do
+			if result[x][7] < result[z][7] then
+				local v = result[x];
+				result[x] = result[z];
+				result[z] = v;
+			end
+		end
+	end
+	return result;
+end
+
 function CEPGP_ntgetn(tbl)
 	if tbl == nil then
 		return 0;

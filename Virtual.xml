@@ -501,7 +501,28 @@
 					</Layer>
 				</Layers>
 			</Button>
+			<Button name="$parentRemove" inherits="UiPanelCloseButton">
+				<Size>
+					<AbsDimension x="20" y="20" />
+				</Size>
+				<Anchors>
+					<Anchor point="RIGHT" relativePoint="RIGHT">
+						<Offset>
+							<AbsDimension x="-20" y="0" />
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						PlaySound(799);
+						CEPGP_ListButton_OnClick(self:GetName());
+					</OnClick>
+				</Scripts>
+			</Button>
 		</Frames>
+		<Attributes>
+			<Attribute name="delete_confirm" type="boolean" value="false" />
+		</Attributes>
 		<Scripts>
 			<OnLoad>
 				self:RegisterForClicks("LeftButtonDown");
@@ -509,6 +530,9 @@
 			<OnClick>
 				PlaySound(856);
 			</OnClick>
+			<OnHide>
+				self:SetAttribute("delete_confirm", "false");
+			</OnHide>
 		</Scripts>
 		<HighlightTexture file="Interface\QuestFrame\UI-QuestTitleHighlight" alphaMode="ADD"/>
 	</Button>

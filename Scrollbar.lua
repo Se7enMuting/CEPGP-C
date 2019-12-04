@@ -98,7 +98,8 @@ function CEPGP_UpdateLootScrollBar()
 		end --plus
 		count = count + 1;
 	end
-	tempTable = CEPGP_tSort(tempTable, CEPGP_criteria);
+	tempTable = CEPGP_sortDistList(tempTable);
+	--tempTable = CEPGP_tSort(tempTable, CEPGP_criteria);
 	local kids = {_G["CEPGP_dist_scrollframe_container"]:GetChildren()};
 	for _, child in ipairs(kids) do
 		child:Hide();
@@ -141,7 +142,7 @@ function CEPGP_UpdateLootScrollBar()
 						_G["LootDistButton" .. i .. "EP"]:SetTextColor(colour.r, colour.g, colour.b);
 						_G["LootDistButton" .. i .. "GP"]:SetText(tempTable[i][6]);
 						_G["LootDistButton" .. i .. "GP"]:SetTextColor(colour.r, colour.g, colour.b);
-						_G["LootDistButton" .. i .. "PR"]:SetText(tempTable[i][7]);
+						_G["LootDistButton" .. i .. "PR"]:SetText(string.format("%.2f", tempTable[i][7]));
 						_G["LootDistButton" .. i .. "PR"]:SetTextColor(colour.r, colour.g, colour.b);
 						_G["LootDistButton" .. i .. "Tex"]:SetScript('OnLeave', function()
 																						GameTooltip:Hide()
@@ -174,7 +175,7 @@ function CEPGP_UpdateLootScrollBar()
 					_G["LootDistButton" .. i .. "EP"]:SetTextColor(colour.r, colour.g, colour.b);
 					_G["LootDistButton" .. i .. "GP"]:SetText(tempTable[i][6]);
 					_G["LootDistButton" .. i .. "GP"]:SetTextColor(colour.r, colour.g, colour.b);
-					_G["LootDistButton" .. i .. "PR"]:SetText(tempTable[i][7]);
+					_G["LootDistButton" .. i .. "PR"]:SetText(string.format("%.2f", tempTable[i][7]));
 					_G["LootDistButton" .. i .. "PR"]:SetTextColor(colour.r, colour.g, colour.b);
 					_G["LootDistButton" .. i .. "Tex"]:SetScript('OnLeave', function()
 																					GameTooltip:Hide()
@@ -219,7 +220,7 @@ function CEPGP_UpdateLootScrollBar()
 						_G["LootDistButton" .. i .. "EP"]:SetTextColor(colour.r, colour.g, colour.b);
 						_G["LootDistButton" .. i .. "GP"]:SetText(tempTable[i][6]);
 						_G["LootDistButton" .. i .. "GP"]:SetTextColor(colour.r, colour.g, colour.b);
-						_G["LootDistButton" .. i .. "PR"]:SetText(tempTable[i][7]);
+						_G["LootDistButton" .. i .. "PR"]:SetText(string.format("%.2f", tempTable[i][7]));
 						_G["LootDistButton" .. i .. "PR"]:SetTextColor(colour.r, colour.g, colour.b);
 						_G["LootDistButton" .. i .. "Tex2"]:SetScript('OnLeave', function()
 																				GameTooltip:Hide()
@@ -252,7 +253,7 @@ function CEPGP_UpdateLootScrollBar()
 					_G["LootDistButton" .. i .. "EP"]:SetTextColor(colour.r, colour.g, colour.b);
 					_G["LootDistButton" .. i .. "GP"]:SetText(tempTable[i][6]);
 					_G["LootDistButton" .. i .. "GP"]:SetTextColor(colour.r, colour.g, colour.b);
-					_G["LootDistButton" .. i .. "PR"]:SetText(tempTable[i][7]);
+					_G["LootDistButton" .. i .. "PR"]:SetText(string.format("%.2f", tempTable[i][7]));
 					_G["LootDistButton" .. i .. "PR"]:SetTextColor(colour.r, colour.g, colour.b);
 					_G["LootDistButton" .. i .. "Tex2"]:SetScript('OnLeave', function()
 																			GameTooltip:Hide()
@@ -288,7 +289,7 @@ function CEPGP_UpdateLootScrollBar()
 			_G["LootDistButton" .. i .. "EP"]:SetTextColor(colour.r, colour.g, colour.b);
 			_G["LootDistButton" .. i .. "GP"]:SetText(tempTable[i][6]);
 			_G["LootDistButton" .. i .. "GP"]:SetTextColor(colour.r, colour.g, colour.b);
-			_G["LootDistButton" .. i .. "PR"]:SetText(tempTable[i][7]);
+			_G["LootDistButton" .. i .. "PR"]:SetText(string.format("%.2f", tempTable[i][7]));
 			_G["LootDistButton" .. i .. "PR"]:SetTextColor(colour.r, colour.g, colour.b);
 			_G["LootDistButton" .. i .. "Tex"]:SetScript('OnLeave', function()
 																			GameTooltip:Hide()
@@ -356,7 +357,7 @@ function CEPGP_UpdateGuildScrollBar()
 		_G["GuildButton" .. i .. "EP"]:SetTextColor(colour.r, colour.g, colour.b);
 		_G["GuildButton" .. i .. "GP"]:SetText(tempTable[i][6]);
 		_G["GuildButton" .. i .. "GP"]:SetTextColor(colour.r, colour.g, colour.b);
-		_G["GuildButton" .. i .. "PR"]:SetText(tempTable[i][7]);
+		_G["GuildButton" .. i .. "PR"]:SetText(string.format("%.2f", tempTable[i][7]));
 		_G["GuildButton" .. i .. "PR"]:SetTextColor(colour.r, colour.g, colour.b);
 	end
 end
@@ -459,7 +460,7 @@ function CEPGP_UpdateRaidScrollBar()
 		_G["RaidButton" .. i .. "EP"]:SetTextColor(colour.r, colour.g, colour.b);
 		_G["RaidButton" .. i .. "GP"]:SetText(tempTable[i][5]);
 		_G["RaidButton" .. i .. "GP"]:SetTextColor(colour.r, colour.g, colour.b);
-		_G["RaidButton" .. i .. "PR"]:SetText(tempTable[i][6]);
+		_G["RaidButton" .. i .. "PR"]:SetText(string.format("%.2f", tempTable[i][6]));
 		_G["RaidButton" .. i .. "PR"]:SetTextColor(colour.r, colour.g, colour.b);
 	end
 end

@@ -20,6 +20,26 @@ function CEPGP_ListButton_OnClick(obj)
 		return;
 	end
 	
+	if strfind(obj, "TrafficButton") and strfind(obj, "Remove") then --plus remove
+		local id = string.sub(obj, 14, string.find(obj, "Remove")-1);
+		local frame = _G["TrafficButton" .. id];
+		if frame:GetAttribute("delete_confirm") == "true" then
+			table.remove(TRAFFIC, tonumber(id));
+			CEPGP_print("Traffic entry " .. id .. " purged.");
+			CEPGP_UpdateTrafficScrollBar();
+		else
+			CEPGP_print("You are attempting to purge the following entry:");
+			id = tonumber(id);
+			if TRAFFIC[id][8] and string.find(TRAFFIC[id][8], "item:") then -- If an item is associated with the log
+				CEPGP_print("Issuer: " .. TRAFFIC[id][2] .. ", Action: " .. TRAFFIC[id][3] .. ", Item: " .. TRAFFIC[id][8] .. " |c006969FF, Recipient: " .. TRAFFIC[id][1] .. "|r");
+			else
+				CEPGP_print("Issuer: " .. TRAFFIC[id][2] .. ", Action: " .. TRAFFIC[id][3] .. ", Recipient: " .. TRAFFIC[id][1]);
+			end
+			CEPGP_print("This action cannot be undone. To proceed, press the delete button again.");
+			frame:SetAttribute("delete_confirm", "true");
+		end
+	end --plus remove
+	
 	if obj == "CEPGP_options_standby_ep_award" then
 		ShowUIPanel(CEPGP_context_popup);
 		ShowUIPanel(CEPGP_context_amount);
