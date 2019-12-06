@@ -72,7 +72,7 @@ function CEPGP_handleComms(event, arg1, arg2)
 							if string.lower(arg1) == string.lower(CEPGP_keyword_2) then --plus
 								CEPGP_sendChatMessage(arg2 .. " (" .. class .. ") " .. calname_Mes .. " 貪婪 " .. itemLink, CEPGP_lootChannel); --plus
 							else
-								CEPGP_sendChatMessage(arg2 .. " (" .. class .. ") " .. calname_Mes .. " 需求 " .. itemLink .. " (" .. math.floor((EP/GP)*100)/100 .. " PR)", CEPGP_lootChannel); --plus
+								CEPGP_sendChatMessage(arg2 .. " (" .. class .. ") " .. calname_Mes .. " 需求 " .. itemLink .. " (" .. string.format("%.2f",(math.floor((EP*100/GP))/100)) .. " PR)", CEPGP_lootChannel); --plus
 							end
 							if CEPGP_DistID == MulDistID then --plus 歷史獲取
 								local xcount = 0;
@@ -147,7 +147,7 @@ function CEPGP_handleComms(event, arg1, arg2)
 						if string.lower(arg1) == string.lower(CEPGP_keyword_2) then --plus
 							CEPGP_sendChatMessage(arg2 .. " (" .. class .. ") " .. calname_Mes .. " 貪婪 " .. itemLink, CEPGP_lootChannel);
 						else
-							CEPGP_sendChatMessage(arg2 .. " (" .. class .. ") " .. calname_Mes .. " 需求 " .. itemLink .. " (" .. math.floor((EP/GP)*100)/100 .. " PR)", CEPGP_lootChannel);
+							CEPGP_sendChatMessage(arg2 .. " (" .. class .. ") " .. calname_Mes .. " 需求 " .. itemLink .. " (" .. string.format("%.2f",(math.floor((EP*100/GP))/100)) .. " PR)", CEPGP_lootChannel);
 						end
 						if CEPGP_DistID == MulDistID then --plus 歷史獲取
 							local xcount = 0;
@@ -193,9 +193,9 @@ function CEPGP_handleComms(event, arg1, arg2)
 				EP, GP = CEPGP_getEPGP(CEPGP_roster[arg2][5]);
 			end
 			-- if not CEPGP_vInfo[arg2] then --plus
-				SendChatMessage("EPGP Standings" .. calname_Mes .. " - EP: " .. EP .. " / GP: " .. GP .. " / PR: " .. math.floor((EP/GP)*100)/100, "WHISPER", CEPGP_LANGUAGE, arg2);
+				SendChatMessage("EPGP Standings" .. calname_Mes .. " - EP: " .. EP .. " / GP: " .. GP .. " / PR: " .. string.format("%.2f",(math.floor((EP*100/GP))/100)), "WHISPER", CEPGP_LANGUAGE, arg2);
 			-- else --plus
-				-- CEPGP_SendAddonMsg("!info;" .. arg2 .. ";EPGP Standings" .. calname_Mes .. " - EP: " .. EP .. " / GP: " .. GP .. " / PR: " .. math.floor((EP/GP)*100)/100, "GUILD"); --plus
+				-- CEPGP_SendAddonMsg("!info;" .. arg2 .. ";EPGP Standings" .. calname_Mes .. " - EP: " .. EP .. " / GP: " .. GP .. " / PR: " .. math.floor((EP*100/GP))/100, "GUILD"); --plus
 			-- end --plus
 		end
 	elseif event == "CHAT_MSG_WHISPER" and (string.lower(arg1) == "!infoguild" or string.lower(arg1) == "!inforaid" or string.lower(arg1) == "!infoclass" or string.lower(arg1) == "!infoavegp") then --plus
@@ -219,7 +219,7 @@ function CEPGP_handleComms(event, arg1, arg2)
 					[1] = name,
 					[2] = EP,
 					[3] = GP,
-					[4] = math.floor((EP/GP)*100)/100,
+					[4] = math.floor((EP*100/GP))/100,
 					[5] = class
 				};
 			end
@@ -268,7 +268,7 @@ function CEPGP_handleComms(event, arg1, arg2)
 						[1] = arg2,
 						[2] = EP,
 						[3] = GP,
-						[4] = math.floor((EP/GP))*100/100,
+						[4] = math.floor((EP*100/GP))/100,
 						[5] = compClass
 					};
 					for i = 1, GetNumGroupMembers() do
@@ -289,7 +289,7 @@ function CEPGP_handleComms(event, arg1, arg2)
 								[1] = name,
 								[2] = EP,
 								[3] = GP,
-								[4] = math.floor((EP/GP)*100)/100,
+								[4] = math.floor((EP*100/GP))/100,
 								[5] = class
 							};
 						end
@@ -355,7 +355,7 @@ function CEPGP_handleComms(event, arg1, arg2)
 							[1] = name,
 							[2] = EP,
 							[3] = GP,
-							[4] = math.floor((EP/GP)*100)/100,
+							[4] = math.floor((EP*100/GP))/100,
 							[5] = class
 						};
 					end

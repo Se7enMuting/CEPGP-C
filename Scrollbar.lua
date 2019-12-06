@@ -23,7 +23,7 @@ function CEPGP_UpdateLootScrollBar()
 				[4] = CEPGP_roster[name][4], --RankIndex
 				[5] = EP,
 				[6] = GP,
-				[7] = math.floor((tonumber(EP)/tonumber(GP))*100)/100,
+				[7] = math.floor((tonumber(EP)*100/tonumber(GP)))/100,
 				[8] = CEPGP_itemsTable[name][1] or "noitem",
 				[9] = CEPGP_itemsTable[name][2] or "noitem",
 				[10] = CEPGP_roster[name][7], --className in English
@@ -39,7 +39,7 @@ function CEPGP_UpdateLootScrollBar()
 					[4] = CEPGP_roster[name][4], --RankIndex
 					[5] = EP,
 					[6] = GP,
-					[7] = math.floor((tonumber(EP)/tonumber(GP))*100)/100,
+					[7] = math.floor((tonumber(EP)*100/tonumber(GP)))/100,
 					[8] = CEPGP_itemsTable[name][1] or "noitem",
 					[9] = CEPGP_itemsTable[name][2] or "noitem",
 					[10] = CEPGP_roster[name][7], --className in English
@@ -59,7 +59,7 @@ function CEPGP_UpdateLootScrollBar()
 						[4] = rankIndex,
 						[5] = EP,
 						[6] = GP,
-						[7] = math.floor((tonumber(EP)/tonumber(GP))*100)/100,
+						[7] = math.floor((tonumber(EP)*100/tonumber(GP)))/100,
 						[8] = CEPGP_itemsTable[name][1] or "noitem",
 						[9] = CEPGP_itemsTable[name][2] or "noitem",
 						[10] = classFile,
@@ -84,7 +84,7 @@ function CEPGP_UpdateLootScrollBar()
 					[4] = rankIndex,
 					[5] = EP,
 					[6] = GP,
-					[7] = math.floor((tonumber(EP)/tonumber(GP))*100)/100,
+					[7] = math.floor((tonumber(EP)*100/tonumber(GP)))/100,
 					[8] = CEPGP_itemsTable[name][1] or "noitem",
 					[9] = CEPGP_itemsTable[name][2] or "noitem",
 					[10] = classFile,
@@ -320,7 +320,7 @@ function CEPGP_UpdateGuildScrollBar()
 			[4] = v[4], --RankIndex
 			[5] = EP,
 			[6] = GP,
-			[7] = math.floor((tonumber(EP)/tonumber(GP))*100)/100,
+			[7] = math.floor((tonumber(EP)*100/tonumber(GP)))/100,
 			[8] = v[7] -- className in English
 		};
 	end
@@ -388,7 +388,7 @@ function CEPGP_UpdateRaidScrollBar()
 				[3] = CEPGP_roster[name][3], --Rank
 				[4] = EP,
 				[5] = GP,
-				[6] = math.floor((tonumber(EP)/tonumber(GP))*100)/100,
+				[6] = math.floor((tonumber(EP)*100/tonumber(GP)))/100,
 				[7] = CEPGP_roster[name][7] --Class in English
 			};
 		elseif subflat then --plus
@@ -400,7 +400,7 @@ function CEPGP_UpdateRaidScrollBar()
 					[3] = "[" .. calname .. "]" .. CEPGP_roster[name][3], --Rank
 					[4] = EP,
 					[5] = GP,
-					[6] = math.floor((tonumber(EP)/tonumber(GP))*100)/100,
+					[6] = math.floor((tonumber(EP)*100/tonumber(GP)))/100,
 					[7] = CEPGP_roster[name][7], --className in English
 				};
 			else
@@ -410,7 +410,7 @@ function CEPGP_UpdateRaidScrollBar()
 					[3] = "[" .. calname .. "]" .. CEPGP_raidRoster[i][3], --Rank
 					[4] = EP, --EP
 					[5] = GP, --GP
-					[6] = math.floor((tonumber(EP)/tonumber(GP))*100)/100, --PR
+					[6] = math.floor((tonumber(EP)*100/tonumber(GP)))/100, --PR
 					[7] = CEPGP_raidRoster[i][8]  --Class in English
 				};
 			end --plus

@@ -124,7 +124,7 @@ function CEPGP_ListButton_OnClick(obj)
 					[4] = rIndex,
 					[5] = EP,
 					[6] = GP,
-					[7] = math.floor((tonumber(EP)/tonumber(GP))*100)/100,
+					[7] = math.floor((tonumber(EP)*100/tonumber(GP)))/100,
 					[8] = classFile
 				};
 			end
