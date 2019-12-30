@@ -1691,9 +1691,9 @@ end
 
 function CEPGP_sendChatMessage(msg, channel)
 	if not msg then return; end
-	if tonumber(CEPGP_getReportChannel(channel)) then
-		SendChatMessage(msg, "CHANNEL", CEPGP_LANGUAGE, CEPGP_getReportChannel(channel));
-	else
+	--if tonumber(CEPGP_getReportChannel(channel)) then
+		--SendChatMessage(msg, "CHANNEL", CEPGP_LANGUAGE, CEPGP_getReportChannel(channel));
+	--else
 		SendChatMessage(msg, channel, CEPGP_LANGUAGE);
-	end
+	--end
 end

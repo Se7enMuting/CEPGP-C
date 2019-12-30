@@ -30,7 +30,7 @@ CEPGP_LANGUAGE = GetDefaultLanguage("player");
 CEPGP_responses = {};
 CEPGP_itemsTable = {};
 CEPGP_roster = {};
-CEPGP_subroster = {[1]={true, "你太傲慢了", "Vela"},[2]={false , "六月悠", "六月悠"},[3]={false, "二月悠", "沉睡之境"},[4]={false, "二月悠", "一月悠"},[5]={false, "二月悠", "六月悠"},[6]={false, "三月悠", "八月悠"}}; --plus: [i]={true, "公會內計分角色", "替身"} (true/false表示關閉,替身可以是非公會的，請至少保留1個數組)
+CEPGP_subroster = {[1]={true, "你太傲慢了", "Vela"},[2]={true , "娜娜亞", "希希雷夢"},[3]={true, "Detroit", "特偷"},[4]={false, "二月悠", "一月悠"},[5]={false, "二月悠", "六月悠"},[6]={false, "三月悠", "八月悠"}}; --plus: [i]={true, "公會內計分角色", "替身"} (true/false表示關閉,替身可以是非公會的，請至少保留1個數組)
 CEPGP_subacc_flag = false; -- plus 替身分數累加功能總開關。false：若計分角色和替身都在團隊裏，CEPGP_AddRaidEP加EP只會加1次到計分角色上，true：表示會多次累加EP到計分角色上
 CEPGP_subacc_roster = {["你太傲慢了"]={false, 0 },["八月悠"]={false, 0 },["二月悠"]={false, 0 },["Lessness"]={false, 0 },["三月悠"]={false, 0 }}; -- plus 替身EP允許累加名單，"0"不能修改，請至少保留1個數組，true/false 表示開關，只在CEPGP_AddRaidEP內有效
 CEPGP_raidRoster = {};
@@ -47,13 +47,12 @@ CEPGP_award = false;
 CEPGP_rate = 1; --plus
 CEPGP_greedrate = 0.1; --plus
 CEPGP_response_buttons = {[1]="需求",[2]="貪婪"}; --plus
-MulDistID = "17966"; --plus 奧妮克希亞皮袋 17966 亞麻布 2589
+MulDistID = "17966"; --plus 奧妮克希亞皮袋 17966
 CEPGP_plugins = {};
 
 --[[ SAVED VARIABLES ]]--
 CHANNEL = nil;
 CEPGP_lootChannel = nil;
-MyRecordChannel = "記錄沉睡私人"; --plus
 MOD = nil;
 COEF = nil;
 MOD_COEF = nil;
@@ -433,7 +432,6 @@ function CEPGP_AddRaidEP(amount, msg, encounter)
 			TRAFFIC[CEPGP_ntgetn(TRAFFIC)+1] = {"Raid", UnitName("player"), "[" .. REPtotal .. "]增加團隊EP +" .. amount .. " - " .. encounter, "", "", "", "", "", time()}; --plus:[" .. REPtotal .. "] after "
 			CEPGP_ShareTraffic("Raid", UnitName("player"), "[" .. REPtotal .. "]增加團隊EP +" .. amount .. " - " .. encounter); --plus:[" .. REPtotal .. "] after "
 			CEPGP_sendChatMessage(msg .. "[" .. REPtotal .. "]", CHANNEL); --plus: .. "[" .. REPtotal .. "]"
-			CEPGP_sendChatMessage(msg .. "[" .. REPtotal .. "]", MyRecordChannel); --plus MyRecordChannel
 		else -- EP was manually given, could be either positive or negative, and a message was written
 			if tonumber(amount) <= 0 then
 				TRAFFIC[CEPGP_ntgetn(TRAFFIC)+1] = {"Raid", UnitName("player"), "[" .. REPtotal .. "]減去團隊EP -" .. amount .. " (" .. msg .. ")", "", "", "", "", "", time()}; --plus:[" .. REPtotal .. "] after "
@@ -912,21 +910,21 @@ function CEPGP_decay(amount, msg)
 		if tonumber(amount) <= 0 then
 			amount = string.sub(amount, 2, string.len(amount));
 			if msg ~= "" and msg ~= nil then
-				CEPGP_sendChatMessage("[" .. GDtotal .. "]Guild EPGP 膨脹 by " .. amount .. "% (" .. msg .. ")", "SAY"); --plus:[" .. GDtotal .. "] after ",say
+				CEPGP_sendChatMessage("[" .. GDtotal .. "]Guild EPGP 膨脹 by " .. amount .. "% (" .. msg .. ")", "Officer"); --plus:[" .. GDtotal .. "] after ",say
 				TRAFFIC[CEPGP_ntgetn(TRAFFIC)+1] = {"Guild", UnitName("player"), "[" .. GDtotal .. "]膨脹 EPGP +" .. amount .. "% (" .. msg .. ")", "", "", "", "", "", time()}; --plus:[" .. GDtotal .. "] after "
 				CEPGP_ShareTraffic("Guild", UnitName("player"), "[" .. GDtotal .. "]膨脹 EPGP +" .. amount .. "% (" .. msg .. ")"); --plus:[" .. GDtotal .. "] after "
 			else
-				CEPGP_sendChatMessage("[" .. GDtotal .. "]Guild EPGP 膨脹 by " .. amount .. "%", "SAY"); --plus:[" .. GDtotal .. "] after ",say
+				CEPGP_sendChatMessage("[" .. GDtotal .. "]Guild EPGP 膨脹 by " .. amount .. "%", "Officer"); --plus:[" .. GDtotal .. "] after ",say
 				TRAFFIC[CEPGP_ntgetn(TRAFFIC)+1] = {"Guild", UnitName("player"), "[" .. GDtotal .. "]膨脹 EPGP +" .. amount .. "%", "", "", "", "", "", time()}; --plus:[" .. GDtotal .. "] after "
 				CEPGP_ShareTraffic("Guild", UnitName("player"), "[" .. GDtotal .. "]膨脹 EPGP +" .. amount .. "%"); --plus:[" .. GDtotal .. "] after "
 			end
 		else
 			if msg ~= "" and msg ~= nil then
-				CEPGP_sendChatMessage("[" .. GDtotal .. "]Guild EPGP 衰減 by " .. amount .. "% (" .. msg .. ")", "SAY"); --plus:[" .. GDtotal .. "] after ",say
+				CEPGP_sendChatMessage("[" .. GDtotal .. "]Guild EPGP 衰減 by " .. amount .. "% (" .. msg .. ")", "Officer"); --plus:[" .. GDtotal .. "] after ",say
 				TRAFFIC[CEPGP_ntgetn(TRAFFIC)+1] = {"Guild", UnitName("player"), "[" .. GDtotal .. "]衰減 EPGP -" .. amount .. "% (" .. msg .. ")", "", "", "", "", "", time()}; --plus:[" .. GDtotal .. "] after "
 				CEPGP_ShareTraffic("Guild", UnitName("player"), "[" .. GDtotal .. "]衰減 EPGP -" .. amount .. "% (" .. msg .. ")"); --plus:[" .. GDtotal .. "] after "
 			else
-				CEPGP_sendChatMessage("[" .. GDtotal .. "]Guild EPGP 衰減 by " .. amount .. "%", "SAY"); --plus:[" .. GDtotal .. "] after ",say
+				CEPGP_sendChatMessage("[" .. GDtotal .. "]Guild EPGP 衰減 by " .. amount .. "%", "Officer"); --plus:[" .. GDtotal .. "] after ",say
 				TRAFFIC[CEPGP_ntgetn(TRAFFIC)+1] = {"Guild", UnitName("player"), "[" .. GDtotal .. "]衰減 EPGP -" .. amount .. "%", "", "", "", "", "", time()}; --plus:[" .. GDtotal .. "] after "
 				CEPGP_ShareTraffic("Guild", UnitName("player"), "[" .. GDtotal .. "]衰減 EPGP -" .. amount .. "%"); --plus:[" .. GDtotal .. "] after "
 			end
