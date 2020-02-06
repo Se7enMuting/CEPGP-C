@@ -16,6 +16,13 @@ function CEPGP_UpdateLootScrollBar()
 		end --plus
 		if CEPGP_roster[name] and not subflat then --plus
 			EP, GP = CEPGP_getEPGP(CEPGP_roster[name][5], CEPGP_roster[name][1], name);
+			if CEPGP_InitialGP_flag and CEPGP_tContains(CEPGP_InitialGP_roster, name, true) then --plus 初始GP功能
+				if CEPGP_InitialGP_roster[name][1] then --plus
+					if GP < CEPGP_InitialGP_roster[name][2] then
+						GP = CEPGP_InitialGP_roster[name][2]; --plus
+					end
+				end --plus
+			end --plus
 			tempTable[count] = {
 				[1] = name,
 				[2] = CEPGP_roster[name][2], --Class
@@ -31,7 +38,14 @@ function CEPGP_UpdateLootScrollBar()
 			};
 		elseif subflat then
 			EP, GP = CEPGP_getEPGP(CEPGP_roster[calname][5], CEPGP_roster[calname][1], calname);
-			if CEPGP_roster[name] then --plus
+			if CEPGP_InitialGP_flag and CEPGP_tContains(CEPGP_InitialGP_roster, calname, true) then --plus 初始GP功能
+				if CEPGP_InitialGP_roster[calname][1] then --plus
+					if GP < CEPGP_InitialGP_roster[calname][2] then
+						GP = CEPGP_InitialGP_roster[calname][2]; --plus
+					end
+				end --plus
+			end --plus
+			if CEPGP_roster[name] then --plus 工作角色在公會中
 				tempTable[count] = {
 					[1] = name,
 					[2] = CEPGP_roster[name][2], --Class
@@ -45,7 +59,7 @@ function CEPGP_UpdateLootScrollBar()
 					[10] = CEPGP_roster[name][7], --className in English
 					[11] = CEPGP_itemsTable[name][3] .. "[" .. calname .. "]" -- Loot response
 				};
-			else
+			else --plus 工作角色不在公會中
 				for i = 1, GetNumGroupMembers() do
 					if GetRaidRosterInfo(i) == name then
 						local class = select(5, GetRaidRosterInfo(i));

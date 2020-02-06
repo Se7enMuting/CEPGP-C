@@ -68,10 +68,24 @@ function CEPGP_handleComms(event, arg1, arg2)
 							if subflat then --plus
 								EP, GP = SubEP, SubGP; --plus
 								calname_Mes = "[" .. calname .. "]"; --plus
+								if CEPGP_InitialGP_flag and CEPGP_tContains(CEPGP_InitialGP_roster, calname, true) then --plus 初始GP功能
+									if CEPGP_InitialGP_roster[calname][1] then --plus
+										if GP < CEPGP_InitialGP_roster[calname][2] then --plus
+											GP = CEPGP_InitialGP_roster[calname][2]; --plus
+										end --plus
+									end --plus
+								end --plus
 							end --plus
 							if string.lower(arg1) == string.lower(CEPGP_keyword_2) then --plus
 								CEPGP_sendChatMessage(arg2 .. " (" .. class .. ") " .. calname_Mes .. " 貪婪 " .. itemLink, CEPGP_lootChannel); --plus
 							else
+								if CEPGP_InitialGP_flag and not subflat and CEPGP_tContains(CEPGP_InitialGP_roster, arg2, true) then --plus 初始GP功能
+									if CEPGP_InitialGP_roster[arg2][1] then --plus
+										if GP < CEPGP_InitialGP_roster[arg2][2] then --plus
+											GP = CEPGP_InitialGP_roster[arg2][2]; --plus
+										end --plus
+									end --plus
+								end --plus
 								CEPGP_sendChatMessage(arg2 .. " (" .. class .. ") " .. calname_Mes .. " 需求 " .. itemLink .. " (" .. string.format("%.2f",(math.floor((EP*100/GP))/100)) .. " PR)", CEPGP_lootChannel); --plus
 							end
 							if CEPGP_DistID == MulDistID then --plus 歷史獲取
@@ -143,10 +157,24 @@ function CEPGP_handleComms(event, arg1, arg2)
 						if subflat then --plus
 							EP, GP = SubEP, SubGP; --plus
 							calname_Mes = "[" .. calname .. "]"; --plus
+							if CEPGP_InitialGP_flag and CEPGP_tContains(CEPGP_InitialGP_roster, calname, true) then --plus 初始GP功能
+								if CEPGP_InitialGP_roster[calname][1] then --plus
+									if GP < CEPGP_InitialGP_roster[calname][2] then --plus
+										GP = CEPGP_InitialGP_roster[calname][2]; --plus
+									end --plus
+								end --plus
+							end --plus
 						end --plus
 						if string.lower(arg1) == string.lower(CEPGP_keyword_2) then --plus
 							CEPGP_sendChatMessage(arg2 .. " (" .. class .. ") " .. calname_Mes .. " 貪婪 " .. itemLink, CEPGP_lootChannel);
 						else
+							if CEPGP_InitialGP_flag and not subflat and CEPGP_tContains(CEPGP_InitialGP_roster, arg2, true) then --plus 初始GP功能
+								if CEPGP_InitialGP_roster[arg2][1] then --plus
+									if GP < CEPGP_InitialGP_roster[arg2][2] then --plus
+										GP = CEPGP_InitialGP_roster[arg2][2]; --plus
+									end --plus
+								end --plus
+							end --plus
 							CEPGP_sendChatMessage(arg2 .. " (" .. class .. ") " .. calname_Mes .. " 需求 " .. itemLink .. " (" .. string.format("%.2f",(math.floor((EP*100/GP))/100)) .. " PR)", CEPGP_lootChannel);
 						end
 						if CEPGP_DistID == MulDistID then --plus 歷史獲取
