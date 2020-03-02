@@ -16,6 +16,13 @@ function CEPGP_UpdateLootScrollBar()
 		end --plus
 		if CEPGP_roster[name] and not subflat then --plus
 			EP, GP = CEPGP_getEPGP(CEPGP_roster[name][5], CEPGP_roster[name][1], name);
+			if CEPGP_InitialGP_flag and CEPGP_tContains(CEPGP_InitialGP_roster, name, true) then --plus 初始GP功能
+				if CEPGP_InitialGP_roster[name][1] then --plus
+					if GP < CEPGP_InitialGP_roster[name][2] then
+						GP = CEPGP_InitialGP_roster[name][2]; --plus
+					end
+				end --plus
+			end --plus
 			tempTable[count] = {
 				[1] = name,
 				[2] = CEPGP_roster[name][2], --Class
@@ -23,7 +30,7 @@ function CEPGP_UpdateLootScrollBar()
 				[4] = CEPGP_roster[name][4], --RankIndex
 				[5] = EP,
 				[6] = GP,
-				[7] = math.floor((tonumber(EP)/tonumber(GP))*100)/100,
+				[7] = math.floor((tonumber(EP)*100/tonumber(GP)))/100,
 				[8] = CEPGP_itemsTable[name][1] or "noitem",
 				[9] = CEPGP_itemsTable[name][2] or "noitem",
 				[10] = CEPGP_roster[name][7], --className in English
@@ -31,7 +38,14 @@ function CEPGP_UpdateLootScrollBar()
 			};
 		elseif subflat then
 			EP, GP = CEPGP_getEPGP(CEPGP_roster[calname][5], CEPGP_roster[calname][1], calname);
-			if CEPGP_roster[name] then --plus
+			if CEPGP_InitialGP_flag and CEPGP_tContains(CEPGP_InitialGP_roster, calname, true) then --plus 初始GP功能
+				if CEPGP_InitialGP_roster[calname][1] then --plus
+					if GP < CEPGP_InitialGP_roster[calname][2] then
+						GP = CEPGP_InitialGP_roster[calname][2]; --plus
+					end
+				end --plus
+			end --plus
+			if CEPGP_roster[name] then --plus 工作角色在公會中
 				tempTable[count] = {
 					[1] = name,
 					[2] = CEPGP_roster[name][2], --Class
@@ -39,13 +53,13 @@ function CEPGP_UpdateLootScrollBar()
 					[4] = CEPGP_roster[name][4], --RankIndex
 					[5] = EP,
 					[6] = GP,
-					[7] = math.floor((tonumber(EP)/tonumber(GP))*100)/100,
+					[7] = math.floor((tonumber(EP)*100/tonumber(GP)))/100,
 					[8] = CEPGP_itemsTable[name][1] or "noitem",
 					[9] = CEPGP_itemsTable[name][2] or "noitem",
 					[10] = CEPGP_roster[name][7], --className in English
 					[11] = CEPGP_itemsTable[name][3] .. "[" .. calname .. "]" -- Loot response
 				};
-			else
+			else --plus 工作角色不在公會中
 				for i = 1, GetNumGroupMembers() do
 					if GetRaidRosterInfo(i) == name then
 						local class = select(5, GetRaidRosterInfo(i));
@@ -59,7 +73,7 @@ function CEPGP_UpdateLootScrollBar()
 						[4] = rankIndex,
 						[5] = EP,
 						[6] = GP,
-						[7] = math.floor((tonumber(EP)/tonumber(GP))*100)/100,
+						[7] = math.floor((tonumber(EP)*100/tonumber(GP)))/100,
 						[8] = CEPGP_itemsTable[name][1] or "noitem",
 						[9] = CEPGP_itemsTable[name][2] or "noitem",
 						[10] = classFile,
@@ -84,7 +98,7 @@ function CEPGP_UpdateLootScrollBar()
 					[4] = rankIndex,
 					[5] = EP,
 					[6] = GP,
-					[7] = math.floor((tonumber(EP)/tonumber(GP))*100)/100,
+					[7] = math.floor((tonumber(EP)*100/tonumber(GP)))/100,
 					[8] = CEPGP_itemsTable[name][1] or "noitem",
 					[9] = CEPGP_itemsTable[name][2] or "noitem",
 					[10] = classFile,
@@ -93,9 +107,13 @@ function CEPGP_UpdateLootScrollBar()
 				end
 			end
 		end --plus
+		if CEPGP_itemsTable[name][3] == "貪婪" then --plus
+			tempTable[count][7] = 0; --plus
+		end --plus
 		count = count + 1;
 	end
-	tempTable = CEPGP_tSort(tempTable, CEPGP_criteria);
+	tempTable = CEPGP_sortDistList(tempTable);
+	--tempTable = CEPGP_tSort(tempTable, CEPGP_criteria);
 	local kids = {_G["CEPGP_dist_scrollframe_container"]:GetChildren()};
 	for _, child in ipairs(kids) do
 		child:Hide();
@@ -138,7 +156,7 @@ function CEPGP_UpdateLootScrollBar()
 						_G["LootDistButton" .. i .. "EP"]:SetTextColor(colour.r, colour.g, colour.b);
 						_G["LootDistButton" .. i .. "GP"]:SetText(tempTable[i][6]);
 						_G["LootDistButton" .. i .. "GP"]:SetTextColor(colour.r, colour.g, colour.b);
-						_G["LootDistButton" .. i .. "PR"]:SetText(tempTable[i][7]);
+						_G["LootDistButton" .. i .. "PR"]:SetText(string.format("%.2f", tempTable[i][7]));
 						_G["LootDistButton" .. i .. "PR"]:SetTextColor(colour.r, colour.g, colour.b);
 						_G["LootDistButton" .. i .. "Tex"]:SetScript('OnLeave', function()
 																						GameTooltip:Hide()
@@ -171,7 +189,7 @@ function CEPGP_UpdateLootScrollBar()
 					_G["LootDistButton" .. i .. "EP"]:SetTextColor(colour.r, colour.g, colour.b);
 					_G["LootDistButton" .. i .. "GP"]:SetText(tempTable[i][6]);
 					_G["LootDistButton" .. i .. "GP"]:SetTextColor(colour.r, colour.g, colour.b);
-					_G["LootDistButton" .. i .. "PR"]:SetText(tempTable[i][7]);
+					_G["LootDistButton" .. i .. "PR"]:SetText(string.format("%.2f", tempTable[i][7]));
 					_G["LootDistButton" .. i .. "PR"]:SetTextColor(colour.r, colour.g, colour.b);
 					_G["LootDistButton" .. i .. "Tex"]:SetScript('OnLeave', function()
 																					GameTooltip:Hide()
@@ -216,7 +234,7 @@ function CEPGP_UpdateLootScrollBar()
 						_G["LootDistButton" .. i .. "EP"]:SetTextColor(colour.r, colour.g, colour.b);
 						_G["LootDistButton" .. i .. "GP"]:SetText(tempTable[i][6]);
 						_G["LootDistButton" .. i .. "GP"]:SetTextColor(colour.r, colour.g, colour.b);
-						_G["LootDistButton" .. i .. "PR"]:SetText(tempTable[i][7]);
+						_G["LootDistButton" .. i .. "PR"]:SetText(string.format("%.2f", tempTable[i][7]));
 						_G["LootDistButton" .. i .. "PR"]:SetTextColor(colour.r, colour.g, colour.b);
 						_G["LootDistButton" .. i .. "Tex2"]:SetScript('OnLeave', function()
 																				GameTooltip:Hide()
@@ -249,7 +267,7 @@ function CEPGP_UpdateLootScrollBar()
 					_G["LootDistButton" .. i .. "EP"]:SetTextColor(colour.r, colour.g, colour.b);
 					_G["LootDistButton" .. i .. "GP"]:SetText(tempTable[i][6]);
 					_G["LootDistButton" .. i .. "GP"]:SetTextColor(colour.r, colour.g, colour.b);
-					_G["LootDistButton" .. i .. "PR"]:SetText(tempTable[i][7]);
+					_G["LootDistButton" .. i .. "PR"]:SetText(string.format("%.2f", tempTable[i][7]));
 					_G["LootDistButton" .. i .. "PR"]:SetTextColor(colour.r, colour.g, colour.b);
 					_G["LootDistButton" .. i .. "Tex2"]:SetScript('OnLeave', function()
 																			GameTooltip:Hide()
@@ -285,7 +303,7 @@ function CEPGP_UpdateLootScrollBar()
 			_G["LootDistButton" .. i .. "EP"]:SetTextColor(colour.r, colour.g, colour.b);
 			_G["LootDistButton" .. i .. "GP"]:SetText(tempTable[i][6]);
 			_G["LootDistButton" .. i .. "GP"]:SetTextColor(colour.r, colour.g, colour.b);
-			_G["LootDistButton" .. i .. "PR"]:SetText(tempTable[i][7]);
+			_G["LootDistButton" .. i .. "PR"]:SetText(string.format("%.2f", tempTable[i][7]));
 			_G["LootDistButton" .. i .. "PR"]:SetTextColor(colour.r, colour.g, colour.b);
 			_G["LootDistButton" .. i .. "Tex"]:SetScript('OnLeave', function()
 																			GameTooltip:Hide()
@@ -316,7 +334,7 @@ function CEPGP_UpdateGuildScrollBar()
 			[4] = v[4], --RankIndex
 			[5] = EP,
 			[6] = GP,
-			[7] = math.floor((tonumber(EP)/tonumber(GP))*100)/100,
+			[7] = math.floor((tonumber(EP)*100/tonumber(GP)))/100,
 			[8] = v[7] -- className in English
 		};
 	end
@@ -353,7 +371,7 @@ function CEPGP_UpdateGuildScrollBar()
 		_G["GuildButton" .. i .. "EP"]:SetTextColor(colour.r, colour.g, colour.b);
 		_G["GuildButton" .. i .. "GP"]:SetText(tempTable[i][6]);
 		_G["GuildButton" .. i .. "GP"]:SetTextColor(colour.r, colour.g, colour.b);
-		_G["GuildButton" .. i .. "PR"]:SetText(tempTable[i][7]);
+		_G["GuildButton" .. i .. "PR"]:SetText(string.format("%.2f", tempTable[i][7]));
 		_G["GuildButton" .. i .. "PR"]:SetTextColor(colour.r, colour.g, colour.b);
 	end
 end
@@ -384,7 +402,7 @@ function CEPGP_UpdateRaidScrollBar()
 				[3] = CEPGP_roster[name][3], --Rank
 				[4] = EP,
 				[5] = GP,
-				[6] = math.floor((tonumber(EP)/tonumber(GP))*100)/100,
+				[6] = math.floor((tonumber(EP)*100/tonumber(GP)))/100,
 				[7] = CEPGP_roster[name][7] --Class in English
 			};
 		elseif subflat then --plus
@@ -396,7 +414,7 @@ function CEPGP_UpdateRaidScrollBar()
 					[3] = "[" .. calname .. "]" .. CEPGP_roster[name][3], --Rank
 					[4] = EP,
 					[5] = GP,
-					[6] = math.floor((tonumber(EP)/tonumber(GP))*100)/100,
+					[6] = math.floor((tonumber(EP)*100/tonumber(GP)))/100,
 					[7] = CEPGP_roster[name][7], --className in English
 				};
 			else
@@ -406,7 +424,7 @@ function CEPGP_UpdateRaidScrollBar()
 					[3] = "[" .. calname .. "]" .. CEPGP_raidRoster[i][3], --Rank
 					[4] = EP, --EP
 					[5] = GP, --GP
-					[6] = math.floor((tonumber(EP)/tonumber(GP))*100)/100, --PR
+					[6] = math.floor((tonumber(EP)*100/tonumber(GP)))/100, --PR
 					[7] = CEPGP_raidRoster[i][8]  --Class in English
 				};
 			end --plus
@@ -456,7 +474,7 @@ function CEPGP_UpdateRaidScrollBar()
 		_G["RaidButton" .. i .. "EP"]:SetTextColor(colour.r, colour.g, colour.b);
 		_G["RaidButton" .. i .. "GP"]:SetText(tempTable[i][5]);
 		_G["RaidButton" .. i .. "GP"]:SetTextColor(colour.r, colour.g, colour.b);
-		_G["RaidButton" .. i .. "PR"]:SetText(tempTable[i][6]);
+		_G["RaidButton" .. i .. "PR"]:SetText(string.format("%.2f", tempTable[i][6]));
 		_G["RaidButton" .. i .. "PR"]:SetTextColor(colour.r, colour.g, colour.b);
 	end
 end
@@ -578,21 +596,63 @@ function CEPGP_UpdateTrafficScrollBar()
 	for _, child in ipairs(kids) do
 		child:Hide();
 	end
-	for i = #TRAFFIC, 1, -1 do
+	local search = CEPGP_traffic_search:GetText();
+	local results = {};
+	local matches = 1;
+	for i = 1, #TRAFFIC do
+		local name, issuer, action, EPB, EPA, GPB, GPA, item, tStamp = TRAFFIC[i][1] or "", TRAFFIC[i][2] or "", TRAFFIC[i][3] or "", TRAFFIC[i][4] or "", TRAFFIC[i][5] or "", TRAFFIC[i][6] or "", TRAFFIC[i][7] or "", TRAFFIC[i][8] or "", TRAFFIC[i][9];
+		if tStamp then
+			tStamp = date("Time: %I:%M%p\nDate: %a, %d %B %Y", tStamp);
+		else
+			tStamp = "";
+		end
+		if search ~= "" and (string.find(string.lower(name), string.lower(search)) or
+			string.find(string.lower(issuer), string.lower(search)) or
+			string.find(string.lower(action), string.lower(search)) or
+			string.find(string.lower(EPB), string.lower(search)) or
+			string.find(string.lower(EPA), string.lower(search)) or
+			string.find(string.lower(GPB), string.lower(search)) or
+			string.find(string.lower(GPA), string.lower(search)) or
+			string.find(string.lower(item), string.lower(search)) or
+			string.find(string.lower(tStamp), string.lower(search))) then
+			results[matches] = {
+				[1] = name,
+				[2] = issuer,
+				[3] = action,
+				[4] = EPB,
+				[5] = EPA,
+				[6] = GPB,
+				[7] = GPA,
+				[8] = item,
+				[9] = tStamp
+			};
+			matches = matches + 1;
+		elseif search == "" then
+			results[matches] = {
+				[1] = name,
+				[2] = issuer,
+				[3] = action,
+				[4] = EPB,
+				[5] = EPA,
+				[6] = GPB,
+				[7] = GPA,
+				[8] = item,
+				[9] = tStamp
+			};
+			matches = matches + 1;
+		end
+	end
+	for i = #results, 1, -1 do
 		if not _G["TrafficButton" .. i] then
 			local frame = CreateFrame('Button', "TrafficButton" .. i, _G["CEPGP_traffic_scrollframe_container"], "trafficButtonTemplate");
 		end
-		if i ~= #TRAFFIC then
+		if i ~= #results then
 			_G["TrafficButton" .. i]:SetPoint("TOPLEFT", _G["TrafficButton" .. i+1], "BOTTOMLEFT", 0, -2);
 		else
 			_G["TrafficButton" .. i]:SetPoint("TOPLEFT", _G["CEPGP_traffic_scrollframe_container"], "TOPLEFT", 7.5, -10);
 		end
-		local name, issuer, action, EPB, EPA, GPB, GPA, item, tStamp = TRAFFIC[i][1], TRAFFIC[i][2], TRAFFIC[i][3], TRAFFIC[i][4], TRAFFIC[i][5], TRAFFIC[i][6], TRAFFIC[i][7], TRAFFIC[i][8], TRAFFIC[i][9];
-		if tStamp then
-			tStamp = date("Time: %I:%M%p\nDate: %a, %d %B %Y", tStamp);
-		end
-		local _, class = CEPGP_getPlayerClass(name);
-		local _, issuerClass = CEPGP_getPlayerClass(issuer);
+		local _, class = CEPGP_getPlayerClass(results[i][1]);
+		local _, issuerClass = CEPGP_getPlayerClass(results[i][2]);
 		local colour, issuerColour = class, issuerClass;
 		if not class then
 			colour = {
@@ -609,19 +669,19 @@ function CEPGP_UpdateTrafficScrollBar()
 			};
 		end
 		_G["TrafficButton" .. i]:Show();
-		_G["TrafficButton" .. i .. "Name"]:SetText(name);
+		_G["TrafficButton" .. i .. "Name"]:SetText(results[i][1]);
 		_G["TrafficButton" .. i .. "Name"]:SetTextColor(colour.r, colour.g, colour.b);
-		_G["TrafficButton" .. i .. "Issuer"]:SetText(issuer);
+		_G["TrafficButton" .. i .. "Issuer"]:SetText(results[i][2]);
 		_G["TrafficButton" .. i .. "Issuer"]:SetTextColor(issuerColour.r, issuerColour.g, issuerColour.b);
-		_G["TrafficButton" .. i .. "Action"]:SetText(action);
-		_G["TrafficButton" .. i .. "EPBefore"]:SetText(EPB);
-		_G["TrafficButton" .. i .. "EPAfter"]:SetText(EPA);
-		_G["TrafficButton" .. i .. "GPBefore"]:SetText(GPB);
-		_G["TrafficButton" .. i .. "GPAfter"]:SetText(GPA);
-		if tStamp then
+		_G["TrafficButton" .. i .. "Action"]:SetText(results[i][3]);
+		_G["TrafficButton" .. i .. "EPBefore"]:SetText(results[i][4]);
+		_G["TrafficButton" .. i .. "EPAfter"]:SetText(results[i][5]);
+		_G["TrafficButton" .. i .. "GPBefore"]:SetText(results[i][6]);
+		_G["TrafficButton" .. i .. "GPAfter"]:SetText(results[i][7]);
+		if results[i][9] then
 			_G["TrafficButton" .. i]:SetScript('OnEnter', function()
 				GameTooltip:SetOwner(_G["TrafficButton" .. i], "ANCHOR_TOPLEFT");
-				GameTooltip:SetText(tStamp);
+				GameTooltip:SetText(results[i][9]);
 			end);
 			_G["TrafficButton" .. i]:SetScript('OnLeave', function()
 				GameTooltip:Hide();
@@ -629,21 +689,21 @@ function CEPGP_UpdateTrafficScrollBar()
 		else
 			_G["TrafficButton" .. i]:SetScript('OnEnter', function() end);
 		end
-		if (item and strfind(item, "item")) or tonumber(item) then --Accommodates for earlier versions when malformed information may be stored in the item index of the traffic log
-			_G["TrafficButton" .. i .. "ItemName"]:SetText(item);
-			local _, link = GetItemInfo(item);
+		if (results[i][8] and strfind(results[i][8], "item")) or tonumber(results[i][8]) then --Accommodates for earlier versions when malformed information may be stored in the item index of the traffic log
+			_G["TrafficButton" .. i .. "ItemName"]:SetText(results[i][8]);
+			local _, link = GetItemInfo(results[i][8]);
 			if link then
 				_G["TrafficButton" .. i .. "Item"]:SetScript('OnClick', function() SetItemRef(link) end);
 			else
 				local id;
-				if string.find(tostring(item), "item:") then
-					id = string.sub(tostring(item), string.find(item, ":")+1);
+				if string.find(tostring(results[i][8]), "item:") then
+					id = string.sub(tostring(results[i][8]), string.find(results[i][8], ":")+1);
 					id = tonumber(string.sub(id, 0, string.find(id, ":")-1));
 				end
 				if CEPGP_itemExists(id) then
 					local newItem = Item:CreateFromItemID(id);
 					newItem:ContinueOnItemLoad(function()
-						_, link = GetItemInfo(item);
+						_, link = GetItemInfo(results[i][8]);
 						_G["TrafficButton" .. i .. "Item"]:SetScript('OnClick', function() SetItemRef(link) end);
 					end);
 				else
@@ -674,7 +734,10 @@ function CEPGP_UpdateStandbyScrollBar()
 			end
 		end
 		local _, _, rank, rankIndex, oNote, _, classFile = CEPGP_getGuildInfo(CEPGP_standbyRoster[i][1]);
-		local _, _, _, _, _, _, _, _, online = GetGuildRosterInfo(CEPGP_getIndex(CEPGP_standbyRoster[i][1]));
+		local online = true;
+		if CEPGP_standbyRoster[i][1] then
+			_, _, _, _, _, _, _, _, online = GetGuildRosterInfo(CEPGP_getIndex(CEPGP_standbyRoster[i][1]));
+		end
 		tempTable[i] = {
 			[1] = CEPGP_standbyRoster[i][1], --name
 			[2] = CEPGP_standbyRoster[i][2], --class

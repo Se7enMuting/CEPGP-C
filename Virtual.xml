@@ -105,7 +105,7 @@
 					<Anchors>
 						<Anchor point="LEFT" relativeTo="$parent" relativePoint="LEFT">
 							<Offset>
-								<AbsDimension x="180" y="0"/>  <!-- x=150 plus -->
+								<AbsDimension x="160" y="0"/>  <!-- x=150 plus -->
 							</Offset>
 						</Anchor>
 					</Anchors>
@@ -114,7 +114,7 @@
 					<Anchors>
 						<Anchor point="LEFT" relativeTo="$parent" relativePoint="LEFT">
 							<Offset>
-								<AbsDimension x="262.5" y="0"/>  <!-- x=242.5 plus -->
+								<AbsDimension x="252.5" y="0"/>  <!-- x=242.5 plus -->
 							</Offset>
 						</Anchor>
 					</Anchors>
@@ -123,7 +123,7 @@
 					<Anchors>
 						<Anchor point="LEFT" relativeTo="$parent" relativePoint="LEFT">
 							<Offset>
-								<AbsDimension x="312.5" y="0"/>  <!-- x=292.5 plus -->
+								<AbsDimension x="302.5" y="0"/>  <!-- x=292.5 plus -->
 							</Offset>
 						</Anchor>
 					</Anchors>
@@ -132,7 +132,7 @@
 					<Anchors>
 						<Anchor point="RIGHT" relativeTo="$parent" relativePoint="LEFT">
 							<Offset>
-								<AbsDimension x="377.5" y="0"/>  <!-- x=347.5 plus -->
+								<AbsDimension x="387.5" y="0"/>  <!-- x=347.5 plus -->
 							</Offset>
 						</Anchor>
 					</Anchors>
@@ -449,7 +449,7 @@
 					<Anchors>
 						<Anchor point="LEFT" relativeTo="$parentAction" relativePoint="RIGHT">
 							<Offset>
-								<AbsDimension x="35" y="0"/>
+								<AbsDimension x="20" y="0"/>
 							</Offset>
 						</Anchor>
 					</Anchors>
@@ -458,7 +458,7 @@
 					<Anchors>
 						<Anchor point="RIGHT" relativeTo="$parentEPBefore" relativePoint="LEFT">
 							<Offset>
-								<AbsDimension x="100" y="0"/>  <!-- x=70 plus -->
+								<AbsDimension x="95" y="0"/>
 							</Offset>
 						</Anchor>
 					</Anchors>
@@ -467,7 +467,7 @@
 					<Anchors>
 						<Anchor point="LEFT" relativeTo="$parentEPAfter" relativePoint="RIGHT">
 							<Offset>
-								<AbsDimension x="40" y="0"/>
+								<AbsDimension x="15" y="0"/>
 							</Offset>
 						</Anchor>
 					</Anchors>
@@ -476,7 +476,7 @@
 					<Anchors>
 						<Anchor point="RIGHT" relativeTo="$parentGPBefore" relativePoint="LEFT">
 							<Offset>
-								<AbsDimension x="80" y="0"/> <!-- x=70 plus -->
+								<AbsDimension x="95" y="0"/>
 							</Offset>
 						</Anchor>
 					</Anchors>
@@ -501,7 +501,28 @@
 					</Layer>
 				</Layers>
 			</Button>
+			<Button name="$parentRemove" inherits="UiPanelCloseButton">
+				<Size>
+					<AbsDimension x="20" y="20" />
+				</Size>
+				<Anchors>
+					<Anchor point="RIGHT" relativePoint="RIGHT">
+						<Offset>
+							<AbsDimension x="-20" y="0" />
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						PlaySound(799);
+						CEPGP_ListButton_OnClick(self:GetName());
+					</OnClick>
+				</Scripts>
+			</Button>
 		</Frames>
+		<Attributes>
+			<Attribute name="delete_confirm" type="boolean" value="false" />
+		</Attributes>
 		<Scripts>
 			<OnLoad>
 				self:RegisterForClicks("LeftButtonDown");
@@ -509,6 +530,9 @@
 			<OnClick>
 				PlaySound(856);
 			</OnClick>
+			<OnHide>
+				self:SetAttribute("delete_confirm", "false");
+			</OnHide>
 		</Scripts>
 		<HighlightTexture file="Interface\QuestFrame\UI-QuestTitleHighlight" alphaMode="ADD"/>
 	</Button>

@@ -16,14 +16,14 @@ bossNameIndex = {
     [L["Ragnaros"]] = 70,
 
     -- blackwing lair --
-    [L["Razorgore the Untamed"]] = 7,
-    [L["Vaelastrasz the Corrupt"]] = 7,
-    [L["Broodlord Lashlayer"]] = 7,
-    [L["Firemaw"]] = 7,
-    [L["Ebonroc"]] = 7,
-    [L["Flamegor"]] = 7,
-    [L["Chromaggus"]] = 7,
-    [L["Nefarian"]] = 10,
+    [L["Razorgore the Untamed"]] = 70,
+    [L["Vaelastrasz the Corrupt"]] = 70,
+    [L["Broodlord Lashlayer"]] = 70,
+    [L["Firemaw"]] = 70,
+    [L["Ebonroc"]] = 70,
+    [L["Flamegor"]] = 70,
+    [L["Chromaggus"]] = 70,
+    [L["Nefarian"]] = 100,
 
     -- zul'gurub --
     [L["High Priest Venoxis"]] = 2,

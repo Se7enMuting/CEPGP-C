@@ -80,7 +80,7 @@ function CEPGP_IncAddonMsg(message, sender)
 			end
 		end
 		CEPGP_vInfo[sender] = args[3];
-		CEPGP_checkVersion(message);
+		--CEPGP_checkVersion(message);
 		CEPGP_UpdateVersionScrollBar();
 		
 		
@@ -139,7 +139,7 @@ function CEPGP_IncAddonMsg(message, sender)
 			[4] = rankIndex,
 			[5] = EP,
 			[6] = GP,
-			[7] = math.floor((tonumber(EP)/tonumber(GP))*100)/100,
+			[7] = math.floor((tonumber(EP)*100/tonumber(GP)))/100,
 			[8] = classFile
 		};
 		CEPGP_UpdateStandbyScrollBar();

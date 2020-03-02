@@ -838,7 +838,7 @@
 						<Anchors>
 							<Anchor point="TOPRIGHT">
 								<Offset>
-									<AbsDimension x="-55" y="-60" />
+									<AbsDimension x="-40" y="-60" />
 								</Offset>
 							</Anchor>
 						</Anchors>
@@ -5603,6 +5603,7 @@
 		</Scripts>
 	</Frame>
 	
+
 	<Frame name="CEPGP_traffic" toplevel="true" frameStrata="HIGH" enableMouse="true" parent="UIParent" hidden="true" movable="true" clampedToScreen="true">
 		<Size>
 			<AbsDimension x="800" y="980"/> <!-- 480 plus 总长度-->
@@ -5646,6 +5647,15 @@
 						</Anchor>
 					</Anchors>
 				</FontString>
+				<FontString name="CEPGP_traffic_search_text" inherits="GameFontNormalSmall" text="Search: ">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativePoint="TOPLEFT">
+							<Offset>
+								<AbsDimension x="15" y="-15"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
 				<FontString name="CEPGP_traffic_desc" inherits="GameFontNormalSmall" text="A record of the EPGP traffic in your guild">
 					<Anchors>
 						<Anchor point="TOP" relativePoint="TOP">
@@ -5655,54 +5665,40 @@
 						</Anchor>
 					</Anchors>
 				</FontString>
-				<FontString name="CEPGP_traffic_name" inherits="GameFontNormalSmall" text="Player">
-					<Anchors>
-						<Anchor point="TOPLEFT" relativePoint="TOPLEFT">
-							<Offset>
-								<AbsDimension x="15" y="-50"/> <!-- -90 plus Player到顶部距离 -->
-							</Offset>
-						</Anchor>
-					</Anchors>
-				</FontString>
-				<FontString name="CEPGP_traffic_issuer" inherits="GameFontNormalSmall" text="Issued By">
-					<Anchors>
-						<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="CEPGP_traffic_name">
-							<Offset>
-								<AbsDimension x="70" y="0"/>
-							</Offset>
-						</Anchor>
-					</Anchors>
-				</FontString>
-				<FontString name="CEPGP_traffic_action" inherits="GameFontNormalSmall" text="Action">
-					<Anchors>
-						<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="CEPGP_traffic_issuer">
-							<Offset>
-								<AbsDimension x="210" y="0"/> <!-- x=292.5 plus -->
-							</Offset>
-						</Anchor>
-					</Anchors>
-				</FontString>
-				<FontString name="CEPGP_traffic_ep" inherits="GameFontNormalSmall" text="EP Before / After">
-					<Anchors>
-						<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="CEPGP_traffic_action">
-							<Offset>
-								<AbsDimension x="90" y="0"/> <!-- x=30 plus -->
-							</Offset>
-						</Anchor>
-					</Anchors>
-				</FontString>
-				<FontString name="CEPGP_traffic_gp" inherits="GameFontNormalSmall" text="GP Before / After">
-					<Anchors>
-						<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="CEPGP_traffic_ep">
-							<Offset>
-								<AbsDimension x="40" y="0"/> 
-							</Offset>
-						</Anchor>
-					</Anchors>
-				</FontString>
+				<FontString name="CEPGP_traffic_name" inherits="GameFontNormalSmall" text="Player" />
+				<FontString name="CEPGP_traffic_issuer" inherits="GameFontNormalSmall" text="Issued By" />
+				<FontString name="CEPGP_traffic_action" inherits="GameFontNormalSmall" text="Action" />
+				<FontString name="CEPGP_traffic_epb" inherits="GameFontNormalSmall" text="EP Before/" />
+				<FontString name="CEPGP_traffic_epa" inherits="GameFontNormalSmall" text="After" />
+				<FontString name="CEPGP_traffic_gpb" inherits="GameFontNormalSmall" text="GP Before/" />
+				<FontString name="CEPGP_traffic_gpa" inherits="GameFontNormalSmall" text="After" />
 			</Layer>
 		</Layers>
 		<Frames>
+			<EditBox name="$parent_search" inherits="InputBoxTemplate">
+				<Size>
+					<AbsDimension x="225" y="21" />
+				</Size>
+				<Anchors>
+					<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="CEPGP_traffic_search_text">
+						<AbsDimension x="15" y="0" />
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnLoad>
+						self:SetAutoFocus(false);
+					</OnLoad>
+					<OnEnterPressed>
+						self:ClearFocus();
+					</OnEnterPressed>
+					<OnEscapePressed>
+						self:ClearFocus();
+					</OnEscapePressed>
+					<OnTextChanged>
+						CEPGP_UpdateTrafficScrollBar();
+					</OnTextChanged>
+				</Scripts>
+			</EditBox>
 			<Button name="CEPGP_traffic_clear" inherits="GameMenuButtonTemplate" text="Clear EPGP Traffic">
 				<Size>
 					<AbsDimension x="125" y="21" />
@@ -5753,7 +5749,7 @@
 			</Button>
 			<ScrollFrame name="trafficScrollFrame" inherits="UIPanelScrollFrameTemplate">
 				<Size>
-					<AbsDimension x="745" y="870"/> <!-- 320 plus Scroll长-->
+					<AbsDimension x="745" y="870"/> <!-- 320 plus Scroll长 -->
 				</Size>
 				<Anchors>
 					<Anchor point="TOPLEFT" relativePoint="TOPLEFT">
@@ -5765,7 +5761,7 @@
 				<ScrollChild>
 					<Frame name="CEPGP_traffic_scrollframe_container">
 						<Size>
-							<AbsDimension x="740" y="300" />
+							<AbsDimension x="740" y="850" /> <!-- 300 -->
 						</Size>
 					</Frame>
 				</ScrollChild>
@@ -5775,6 +5771,13 @@
 			<OnLoad>
 				self:RegisterForDrag("LeftButton");
 				self:EnableKeyboard(true);
+				CEPGP_traffic_name:SetPoint("BOTTOMLEFT", trafficScrollFrame, "TOPLEFT", 7.5,5); <!-- 5 -->
+				CEPGP_traffic_issuer:SetPoint("LEFT", CEPGP_traffic_name, "LEFT", 100, 0);
+				CEPGP_traffic_action:SetPoint("LEFT", CEPGP_traffic_issuer, "LEFT", 330, 0);
+				CEPGP_traffic_epb:SetPoint("LEFT", CEPGP_traffic_action, "LEFT", 55, 0);
+				CEPGP_traffic_epa:SetPoint("LEFT", CEPGP_traffic_epb, "LEFT", 60, 0);
+				CEPGP_traffic_gpb:SetPoint("LEFT", CEPGP_traffic_epa, "LEFT", 50, 0);
+				CEPGP_traffic_gpa:SetPoint("LEFT", CEPGP_traffic_gpb, "LEFT", 60, 0);
 			</OnLoad>
 			<OnDragStart>
 				self:StartMoving();

@@ -466,7 +466,7 @@ function CEPGP_rosterUpdate(event)
 			end
 			if name then
 				local EP, GP = CEPGP_getEPGP(officerNote, i, name);
-				local PR = math.floor((EP/GP)*100)/100;
+				local PR = math.floor((EP*100/GP))/100;
 				CEPGP_roster[name] = {
 					[1] = i,
 					[2] = class,
@@ -610,7 +610,7 @@ function CEPGP_addToStandby(player)
 		[4] = rankIndex,
 		[5] = EP,
 		[6] = GP,
-		[7] = math.floor((tonumber(EP)/tonumber(GP))*100)/100,
+		[7] = math.floor((tonumber(EP)*100/tonumber(GP)))/100,
 		[8] = classFile
 	};
 	CEPGP_standbyRoster = CEPGP_tSort(CEPGP_standbyRoster, 1);
@@ -1044,6 +1044,23 @@ function CEPGP_tSort(t, index)
 		end
 	end
 	return t2;
+end
+
+function CEPGP_sortDistList(list)
+	local result = {};
+	for i = 1, #list do
+		result[i] = list[i];
+	end
+	for x = 1, #result do
+		for z = x+1, #result do
+			if result[x][7] < result[z][7] then
+				local v = result[x];
+				result[x] = result[z];
+				result[z] = v;
+			end
+		end
+	end
+	return result;
 end
 
 function CEPGP_ntgetn(tbl)
@@ -1674,9 +1691,9 @@ end
 
 function CEPGP_sendChatMessage(msg, channel)
 	if not msg then return; end
-	if tonumber(CEPGP_getReportChannel(channel)) then
-		SendChatMessage(msg, "CHANNEL", CEPGP_LANGUAGE, CEPGP_getReportChannel(channel));
-	else
+	--if tonumber(CEPGP_getReportChannel(channel)) then
+		--SendChatMessage(msg, "CHANNEL", CEPGP_LANGUAGE, CEPGP_getReportChannel(channel));
+	--else
 		SendChatMessage(msg, channel, CEPGP_LANGUAGE);
-	end
+	--end
 end

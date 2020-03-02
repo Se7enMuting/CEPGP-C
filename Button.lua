@@ -20,6 +20,26 @@ function CEPGP_ListButton_OnClick(obj)
 		return;
 	end
 	
+	if strfind(obj, "TrafficButton") and strfind(obj, "Remove") then --plus remove
+		local id = string.sub(obj, 14, string.find(obj, "Remove")-1);
+		local frame = _G["TrafficButton" .. id];
+		if frame:GetAttribute("delete_confirm") == "true" then
+			table.remove(TRAFFIC, tonumber(id));
+			CEPGP_print("Traffic entry " .. id .. " purged.");
+			CEPGP_UpdateTrafficScrollBar();
+		else
+			CEPGP_print("You are attempting to purge the following entry:");
+			id = tonumber(id);
+			if TRAFFIC[id][8] and string.find(TRAFFIC[id][8], "item:") then -- If an item is associated with the log
+				CEPGP_print("Issuer: " .. TRAFFIC[id][2] .. ", Action: " .. TRAFFIC[id][3] .. ", Item: " .. TRAFFIC[id][8] .. " |c006969FF, Recipient: " .. TRAFFIC[id][1] .. "|r");
+			else
+				CEPGP_print("Issuer: " .. TRAFFIC[id][2] .. ", Action: " .. TRAFFIC[id][3] .. ", Recipient: " .. TRAFFIC[id][1]);
+			end
+			CEPGP_print("This action cannot be undone. To proceed, press the delete button again.");
+			frame:SetAttribute("delete_confirm", "true");
+		end
+	end --plus remove
+	
 	if obj == "CEPGP_options_standby_ep_award" then
 		ShowUIPanel(CEPGP_context_popup);
 		ShowUIPanel(CEPGP_context_amount);
@@ -104,7 +124,7 @@ function CEPGP_ListButton_OnClick(obj)
 					[4] = rIndex,
 					[5] = EP,
 					[6] = GP,
-					[7] = math.floor((tonumber(EP)/tonumber(GP))*100)/100,
+					[7] = math.floor((tonumber(EP)*100/tonumber(GP)))/100,
 					[8] = classFile
 				};
 			end
@@ -154,7 +174,7 @@ function CEPGP_ListButton_OnClick(obj)
 																if CEPGP_context_popup_EP_check:GetChecked() then
 																	CEPGP_addEP(name, tonumber(CEPGP_context_amount:GetText()), CEPGP_context_reason:GetText());
 																else
-																	CEPGP_addGP(name, tonumber(CEPGP_context_amount:GetText()), false, _, CEPGP_context_reason:GetText());
+																	CEPGP_addGP(name, tonumber(CEPGP_context_amount:GetText()), nil, nil, CEPGP_context_reason:GetText());
 																end
 															end
 														end);
@@ -275,7 +295,7 @@ function CEPGP_ListButton_OnClick(obj)
 																if CEPGP_context_popup_EP_check:GetChecked() then
 																	CEPGP_addEP(name, tonumber(CEPGP_context_amount:GetText()), CEPGP_context_reason:GetText());
 																else
-																	CEPGP_addGP(name, tonumber(CEPGP_context_amount:GetText()), false, _, CEPGP_context_reason:GetText());  --plus _ --> false
+																	CEPGP_addGP(name, tonumber(CEPGP_context_amount:GetText()), nil, nil, CEPGP_context_reason:GetText());  --plus _ --> false
 																end
 															end
 														end);
@@ -439,8 +459,13 @@ function CEPGP_defChannelDropdown(frame, level, menuList)
 		[5] = "Guild",
 		[6] = "Officer",
 	};
+	local nilnum = 0; --plus bug fix
 	for i = 4, C_ChatInfo.GetNumActiveChannels() do
-		channels[i+3] = select(2, GetChannelName(i));
+		if select(2, GetChannelName(i)) ~= nil then --plus bug fix
+			channels[i+3-nilnum] = select(2, GetChannelName(i));
+		else --plus bug fix
+			nilnum = nilnum + 1; --plus bug fix
+		end --plus bug fix
 	end
 	for index, value in ipairs(channels) do
 		local info = {
@@ -476,8 +501,13 @@ function CEPGP_lootChannelDropdown(frame, level, menuList)
 		[5] = "Guild",
 		[6] = "Officer",
 	};
+	local nilnum = 0; --plus bug fix
 	for i = 4, C_ChatInfo.GetNumActiveChannels() do
-		channels[i+3] = select(2, GetChannelName(i));
+		if select(2, GetChannelName(i)) ~= nil then --plus bug fix
+			channels[i+3-nilnum] = select(2, GetChannelName(i));
+		else --plus bug fix
+			nilnum = nilnum + 1; --plus bug fix
+		end --plus bug fix
 	end
 	for index, value in ipairs(channels) do
 		local info = {

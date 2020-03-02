@@ -2,7 +2,7 @@ local L = CEPGP_Locale:GetLocale("CEPGP")
 
 function CEPGP_handleComms(event, arg1, arg2)
 	--arg1 = message; arg2 = sender
-	local calname = nil; --plus
+	local calname = ""; --plus
 	local subflat = false; --plus
 	local orgname = arg2; --plus
 	for i = 1, CEPGP_ntgetn(CEPGP_subroster) do --plus
@@ -68,12 +68,41 @@ function CEPGP_handleComms(event, arg1, arg2)
 							if subflat then --plus
 								EP, GP = SubEP, SubGP; --plus
 								calname_Mes = "[" .. calname .. "]"; --plus
+								if CEPGP_InitialGP_flag and CEPGP_tContains(CEPGP_InitialGP_roster, calname, true) then --plus 初始GP功能
+									if CEPGP_InitialGP_roster[calname][1] then --plus
+										if GP < CEPGP_InitialGP_roster[calname][2] then --plus
+											GP = CEPGP_InitialGP_roster[calname][2]; --plus
+										end --plus
+									end --plus
+								end --plus
 							end --plus
 							if string.lower(arg1) == string.lower(CEPGP_keyword_2) then --plus
 								CEPGP_sendChatMessage(arg2 .. " (" .. class .. ") " .. calname_Mes .. " 貪婪 " .. itemLink, CEPGP_lootChannel); --plus
 							else
-								CEPGP_sendChatMessage(arg2 .. " (" .. class .. ") " .. calname_Mes .. " 需求 " .. itemLink .. " (" .. math.floor((EP/GP)*100)/100 .. " PR)", CEPGP_lootChannel); --plus
+								if CEPGP_InitialGP_flag and not subflat and CEPGP_tContains(CEPGP_InitialGP_roster, arg2, true) then --plus 初始GP功能
+									if CEPGP_InitialGP_roster[arg2][1] then --plus
+										if GP < CEPGP_InitialGP_roster[arg2][2] then --plus
+											GP = CEPGP_InitialGP_roster[arg2][2]; --plus
+										end --plus
+									end --plus
+								end --plus
+								CEPGP_sendChatMessage(arg2 .. " (" .. class .. ") " .. calname_Mes .. " 需求 " .. itemLink .. " (" .. string.format("%.2f",(math.floor((EP*100/GP))/100)) .. " PR)", CEPGP_lootChannel); --plus
 							end
+							if CEPGP_DistID == MulDistID then --plus 角色歷史獲取某裝備數量
+								local xcount = 0;
+								local tname = "";
+								for i=1, CEPGP_ntgetn(TRAFFIC) do
+									if subflat then 
+										tname = calname;
+									else
+										tname = arg2;
+									end
+									if TRAFFIC[i][8] == itemLink and TRAFFIC[i][1] == tname then
+										xcount = xcount + 1;
+									end
+								end
+								CEPGP_sendChatMessage(arg2 .. " (" .. class .. ") " .. calname_Mes .. " 歷史獲取 " .. itemLink .. " 爲 " .. xcount .. " 次", CEPGP_lootChannel);
+							end --plus
 						elseif not CEPGP_suppress_announcements then
 							local total = GetNumGroupMembers();
 							for i = 1, total do
@@ -128,12 +157,41 @@ function CEPGP_handleComms(event, arg1, arg2)
 						if subflat then --plus
 							EP, GP = SubEP, SubGP; --plus
 							calname_Mes = "[" .. calname .. "]"; --plus
+							if CEPGP_InitialGP_flag and CEPGP_tContains(CEPGP_InitialGP_roster, calname, true) then --plus 初始GP功能
+								if CEPGP_InitialGP_roster[calname][1] then --plus
+									if GP < CEPGP_InitialGP_roster[calname][2] then --plus
+										GP = CEPGP_InitialGP_roster[calname][2]; --plus
+									end --plus
+								end --plus
+							end --plus
 						end --plus
-						if string.lower(arg1) == string.lower(CEPGP_keyword_2) then  --plus
+						if string.lower(arg1) == string.lower(CEPGP_keyword_2) then --plus
 							CEPGP_sendChatMessage(arg2 .. " (" .. class .. ") " .. calname_Mes .. " 貪婪 " .. itemLink, CEPGP_lootChannel);
 						else
-							CEPGP_sendChatMessage(arg2 .. " (" .. class .. ") " .. calname_Mes .. " 需求 " .. itemLink .. " (" .. math.floor((EP/GP)*100)/100 .. " PR)", CEPGP_lootChannel);
+							if CEPGP_InitialGP_flag and not subflat and CEPGP_tContains(CEPGP_InitialGP_roster, arg2, true) then --plus 初始GP功能
+								if CEPGP_InitialGP_roster[arg2][1] then --plus
+									if GP < CEPGP_InitialGP_roster[arg2][2] then --plus
+										GP = CEPGP_InitialGP_roster[arg2][2]; --plus
+									end --plus
+								end --plus
+							end --plus
+							CEPGP_sendChatMessage(arg2 .. " (" .. class .. ") " .. calname_Mes .. " 需求 " .. itemLink .. " (" .. string.format("%.2f",(math.floor((EP*100/GP))/100)) .. " PR)", CEPGP_lootChannel);
 						end
+						if CEPGP_DistID == MulDistID then --plus 歷史獲取
+							local xcount = 0;
+							local tname = "";
+							for i=1, CEPGP_ntgetn(TRAFFIC) do
+								if subflat then 
+									tname = calname;
+								else
+									tname = arg2;
+								end
+								if TRAFFIC[i][8] == itemLink and TRAFFIC[i][1] == tname then
+									xcount = xcount + 1;
+								end
+							end
+							CEPGP_sendChatMessage(arg2 .. " (" .. class .. ") " .. calname_Mes .. " 歷史獲取 " .. itemLink .. " 爲 " .. xcount .. " 次", CEPGP_lootChannel);
+						end --plus
 					elseif not CEPGP_suppress_announcements then
 						local total = GetNumGroupMembers();
 						for i = 1, total do
@@ -162,11 +220,11 @@ function CEPGP_handleComms(event, arg1, arg2)
 			else
 				EP, GP = CEPGP_getEPGP(CEPGP_roster[arg2][5]);
 			end
-			if not CEPGP_vInfo[arg2] then
-				SendChatMessage("EPGP Standings" .. calname_Mes .. " - EP: " .. EP .. " / GP: " .. GP .. " / PR: " .. math.floor((EP/GP)*100)/100, "WHISPER", CEPGP_LANGUAGE, arg2);
-			else
-				CEPGP_SendAddonMsg("!info;" .. arg2 .. ";EPGP Standings" .. calname_Mes .. " - EP: " .. EP .. " / GP: " .. GP .. " / PR: " .. math.floor((EP/GP)*100)/100, "GUILD");
-			end
+			-- if not CEPGP_vInfo[arg2] then --plus
+				SendChatMessage("EPGP Standings" .. calname_Mes .. " - EP: " .. EP .. " / GP: " .. GP .. " / PR: " .. string.format("%.2f",(math.floor((EP*100/GP))/100)), "WHISPER", CEPGP_LANGUAGE, arg2);
+			-- else --plus
+				-- CEPGP_SendAddonMsg("!info;" .. arg2 .. ";EPGP Standings" .. calname_Mes .. " - EP: " .. EP .. " / GP: " .. GP .. " / PR: " .. math.floor((EP*100/GP))/100, "GUILD"); --plus
+			-- end --plus
 		end
 	elseif event == "CHAT_MSG_WHISPER" and (string.lower(arg1) == "!infoguild" or string.lower(arg1) == "!inforaid" or string.lower(arg1) == "!infoclass" or string.lower(arg1) == "!infoavegp") then --plus
 		if CEPGP_getGuildInfo(arg2) ~= nil then
@@ -189,7 +247,7 @@ function CEPGP_handleComms(event, arg1, arg2)
 					[1] = name,
 					[2] = EP,
 					[3] = GP,
-					[4] = math.floor((EP/GP)*100)/100,
+					[4] = math.floor((EP*100/GP))/100,
 					[5] = class
 				};
 			end
@@ -238,7 +296,7 @@ function CEPGP_handleComms(event, arg1, arg2)
 						[1] = arg2,
 						[2] = EP,
 						[3] = GP,
-						[4] = math.floor((EP/GP))*100/100,
+						[4] = math.floor((EP*100/GP))/100,
 						[5] = compClass
 					};
 					for i = 1, GetNumGroupMembers() do
@@ -259,26 +317,65 @@ function CEPGP_handleComms(event, arg1, arg2)
 								[1] = name,
 								[2] = EP,
 								[3] = GP,
-								[4] = math.floor((EP/GP)*100)/100,
+								[4] = math.floor((EP*100/GP))/100,
 								[5] = class
 							};
 						end
 					end
 				else --Raid
+					local xname = nil; --plus
+					local xcalinraidacc = {}; --plus
+					for k = 1, CEPGP_ntgetn(CEPGP_subroster) do --plus
+						if CEPGP_subroster[k][1] then
+							xname = CEPGP_subroster[k][2];
+							xcalinraidacc[xname] = { --plus
+								[1] = 0
+							};
+						end
+					end --plus
 					for i = 1, GetNumGroupMembers() do
 						name = GetRaidRosterInfo(i);
 						if string.find(name, "-") then
 							name = string.sub(name, 0, string.find(name, "-")-1);
 						end
-						if not CEPGP_roster[name] then
+						local xcalname = nil; --plus
+						local xsubflat = false; --plus
+						for i = 1, CEPGP_ntgetn(CEPGP_subroster) do --plus
+							if CEPGP_subroster[i][3] == name and CEPGP_subroster[i][1] and CEPGP_subroster[i][2] ~= CEPGP_subroster[i][3] then --plus
+								if CEPGP_roster[CEPGP_subroster[i][2]] then --plus
+									xcalname = CEPGP_subroster[i][2]; --plus
+									xsubflat = true; --plus
+									break; --plus
+								end --plus
+							end --plus
+						end --plus
+						if xsubflat then --plus
+							EP, GP = CEPGP_getEPGP(CEPGP_roster[xcalname][5]); --plus
+							class = CEPGP_roster[xcalname][2]; --plus
+							if xcalinraidacc[xcalname][1] == 0 then
+								if GP > BASEGP then --plus 排斥GP=BASEGP的
+									totalraiderGP = totalraiderGP + GP; --plus
+									totalraiderNum = totalraiderNum + 1; --plus
+									xcalinraidacc[xcalname][1] = xcalinraidacc[xcalname][1] + 1; --plus
+								end --plus
+							end
+						elseif not CEPGP_roster[name] and not xsubflat then --plus
 							EP, GP = 0, BASEGP;
 							class = UnitClass("raid"..i);
 						else
 							EP, GP = CEPGP_getEPGP(CEPGP_roster[name][5]);
 							class = CEPGP_roster[name][2];
 							if GP > BASEGP then --plus 排斥GP=BASEGP的
-								totalraiderGP = totalraiderGP + GP; --plus
-								totalraiderNum = totalraiderNum + 1; --plus
+								if CEPGP_tContains(xcalinraidacc, name, true) then --plus
+									if xcalinraidacc[name][1] == 0 then
+										totalraiderGP = totalraiderGP + GP; --plus
+										totalraiderNum = totalraiderNum + 1; --plus
+										xcalinraidacc[name][1] = xcalinraidacc[name][1] + 1; --plus
+									end
+								else
+									totalraiderGP = totalraiderGP + GP; --plus
+									totalraiderNum = totalraiderNum + 1; --plus
+								end --plus
 							end --plus
 						end
 						count = count + 1;
@@ -286,7 +383,7 @@ function CEPGP_handleComms(event, arg1, arg2)
 							[1] = name,
 							[2] = EP,
 							[3] = GP,
-							[4] = math.floor((EP/GP)*100)/100,
+							[4] = math.floor((EP*100/GP))/100,
 							[5] = class
 						};
 					end
@@ -309,7 +406,7 @@ function CEPGP_handleComms(event, arg1, arg2)
 									CEPGP_SendAddonMsg("!info;" .. arg2 .. ";EP: " .. rRoster[i][2] .. " / GP: " .. rRoster[i][3] .. " / PR: " .. rRoster[i][4] .. " / PR rank among " .. compClass .. "s in raid: #" .. i, "GUILD");
 								end
 							elseif  string.lower(arg1) == "!infoavegp" then  --plus
-								SendChatMessage("當前團隊的平均GP: " .. CEPGP_ave_raiderGP .. "（已經排除GP值=".. BASEGP .. " 的團員）", "WHISPER", CEPGP_LANGUAGE, arg2);  --plus
+								SendChatMessage("當前團隊的平均GP: " .. CEPGP_ave_raiderGP .. "（有效人數:" .. totalraiderNum .. "人。已經排除GP值=".. BASEGP .. " 的團員）", "WHISPER", CEPGP_LANGUAGE, arg2);  --plus
 							else
 								if not CEPGP_vInfo[arg2] then
 									SendChatMessage("EP: " .. rRoster[i][2] .. " / GP: " .. rRoster[i][3] .. " / PR: " .. rRoster[i][4] .. " / PR rank in raid: #" .. i, "WHISPER", CEPGP_LANGUAGE, arg2);
