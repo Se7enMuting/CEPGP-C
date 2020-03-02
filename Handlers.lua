@@ -88,7 +88,7 @@ function CEPGP_handleComms(event, arg1, arg2)
 								end --plus
 								CEPGP_sendChatMessage(arg2 .. " (" .. class .. ") " .. calname_Mes .. " 需求 " .. itemLink .. " (" .. string.format("%.2f",(math.floor((EP*100/GP))/100)) .. " PR)", CEPGP_lootChannel); --plus
 							end
-							if CEPGP_DistID == MulDistID then --plus 歷史獲取
+							if CEPGP_DistID == MulDistID then --plus 角色歷史獲取某裝備數量
 								local xcount = 0;
 								local tname = "";
 								for i=1, CEPGP_ntgetn(TRAFFIC) do

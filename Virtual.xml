@@ -105,7 +105,7 @@
 					<Anchors>
 						<Anchor point="LEFT" relativeTo="$parent" relativePoint="LEFT">
 							<Offset>
-								<AbsDimension x="180" y="0"/>  <!-- x=150 plus -->
+								<AbsDimension x="160" y="0"/>  <!-- x=150 plus -->
 							</Offset>
 						</Anchor>
 					</Anchors>
