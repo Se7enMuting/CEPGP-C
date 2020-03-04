@@ -15,7 +15,7 @@ function CEPGP_handleComms(event, arg1, arg2)
 		end --plus
 	end --plus
 	
-	if event == "CHAT_MSG_WHISPER" and (string.lower(arg1) == string.lower(CEPGP_keyword) or string.lower(arg1) == string.lower(CEPGP_keyword_2)) and CEPGP_distributing then --plus
+	if event == "CHAT_MSG_WHISPER" and (string.lower(arg1) == string.lower(CEPGP_keyword) or string.lower(arg1) == string.lower(CEPGP_keyword_2) or string.lower(arg1) == string.lower(CEPGP_keyword_3)) and CEPGP_distributing then --plus
 		local duplicate = false;
 		for i = 1, table.getn(CEPGP_responses) do
 			if CEPGP_responses[i] == arg2 then
@@ -78,6 +78,8 @@ function CEPGP_handleComms(event, arg1, arg2)
 							end --plus
 							if string.lower(arg1) == string.lower(CEPGP_keyword_2) then --plus
 								CEPGP_sendChatMessage(arg2 .. " (" .. class .. ") " .. calname_Mes .. " 貪婪 " .. itemLink, CEPGP_lootChannel); --plus
+							elseif string.lower(arg1) == string.lower(CEPGP_keyword_3) then --plus
+								CEPGP_sendChatMessage(arg2 .. " (" .. class .. ") " .. calname_Mes .. " 放棄 " .. itemLink, CEPGP_lootChannel); --plus
 							else
 								if CEPGP_InitialGP_flag and not subflat and CEPGP_tContains(CEPGP_InitialGP_roster, arg2, true) then --plus 初始GP功能
 									if CEPGP_InitialGP_roster[arg2][1] then --plus
@@ -166,7 +168,9 @@ function CEPGP_handleComms(event, arg1, arg2)
 							end --plus
 						end --plus
 						if string.lower(arg1) == string.lower(CEPGP_keyword_2) then --plus
-							CEPGP_sendChatMessage(arg2 .. " (" .. class .. ") " .. calname_Mes .. " 貪婪 " .. itemLink, CEPGP_lootChannel);
+							CEPGP_sendChatMessage(arg2 .. " (" .. class .. ") " .. calname_Mes .. " 貪婪 " .. itemLink, CEPGP_lootChannel); --plus
+						elseif string.lower(arg1) == string.lower(CEPGP_keyword_3) then --plus
+							CEPGP_sendChatMessage(arg2 .. " (" .. class .. ") " .. calname_Mes .. " 放棄 " .. itemLink, CEPGP_lootChannel); --plus
 						else
 							if CEPGP_InitialGP_flag and not subflat and CEPGP_tContains(CEPGP_InitialGP_roster, arg2, true) then --plus 初始GP功能
 								if CEPGP_InitialGP_roster[arg2][1] then --plus

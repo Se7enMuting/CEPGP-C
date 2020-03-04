@@ -107,7 +107,7 @@ function CEPGP_UpdateLootScrollBar()
 				end
 			end
 		end --plus
-		if CEPGP_itemsTable[name][3] == "貪婪" then --plus
+		if CEPGP_itemsTable[name][3] == "貪婪" or CEPGP_itemsTable[name][3] == "放棄" then --plus
 			tempTable[count][7] = 0; --plus
 		end --plus
 		count = count + 1;
