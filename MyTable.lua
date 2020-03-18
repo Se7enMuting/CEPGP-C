@@ -135,7 +135,11 @@ CEPGP_subroster = {
 			[18]={true, "我是一隻牛", "小背刺"},
 			[19]={true, "活著就是死", "活著德傢伙"},
 			[20]={true, "衝鋒釋放", "閃現釋放靈魂"},
-			[21]={true, "黑田如水", "楠木正季"}
+			[21]={true, "黑田如水", "楠木正季"},
+			[22]={true, "棒棒糖先生", "海綿體堡包"},
+			[23]={true, "喵喵步", "梅猶血"},
+			[24]={true, "野蠻阿寶", "全省手工茶"},
+			[25]={true, "野蠻阿寶", "坦寶"}
 }; --plus: [i]={true, "公會內計分角色", "替身"}(true/false表示關閉,替身可以是非公會的，請至少保留1個數組)(名字區分大小寫)
 CEPGP_subacc_flag = false; -- plus 替身分數累加功能總開關。false：若計分角色和替身都在團隊裏，CEPGP_AddRaidEP加EP只會加1次到計分角色上，true：表示會多次累加EP到計分角色上
 CEPGP_subacc_roster = {["你太傲慢了"]={false, 0 },["八月悠"]={false, 0 },["二月悠"]={false, 0 },["Lessness"]={false, 0 },["三月悠"]={false, 0 }}; -- plus 替身EP允許累加名單，"0"不能修改，請至少保留1個數組，true/false 表示開關，只在CEPGP_AddRaidEP內有效

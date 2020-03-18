@@ -468,14 +468,14 @@ function CEPGP_getCombatModule(name)
 	end
 
 	--Razorgore the Untamed
-	if name == L["Razorgore the Untamed"] then
-		if CEPGP_kills == 30 then --For this encounter, CEPGP_kills is used for the eggs
-			CEPGP_combatModule = L["Razorgore the Untamed"];
-			return true;
-		else
-			return false;
-		end
-	end
+	-- if name == L["Razorgore the Untamed"] then
+		-- if CEPGP_kills == 30 then --For this encounter, CEPGP_kills is used for the eggs
+			-- CEPGP_combatModule = L["Razorgore the Untamed"];
+			-- return true;
+		-- else
+			-- return false;
+		-- end
+	-- end
 
 	-- High Priest Thekal
 	if name == L["Zealot Lor'Khan"] or name == L["Zealot Zath"] or name == L["High Priest Thekal"] then

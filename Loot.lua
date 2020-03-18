@@ -126,27 +126,29 @@ function CEPGP_announce(link, x, slotNum, quantity)
 				SendChatMessage("GP 值: " .. gp, "RAID", CEPGP_LANGUAGE);
 			end
 			--SendChatMessage("Whisper me " .. CEPGP_keyword .. " for mainspec only", "RAID", CEPGP_LANGUAGE); --plus
-			SendChatMessage("--------------------------", "RAID", CEPGP_LANGUAGE);
 			if CEPGP_tContains(CEPGP_ItemPR, CEPGP_DistID, true) then --plus 物品说明
-				if CEPGP_ItemPR[CEPGP_DistID][3] == 1 then --plus 计算历史拾取
-					local xcount = 0;
-					for j=1, CEPGP_ntgetn(TRAFFIC) do 
-						if TRAFFIC[j][8] == link then
-							xcount = xcount + 1;
-						end
-					end
-					SendChatMessage("歷史分裝數量: " .. xcount, "RAID", CEPGP_LANGUAGE); --plus
-				end
 				if CEPGP_ItemPR[CEPGP_DistID][1] ~= "" then 
 					SendChatMessage(CEPGP_ItemPR[CEPGP_DistID][1], "RAID", CEPGP_LANGUAGE); --plus
 				end
-				if CEPGP_ItemPR[CEPGP_DistID][2] == 1 then 
-					SendChatMessage(CEPGP_NeedMes, "RAID", CEPGP_LANGUAGE); --plus
-				elseif CEPGP_ItemPR[CEPGP_DistID][2] == 2 then 
-					SendChatMessage(CEPGP_NeedGreedMes, "RAID", CEPGP_LANGUAGE); --plus
-				elseif CEPGP_ItemPR[CEPGP_DistID][2] == 3 then 
-					SendChatMessage(CEPGP_GreedMes, "RAID", CEPGP_LANGUAGE); --plus
-				end
+				SendChatMessage("--------------------------", "RAID", CEPGP_LANGUAGE);
+				-- if CEPGP_ItemPR[CEPGP_DistID][3] == 1 then --plus 计算历史拾取
+					-- local xcount = 0;
+					-- for j=1, CEPGP_ntgetn(TRAFFIC) do 
+						-- if TRAFFIC[j][8] == link then
+							-- xcount = xcount + 1;
+						-- end
+					-- end
+					-- SendChatMessage("歷史分裝數量: " .. xcount, "RAID", CEPGP_LANGUAGE); --plus
+				-- end --plus 计算历史拾取
+				-- if CEPGP_ItemPR[CEPGP_DistID][2] == 1 then --plus 需求贪婪
+					-- SendChatMessage(CEPGP_NeedMes, "RAID", CEPGP_LANGUAGE); 
+				-- elseif CEPGP_ItemPR[CEPGP_DistID][2] == 2 then 
+					-- SendChatMessage(CEPGP_NeedGreedMes, "RAID", CEPGP_LANGUAGE); 
+				-- elseif CEPGP_ItemPR[CEPGP_DistID][2] == 3 then 
+					-- SendChatMessage(CEPGP_GreedMes, "RAID", CEPGP_LANGUAGE); 
+				-- end --plus 需求贪婪
+			else
+				SendChatMessage("--------------------------", "RAID", CEPGP_LANGUAGE);
 			end --plus
 		end
 		CEPGP_distribute:Show();

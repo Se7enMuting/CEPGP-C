@@ -164,12 +164,12 @@ function CEPGP_OnEvent(event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, ar
 				if bossNameIndex[name] then
 					CEPGP_handleCombat(name);
 				end
-			elseif action == "SPELL_CAST_SUCCESS" then
-				local spellID, spellName;
-				_, _, _, _, name, _, _, _, _, _, _, spellID = CombatLogGetCurrentEventInfo();
-				if name == L["Razorgore the Untamed"] and spellID == 19873 then --Razorgore casts destroy egg
-					CEPGP_kills = CEPGP_kills + 1;
-				end
+			-- elseif action == "SPELL_CAST_SUCCESS" then
+				-- local spellID, spellName;
+				-- _, _, _, _, name, _, _, _, _, _, _, spellID = CombatLogGetCurrentEventInfo();
+				-- if name == L["Razorgore the Untamed"] and spellID == 19873 then --Razorgore casts destroy egg
+					-- CEPGP_kills = CEPGP_kills + 1;
+				-- end
 			end
 			
 		elseif event == "CHAT_MSG_MONSTER_EMOTE" then
