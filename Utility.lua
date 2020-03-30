@@ -11,7 +11,8 @@ function CEPGP_initialise()
 	if CHANNEL == nil then
 		CHANNEL = "GUILD";
 	end
-	if CEPGP_lootChannel == nil then
+	local _,_, difficultyID = GetInstanceInfo(); --plus
+	if CEPGP_lootChannel == nil or (difficultyID == 0 and (CEPGP_lootChannel == "Say" or CEPGP_lootChannel == "Yell")) then --plus
 		CEPGP_lootChannel = "RAID";
 	end
 	if MOD == nil then

@@ -101,36 +101,42 @@ function CEPGP_announce(link, x, slotNum, quantity)
 		else
 			CEPGP_SendAddonMsg("RaidAssistLootDist;"..link..";"..gp..";false", "RAID");
 		end
+		local CHANNELWARNING = nil;--
+		if CHANNEL == "Raid" and (UnitIsGroupAssistant("player") or UnitIsGroupLeader("player")) then --
+			CHANNELWARNING = "Raid_Warning";
+		else
+			CHANNELWARNING = CHANNEL;
+		end --
 		if CEPGP_loot_GUI then
 			CEPGP_callItem(id, gp);
 			CEPGP_SendAddonMsg("正在分發;"..id .. ";" .. gp, "RAID");
-			SendChatMessage("正在分發: " .. link .. " : " .. gp .. " GP", "RAID_WARNING", CEPGP_LANGUAGE);
+			SendChatMessage("正在分發: " .. link .. " : " .. gp .. " GP", CHANNELWARNING, CEPGP_LANGUAGE);
 		else
-			SendChatMessage("--------------------------", "RAID", CEPGP_LANGUAGE);
+			SendChatMessage("--------------------------", CHANNEL, CEPGP_LANGUAGE);
 			if rank > 0 then
 				if quantity > 1 then
-					SendChatMessage("正在分發: x" .. quantity .. " " .. link, "RAID_WARNING", CEPGP_LANGUAGE);
+					SendChatMessage("正在分發: x" .. quantity .. " " .. link, CHANNELWARNING, CEPGP_LANGUAGE);
 				else
-					SendChatMessage("正在分發: " .. link, "RAID_WARNING", CEPGP_LANGUAGE);
+					SendChatMessage("正在分發: " .. link, CHANNELWARNING, CEPGP_LANGUAGE);
 				end
 			else
 				if quantity > 1 then
-					SendChatMessage("正在分發: x" .. quantity .. " " .. link, "RAID", CEPGP_LANGUAGE);
+					SendChatMessage("正在分發: x" .. quantity .. " " .. link, CHANNEL, CEPGP_LANGUAGE);
 				else
-					SendChatMessage("正在分發: " .. link, "RAID", CEPGP_LANGUAGE);
+					SendChatMessage("正在分發: " .. link, CHANNEL, CEPGP_LANGUAGE);
 				end
 			end
 			if quantity > 1 then
-				SendChatMessage("GP 值: " .. gp .. " (~" .. math.floor(gp/quantity) .. "GP per unit)", "RAID", CEPGP_LANGUAGE);
+				SendChatMessage("GP 值: " .. gp .. " (~" .. math.floor(gp/quantity) .. "GP per unit)", CHANNEL, CEPGP_LANGUAGE);
 			else
-				SendChatMessage("GP 值: " .. gp, "RAID", CEPGP_LANGUAGE);
+				SendChatMessage("GP 值: " .. gp, CHANNEL, CEPGP_LANGUAGE);
 			end
 			--SendChatMessage("Whisper me " .. CEPGP_keyword .. " for mainspec only", "RAID", CEPGP_LANGUAGE); --plus
 			if CEPGP_tContains(CEPGP_ItemPR, CEPGP_DistID, true) then --plus 物品说明
 				if CEPGP_ItemPR[CEPGP_DistID][1] ~= "" then 
-					SendChatMessage(CEPGP_ItemPR[CEPGP_DistID][1], "RAID", CEPGP_LANGUAGE); --plus
+					SendChatMessage(CEPGP_ItemPR[CEPGP_DistID][1], CHANNEL, CEPGP_LANGUAGE); --plus
 				end
-				SendChatMessage("--------------------------", "RAID", CEPGP_LANGUAGE);
+				SendChatMessage("--------------------------", CHANNEL, CEPGP_LANGUAGE);
 				-- if CEPGP_ItemPR[CEPGP_DistID][3] == 1 then --plus 计算历史拾取
 					-- local xcount = 0;
 					-- for j=1, CEPGP_ntgetn(TRAFFIC) do 
@@ -148,7 +154,7 @@ function CEPGP_announce(link, x, slotNum, quantity)
 					-- SendChatMessage(CEPGP_GreedMes, "RAID", CEPGP_LANGUAGE); 
 				-- end --plus 需求贪婪
 			else
-				SendChatMessage("--------------------------", "RAID", CEPGP_LANGUAGE);
+				SendChatMessage("--------------------------", CHANNEL, CEPGP_LANGUAGE);
 			end --plus
 		end
 		CEPGP_distribute:Show();

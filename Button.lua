@@ -459,14 +459,14 @@ function CEPGP_defChannelDropdown(frame, level, menuList)
 		[5] = "Guild",
 		[6] = "Officer",
 	};
-	local nilnum = 0; --plus bug fix
-	for i = 4, C_ChatInfo.GetNumActiveChannels() do
-		if select(2, GetChannelName(i)) ~= nil then --plus bug fix
-			channels[i+3-nilnum] = select(2, GetChannelName(i));
-		else --plus bug fix
-			nilnum = nilnum + 1; --plus bug fix
-		end --plus bug fix
-	end
+	-- local nilnum = 0; --plus bug fix
+	-- for i = 4, C_ChatInfo.GetNumActiveChannels() do
+		-- if select(2, GetChannelName(i)) ~= nil then --plus bug fix
+			-- channels[i+3-nilnum] = select(2, GetChannelName(i));
+		-- else --plus bug fix
+			-- nilnum = nilnum + 1; --plus bug fix
+		-- end --plus bug fix
+	-- end
 	for index, value in ipairs(channels) do
 		local info = {
 			text = value,
@@ -493,7 +493,17 @@ end
 		--[[ Loot Response Channel DropDown ]]--
 		
 function CEPGP_lootChannelDropdown(frame, level, menuList)
-	local channels = {
+	local channels = {}; --plus
+	local _,_, difficultyID = GetInstanceInfo(); --plus
+	if difficultyID == 0 then
+		channels = {
+		[1] = "Party",
+		[2] = "Raid",
+		[3] = "Guild",
+		[4] = "Officer",
+	};--plus
+	else
+		channels = {
 		[1] = "Say",
 		[2] = "Yell",
 		[3] = "Party",
@@ -501,14 +511,15 @@ function CEPGP_lootChannelDropdown(frame, level, menuList)
 		[5] = "Guild",
 		[6] = "Officer",
 	};
-	local nilnum = 0; --plus bug fix
-	for i = 4, C_ChatInfo.GetNumActiveChannels() do
-		if select(2, GetChannelName(i)) ~= nil then --plus bug fix
-			channels[i+3-nilnum] = select(2, GetChannelName(i));
-		else --plus bug fix
-			nilnum = nilnum + 1; --plus bug fix
-		end --plus bug fix
 	end
+	-- local nilnum = 0; --plus bug fix
+	-- for i = 4, C_ChatInfo.GetNumActiveChannels() do
+		-- if select(2, GetChannelName(i)) ~= nil then --plus bug fix
+			-- channels[i+3-nilnum] = select(2, GetChannelName(i));
+		-- else --plus bug fix
+			-- nilnum = nilnum + 1; --plus bug fix
+		-- end --plus bug fix
+	-- end
 	for index, value in ipairs(channels) do
 		local info = {
 			text = value,
