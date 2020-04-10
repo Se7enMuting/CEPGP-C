@@ -3975,6 +3975,8 @@
 				self:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED");
 				self:RegisterEvent("PARTY_LOOT_METHOD_CHANGED");
 				self:RegisterEvent("CHAT_MSG_BN_WHISPER");
+				self:RegisterEvent("PLAYER_ENTERING_WORLD");
+				self:RegisterEvent("RAID_INSTANCE_WELCOME");
 			</OnLoad>
 			<OnMouseDown>
 				self:StartMoving();

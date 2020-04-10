@@ -94,6 +94,11 @@ function CEPGP_OnEvent(event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, ar
 	
 	if event == "ADDON_LOADED" and arg1 == "CEPGP" then --arg1 = addon name
 		CEPGP_initialise();
+	elseif event == "PLAYER_ENTERING_WORLD" or event == "RAID_INSTANCE_WELCOME" then --plus
+		local _,_, difficultyID = GetInstanceInfo(); --plus
+		if difficultyID == 0 and (CEPGP_lootChannel == "Say" or CEPGP_lootChannel == "Yell") then --plus
+			CEPGP_lootChannel = "RAID"; --plus
+		end --plus
 	elseif event == "GUILD_ROSTER_UPDATE" or event == "GROUP_ROSTER_UPDATE" then
 		CEPGP_rosterUpdate(event);
 		
