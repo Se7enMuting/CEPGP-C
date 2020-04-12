@@ -110,20 +110,20 @@ function CEPGP_announce(link, x, slotNum, quantity)
 		if CEPGP_loot_GUI then
 			CEPGP_callItem(id, gp);
 			CEPGP_SendAddonMsg("正在分發;"..id .. ";" .. gp, "RAID");
-			SendChatMessage("正在分發: " .. link .. " : " .. gp .. " GP", CHANNELWARNING, CEPGP_LANGUAGE);
+			SendChatMessage("現在拍裝: " .. link .. " : " .. gp .. " GP", CHANNELWARNING, CEPGP_LANGUAGE);
 		else
 			SendChatMessage("--------------------------", CHANNEL, CEPGP_LANGUAGE);
 			if rank > 0 then
 				if quantity > 1 then
-					SendChatMessage("正在分發: x" .. quantity .. " " .. link, CHANNELWARNING, CEPGP_LANGUAGE);
+					SendChatMessage("現在拍裝: x" .. quantity .. " " .. link, CHANNELWARNING, CEPGP_LANGUAGE);
 				else
-					SendChatMessage("正在分發: " .. link, CHANNELWARNING, CEPGP_LANGUAGE);
+					SendChatMessage("現在拍裝: " .. link, CHANNELWARNING, CEPGP_LANGUAGE);
 				end
 			else
 				if quantity > 1 then
-					SendChatMessage("正在分發: x" .. quantity .. " " .. link, CHANNEL, CEPGP_LANGUAGE);
+					SendChatMessage("現在拍裝: x" .. quantity .. " " .. link, CHANNEL, CEPGP_LANGUAGE);
 				else
-					SendChatMessage("正在分發: " .. link, CHANNEL, CEPGP_LANGUAGE);
+					SendChatMessage("現在拍裝: " .. link, CHANNEL, CEPGP_LANGUAGE);
 				end
 			end
 			if quantity > 1 then
@@ -142,24 +142,16 @@ function CEPGP_announce(link, x, slotNum, quantity)
 				SendChatMessage(CEPGP_AllGreedMes, CHANNEL, CEPGP_LANGUAGE); --plus 0330
 			end --plus
 			SendChatMessage("--------------------------", CHANNEL, CEPGP_LANGUAGE); --plus 0330
-			-- if CEPGP_ItemPR[CEPGP_DistID][3] == 1 then --plus 计算历史拾取
+			SendChatMessage(CEPGP_CallItemMes, CHANNEL, CEPGP_LANGUAGE);
+			-- if CEPGP_ItemPR[CEPGP_DistID][2] == 1 then --plus 计算历史拾取
 				-- local xcount = 0;
 				-- for j=1, CEPGP_ntgetn(TRAFFIC) do 
 					-- if TRAFFIC[j][8] == link then
 						-- xcount = xcount + 1;
 					-- end
 				-- end
-				-- SendChatMessage("歷史分裝數量: " .. xcount, CHANNEL, CEPGP_LANGUAGE); --plus
+				-- SendChatMessage("歷史此裝分配數量: " .. xcount, CHANNEL, CEPGP_LANGUAGE); --plus
 			-- end --plus 计算历史拾取
-			-- if CEPGP_ItemPR[CEPGP_DistID][2] == 1 or ((tonumber(CEPGP_DistID) >= 16897 and tonumber(CEPGP_DistID) <= 16966) or CEPGP_DistID == "16832" or CEPGP_DistID == "16818") then --plus 需求贪婪
-				-- SendChatMessage(CEPGP_NeedMes, CHANNEL, CEPGP_LANGUAGE); 
-			-- elseif CEPGP_ItemPR[CEPGP_DistID][2] == 2 then 
-				-- SendChatMessage(CEPGP_NeedGreedMes, CHANNEL, CEPGP_LANGUAGE); 
-			-- elseif CEPGP_ItemPR[CEPGP_DistID][2] == 3 then 
-				-- SendChatMessage(CEPGP_GreedMes, CHANNEL, CEPGP_LANGUAGE); 
-			-- else --plus 0330
-				-- SendChatMessage(CEPGP_NeedGreedMes, CHANNEL, CEPGP_LANGUAGE); --plus 0330
-			-- end --plus 需求贪婪
 		end
 		CEPGP_distribute:Show();
 		CEPGP_loot:Hide();
