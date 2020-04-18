@@ -199,7 +199,7 @@ function CEPGP_ListButton_OnClick(obj)
 															else
 																PlaySound(799);
 																HideUIPanel(CEPGP_context_popup);
-																CEPGP_addGuildEP(tonumber(CEPGP_context_amount:GetText()), CEPGP_context_reason:GetText());
+																--CEPGP_addGuildEP(tonumber(CEPGP_context_amount:GetText()), CEPGP_context_reason:GetText());
 															end
 														end);
 		return;
@@ -243,7 +243,7 @@ function CEPGP_ListButton_OnClick(obj)
 		CEPGP_context_popup_confirm:SetScript('OnClick', function()
 															PlaySound(799);
 															HideUIPanel(CEPGP_context_popup);
-															CEPGP_resetAll(CEPGP_context_reason:GetText());
+															--CEPGP_resetAll(CEPGP_context_reason:GetText());
 														end)
 		return;
 		

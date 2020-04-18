@@ -362,7 +362,7 @@
 							</OnClick>
 						</Scripts>
 					</Button>
-					<Button name="CEPGP_guild_add_EP" inherits="GameMenuButtonTemplate" text="Add Guild EP">
+<!-- 					<Button name="CEPGP_guild_add_EP" inherits="GameMenuButtonTemplate" text="Add Guild EP">
 						<Size>
 							<AbsDimension x="100" y="21" />
 						</Size>
@@ -391,15 +391,15 @@
 								GameTooltip:Hide();
 							</OnLeave>
 						</Scripts>
-					</Button>
+					</Button> -->
 					<Button name="CEPGP_guild_decay" inherits="GameMenuButtonTemplate" text="Decay Guild EPGP">
 						<Size>
-							<AbsDimension x="120" y="21" />
+							<AbsDimension x="140" y="21" />
 						</Size>
 						<Anchors>
-							<Anchor point="RIGHT" relativeTo="CEPGP_guild_add_EP">
+							<Anchor point="BOTTOMLEFT" >
 								<Offset>
-									<AbsDimension x="115" y="0" />
+									<AbsDimension x="10" y="25" />
 								</Offset>
 							</Anchor>
 						</Anchors>
@@ -2912,7 +2912,7 @@
 						</Anchors>
 						<Layers>
 							<Layer level="OVERLAY">
-								<FontString name="CEPGP_options_Razorgore the Untamed_val" inherits="GameFontNormal" text="Razorgore the Untamed: ">
+								<FontString name="CEPGP_options_Razorgore the Untamed_val" inherits="GameFontNormal" parentArray="bosses" text="Razorgore the Untamed">
 									<Color r="1" g="1" b="1"/>
 									<Anchors>
 										<Anchor point="TOPLEFT" relativePoint="TOPLEFT">
@@ -2922,7 +2922,7 @@
 										</Anchor>
 									</Anchors>
 								</FontString>
-								<FontString name="CEPGP_options_Vaelastrasz the Corrupt_val" inherits="GameFontNormal" text="Vaelastrasz the Corrupt: ">
+								<FontString name="CEPGP_options_Vaelastrasz the Corrupt_val" inherits="GameFontNormal" parentArray="bosses" text="Vaelastrasz the Corrupt">
 									<Color r="1" g="1" b="1"/>
 									<Anchors>
 										<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="CEPGP_options_Razorgore the Untamed_val">
@@ -2932,7 +2932,7 @@
 										</Anchor>
 									</Anchors>
 								</FontString>
-								<FontString name="CEPGP_options_Broodlord Lashlayer_val" inherits="GameFontNormal" text="Broodlord Lashlayer: ">
+								<FontString name="CEPGP_options_Broodlord Lashlayer_val" inherits="GameFontNormal" parentArray="bosses" text="Broodlord Lashlayer">
 									<Color r="1" g="1" b="1"/>
 									<Anchors>
 										<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="CEPGP_options_Vaelastrasz the Corrupt_val">
@@ -2942,7 +2942,7 @@
 										</Anchor>
 									</Anchors>
 								</FontString>
-								<FontString name="CEPGP_options_Firemaw_val" inherits="GameFontNormal" text="Firemaw: ">
+								<FontString name="CEPGP_options_Firemaw_val" inherits="GameFontNormal" parentArray="bosses" text="Firemaw">
 									<Color r="1" g="1" b="1"/>
 									<Anchors>
 										<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="CEPGP_options_Broodlord Lashlayer_val">
@@ -2952,7 +2952,7 @@
 										</Anchor>
 									</Anchors>
 								</FontString>
-								<FontString name="CEPGP_options_Ebonroc_val" inherits="GameFontNormal" text="Ebonroc: ">
+								<FontString name="CEPGP_options_Ebonroc_val" inherits="GameFontNormal" parentArray="bosses" text="Ebonroc">
 									<Color r="1" g="1" b="1"/>
 									<Anchors>
 										<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="CEPGP_options_Firemaw_val">
@@ -2962,7 +2962,7 @@
 										</Anchor>
 									</Anchors>
 								</FontString>
-								<FontString name="CEPGP_options_Flamegor_val" inherits="GameFontNormal" text="Flamegor: ">
+								<FontString name="CEPGP_options_Flamegor_val" inherits="GameFontNormal" parentArray="bosses" text="Flamegor">
 									<Color r="1" g="1" b="1"/>
 									<Anchors>
 										<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="CEPGP_options_Ebonroc_val">
@@ -2972,7 +2972,7 @@
 										</Anchor>
 									</Anchors>
 								</FontString>
-								<FontString name="CEPGP_options_Chromaggus_val" inherits="GameFontNormal" text="Chromaggus: ">
+								<FontString name="CEPGP_options_Chromaggus_val" inherits="GameFontNormal" parentArray="bosses" text="Chromaggus">
 									<Color r="1" g="1" b="1"/>
 									<Anchors>
 										<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="CEPGP_options_Flamegor_val">
@@ -2982,7 +2982,7 @@
 										</Anchor>
 									</Anchors>
 								</FontString>
-								<FontString name="CEPGP_options_Nefarian_val" inherits="GameFontNormal" text="Nefarian: ">
+								<FontString name="CEPGP_options_Nefarian_val" inherits="GameFontNormal" parentArray="bosses" text="Nefarian">
 									<Color r="1" g="1" b="1"/>
 									<Anchors>
 										<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="CEPGP_options_Chromaggus_val">
@@ -3027,7 +3027,7 @@
 						</Anchors>
 						<Layers>
 							<Layer level="OVERLAY">
-								<FontString name="CEPGP_options_High Priest Venoxis_val" inherits="GameFontNormal" text="High Priest Venoxis: ">
+								<FontString name="CEPGP_options_High Priest Venoxis_val" inherits="GameFontNormal" parentArray="bosses" text="High Priest Venoxis">
 									<Color r="1" g="1" b="1"/>
 									<Anchors>
 										<Anchor point="TOPLEFT" relativePoint="TOPLEFT">
@@ -3037,7 +3037,7 @@
 										</Anchor>
 									</Anchors>
 								</FontString>
-								<FontString name="CEPGP_options_High Priestess Jeklik_val" inherits="GameFontNormal" text="High Priestess Jeklik: ">
+								<FontString name="CEPGP_options_High Priestess Jeklik_val" inherits="GameFontNormal" parentArray="bosses" text="High Priestess Jeklik">
 									<Color r="1" g="1" b="1"/>
 									<Anchors>
 										<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="CEPGP_options_High Priest Venoxis_val">
@@ -3047,7 +3047,7 @@
 										</Anchor>
 									</Anchors>
 								</FontString>
-								<FontString name="CEPGP_options_High Priestess Mar'li_val" inherits="GameFontNormal" text="High Priestess Mar'li: ">
+								<FontString name="CEPGP_options_High Priestess Mar'li_val" inherits="GameFontNormal" parentArray="bosses" text="High Priestess Mar'li">
 									<Color r="1" g="1" b="1"/>
 									<Anchors>
 										<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="CEPGP_options_High Priestess Jeklik_val">
@@ -3057,7 +3057,7 @@
 										</Anchor>
 									</Anchors>
 								</FontString>
-								<FontString name="CEPGP_options_High Priest Thekal_val" inherits="GameFontNormal" text="High Priest Thekal: ">
+								<FontString name="CEPGP_options_High Priest Thekal_val" inherits="GameFontNormal" parentArray="bosses" text="High Priest Thekal">
 									<Color r="1" g="1" b="1"/>
 									<Anchors>
 										<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="CEPGP_options_High Priestess Mar'li_val">
@@ -3067,7 +3067,7 @@
 										</Anchor>
 									</Anchors>
 								</FontString>
-								<FontString name="CEPGP_options_High Priestess Arlokk_val" inherits="GameFontNormal" text="High Priestess Arlokk: ">
+								<FontString name="CEPGP_options_High Priestess Arlokk_val" inherits="GameFontNormal" parentArray="bosses" text="High Priestess Arlokk">
 									<Color r="1" g="1" b="1"/>
 									<Anchors>
 										<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="CEPGP_options_High Priest Thekal_val">
@@ -3077,7 +3077,7 @@
 										</Anchor>
 									</Anchors>
 								</FontString>
-								<FontString name="CEPGP_options_The Edge of Madness_val" inherits="GameFontNormal" text="The Edge of Madness: ">
+								<FontString name="CEPGP_options_The Edge of Madness_val" inherits="GameFontNormal" parentArray="bosses" text="The Edge of Madness">
 									<Color r="1" g="1" b="1"/>
 									<Anchors>
 										<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="CEPGP_options_High Priestess Arlokk_val">
@@ -3087,7 +3087,7 @@
 										</Anchor>
 									</Anchors>
 								</FontString>
-								<FontString name="CEPGP_options_Bloodlord Mandokir_val" inherits="GameFontNormal" text="Bloodlord Mandokir: ">
+								<FontString name="CEPGP_options_Bloodlord Mandokir_val" inherits="GameFontNormal" parentArray="bosses" text="Bloodlord Mandokir">
 									<Color r="1" g="1" b="1"/>
 									<Anchors>
 										<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="CEPGP_options_The Edge of Madness_val">
@@ -3097,7 +3097,7 @@
 										</Anchor>
 									</Anchors>
 								</FontString>
-								<FontString name="CEPGP_options_Jin'do the Hexxer_val" inherits="GameFontNormal" text="Jin'do the Hexxer: ">
+								<FontString name="CEPGP_options_Jin'do the Hexxer_val" inherits="GameFontNormal" parentArray="bosses" text="Jin'do the Hexxer">
 									<Color r="1" g="1" b="1"/>
 									<Anchors>
 										<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="CEPGP_options_Bloodlord Mandokir_val">
@@ -3107,7 +3107,7 @@
 										</Anchor>
 									</Anchors>
 								</FontString>
-								<FontString name="CEPGP_options_Gahz'ranka_val" inherits="GameFontNormal" text="Gahz'ranka: ">
+								<FontString name="CEPGP_options_Gahz'ranka_val" inherits="GameFontNormal" parentArray="bosses" text="Gahz'ranka">
 									<Color r="1" g="1" b="1"/>
 									<Anchors>
 										<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="CEPGP_options_Jin'do the Hexxer_val">
@@ -3117,7 +3117,7 @@
 										</Anchor>
 									</Anchors>
 								</FontString>
-								<FontString name="CEPGP_options_Hakkar_val" inherits="GameFontNormal" text="Hakkar: ">
+								<FontString name="CEPGP_options_Hakkar_val" inherits="GameFontNormal" parentArray="bosses" text="Hakkar">
 									<Color r="1" g="1" b="1"/>
 									<Anchors>
 										<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="CEPGP_options_Gahz'ranka_val">
@@ -3166,7 +3166,7 @@
 						</Anchors>
 						<Layers>
 							<Layer level="OVERLAY">
-								<FontString name="CEPGP_options_Kurinnaxx_val" inherits="GameFontNormal" text="Kurinnaxx: ">
+								<FontString name="CEPGP_options_Kurinnaxx_val" inherits="GameFontNormal" parentArray="bosses" text="Kurinnaxx">
 									<Color r="1" g="1" b="1"/>
 									<Anchors>
 										<Anchor point="TOPLEFT" relativePoint="TOPLEFT">
@@ -3176,7 +3176,7 @@
 										</Anchor>
 									</Anchors>
 								</FontString>
-								<FontString name="CEPGP_options_General Rajaxx_val" inherits="GameFontNormal" text="General Rajaxx: ">
+								<FontString name="CEPGP_options_General Rajaxx_val" inherits="GameFontNormal" parentArray="bosses" text="General Rajaxx">
 									<Color r="1" g="1" b="1"/>
 									<Anchors>
 										<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="CEPGP_options_Kurinnaxx_val">
@@ -3186,7 +3186,7 @@
 										</Anchor>
 									</Anchors>
 								</FontString>
-								<FontString name="CEPGP_options_Moam_val" inherits="GameFontNormal" text="Moam: ">
+								<FontString name="CEPGP_options_Moam_val" inherits="GameFontNormal" parentArray="bosses" text="Moam">
 									<Color r="1" g="1" b="1"/>
 									<Anchors>
 										<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="CEPGP_options_General Rajaxx_val">
@@ -3196,7 +3196,7 @@
 										</Anchor>
 									</Anchors>
 								</FontString>
-								<FontString name="CEPGP_options_Buru the Gorger_val" inherits="GameFontNormal" text="Buru the Gorger: ">
+								<FontString name="CEPGP_options_Buru the Gorger_val" inherits="GameFontNormal" parentArray="bosses" text="Buru the Gorger">
 									<Color r="1" g="1" b="1"/>
 									<Anchors>
 										<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="CEPGP_options_Moam_val">
@@ -3206,7 +3206,7 @@
 										</Anchor>
 									</Anchors>
 								</FontString>
-								<FontString name="CEPGP_options_Ayamiss the Hunter_val" inherits="GameFontNormal" text="Ayamiss the Hunter: ">
+								<FontString name="CEPGP_options_Ayamiss the Hunter_val" inherits="GameFontNormal" parentArray="bosses" text="Ayamiss the Hunter">
 									<Color r="1" g="1" b="1"/>
 									<Anchors>
 										<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="CEPGP_options_Buru the Gorger_val">
@@ -3216,7 +3216,7 @@
 										</Anchor>
 									</Anchors>
 								</FontString>
-								<FontString name="CEPGP_options_Ossirian the Unscarred_val" inherits="GameFontNormal" text="Ossirian the Unscarred: ">
+								<FontString name="CEPGP_options_Ossirian the Unscarred_val" inherits="GameFontNormal" parentArray="bosses" text="Ossirian the Unscarred">
 									<Color r="1" g="1" b="1"/>
 									<Anchors>
 										<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="CEPGP_options_Ayamiss the Hunter_val">
@@ -3257,7 +3257,7 @@
 						</Anchors>
 						<Layers>
 							<Layer level="OVERLAY">
-								<FontString name="CEPGP_options_The Prophet Skeram_val" inherits="GameFontNormal" text="The Prophet Skeram: ">
+								<FontString name="CEPGP_options_The Prophet Skeram_val" inherits="GameFontNormal" parentArray="bosses" text="The Prophet Skeram">
 									<Color r="1" g="1" b="1"/>
 									<Anchors>
 										<Anchor point="TOPLEFT" relativePoint="TOPLEFT">
@@ -3267,7 +3267,7 @@
 										</Anchor>
 									</Anchors>
 								</FontString>
-								<FontString name="CEPGP_options_Battleguard Sartura_val" inherits="GameFontNormal" text="Battleguard Sartura: ">
+								<FontString name="CEPGP_options_Battleguard Sartura_val" inherits="GameFontNormal" parentArray="bosses" text="Battleguard Sartura">
 									<Color r="1" g="1" b="1"/>
 									<Anchors>
 										<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="CEPGP_options_The Prophet Skeram_val">
@@ -3277,7 +3277,7 @@
 										</Anchor>
 									</Anchors>
 								</FontString>
-								<FontString name="CEPGP_options_Fankriss the Unyielding_val" inherits="GameFontNormal" text="Fankriss the Unyielding: ">
+								<FontString name="CEPGP_options_Fankriss the Unyielding_val" inherits="GameFontNormal" parentArray="bosses" text="Fankriss the Unyielding">
 									<Color r="1" g="1" b="1"/>
 									<Anchors>
 										<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="CEPGP_options_Battleguard Sartura_val">
@@ -3287,7 +3287,7 @@
 										</Anchor>
 									</Anchors>
 								</FontString>
-								<FontString name="CEPGP_options_Princess Huhuran_val" inherits="GameFontNormal" text="Princess Huhuran: ">
+								<FontString name="CEPGP_options_Princess Huhuran_val" inherits="GameFontNormal" parentArray="bosses" text="Princess Huhuran">
 									<Color r="1" g="1" b="1"/>
 									<Anchors>
 										<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="CEPGP_options_Fankriss the Unyielding_val">
@@ -3297,7 +3297,7 @@
 										</Anchor>
 									</Anchors>
 								</FontString>
-								<FontString name="CEPGP_options_The Bug Trio_val" inherits="GameFontNormal" text="The Bug Trio: ">
+								<FontString name="CEPGP_options_The Silithid Royalty_val" inherits="GameFontNormal" parentArray="bosses" text="The Silithid Royalty">
 									<Color r="1" g="1" b="1"/>
 									<Anchors>
 										<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="CEPGP_options_Princess Huhuran_val">
@@ -3307,17 +3307,17 @@
 										</Anchor>
 									</Anchors>
 								</FontString>
-								<FontString name="CEPGP_options_Viscidus_val" inherits="GameFontNormal" text="Viscidus: ">
+								<FontString name="CEPGP_options_Viscidus_val" inherits="GameFontNormal" parentArray="bosses" text="Viscidus">
 									<Color r="1" g="1" b="1"/>
 									<Anchors>
-										<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="CEPGP_options_The Bug Trio_val">
+										<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="CEPGP_options_The Silithid Royalty_val">
 											<Offset>
 												<AbsDimension x="0" y="-10" />
 											</Offset>
 										</Anchor>
 									</Anchors>
 								</FontString>
-								<FontString name="CEPGP_options_Ouro_val" inherits="GameFontNormal" text="Ouro: ">
+								<FontString name="CEPGP_options_Ouro_val" inherits="GameFontNormal" parentArray="bosses" text="Ouro">
 									<Color r="1" g="1" b="1"/>
 									<Anchors>
 										<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="CEPGP_options_Viscidus_val">
@@ -3327,7 +3327,7 @@
 										</Anchor>
 									</Anchors>
 								</FontString>
-								<FontString name="CEPGP_options_The Twin Emperors_val" inherits="GameFontNormal" text="The Twin Emperors: ">
+								<FontString name="CEPGP_options_The Twin Emperors_val" inherits="GameFontNormal" parentArray="bosses" text="The Twin Emperors">
 									<Color r="1" g="1" b="1"/>
 									<Anchors>
 										<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="CEPGP_options_Ouro_val">
@@ -3337,7 +3337,7 @@
 										</Anchor>
 									</Anchors>
 								</FontString>
-								<FontString name="CEPGP_options_C'Thun_val" inherits="GameFontNormal" text="C'Thun: ">
+								<FontString name="CEPGP_options_C'Thun_val" inherits="GameFontNormal" parentArray="bosses" text="C'Thun">
 									<Color r="1" g="1" b="1"/>
 									<Anchors>
 										<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="CEPGP_options_The Twin Emperors_val">
@@ -3354,7 +3354,7 @@
 							<CheckButton name="CEPGP_options_Battleguard Sartura_auto_check" inherits="AutoAwardEPCheckBox" />
 							<CheckButton name="CEPGP_options_Fankriss the Unyielding_auto_check" inherits="AutoAwardEPCheckBox" />
 							<CheckButton name="CEPGP_options_Princess Huhuran_auto_check" inherits="AutoAwardEPCheckBox" />
-							<CheckButton name="CEPGP_options_The Bug Trio_auto_check" inherits="AutoAwardEPCheckBox" />
+							<CheckButton name="CEPGP_options_The Silithid Royalty_auto_check" inherits="AutoAwardEPCheckBox" />
 							<CheckButton name="CEPGP_options_Viscidus_auto_check" inherits="AutoAwardEPCheckBox" />
 							<CheckButton name="CEPGP_options_Ouro_auto_check" inherits="AutoAwardEPCheckBox" />
 							<CheckButton name="CEPGP_options_The Twin Emperors_auto_check" inherits="AutoAwardEPCheckBox" />
@@ -3364,7 +3364,7 @@
 							<EditBox name="CEPGP_options_Battleguard Sartura_EP_value" inherits="epValInputBoxTemplate" />
 							<EditBox name="CEPGP_options_Fankriss the Unyielding_EP_value" inherits="epValInputBoxTemplate" />
 							<EditBox name="CEPGP_options_Princess Huhuran_EP_value" inherits="epValInputBoxTemplate" />
-							<EditBox name="CEPGP_options_The Bug Trio_EP_value" inherits="epValInputBoxTemplate" />
+							<EditBox name="CEPGP_options_The Silithid Royalty_EP_value" inherits="epValInputBoxTemplate" />
 							<EditBox name="CEPGP_options_Viscidus_EP_value" inherits="epValInputBoxTemplate" />
 							<EditBox name="CEPGP_options_Ouro_EP_value" inherits="epValInputBoxTemplate" />
 							<EditBox name="CEPGP_options_The Twin Emperors_EP_value" inherits="epValInputBoxTemplate" />
@@ -3384,7 +3384,7 @@
 						</Anchors>
 						<Layers>
 							<Layer level="OVERLAY">
-								<FontString name="CEPGP_options_Anub'Rekhan_val" inherits="GameFontNormal" text="Anub'Rekhan: ">
+								<FontString name="CEPGP_options_Anub'Rekhan_val" inherits="GameFontNormal" parentArray="bosses" text="Anub'Rekhan">
 									<Color r="1" g="1" b="1"/>
 									<Anchors>
 										<Anchor point="TOPLEFT" relativePoint="TOPLEFT">
@@ -3394,7 +3394,7 @@
 										</Anchor>
 									</Anchors>
 								</FontString>
-								<FontString name="CEPGP_options_Grand Widow Faerlina_val" inherits="GameFontNormal" text="Grand Widow Faerlina: ">
+								<FontString name="CEPGP_options_Grand Widow Faerlina_val" inherits="GameFontNormal" parentArray="bosses" text="Grand Widow Faerlina">
 									<Color r="1" g="1" b="1"/>
 									<Anchors>
 										<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="CEPGP_options_Anub'Rekhan_val">
@@ -3404,7 +3404,7 @@
 										</Anchor>
 									</Anchors>
 								</FontString>
-								<FontString name="CEPGP_options_Maexxna_val" inherits="GameFontNormal" text="Maexxna: ">
+								<FontString name="CEPGP_options_Maexxna_val" inherits="GameFontNormal" parentArray="bosses" text="Maexxna">
 									<Color r="1" g="1" b="1"/>
 									<Anchors>
 										<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="CEPGP_options_Grand Widow Faerlina_val">
@@ -3414,7 +3414,7 @@
 										</Anchor>
 									</Anchors>
 								</FontString>
-								<FontString name="CEPGP_options_Noth the Plaguebringer_val" inherits="GameFontNormal" text="Noth the Plaguebringer: ">
+								<FontString name="CEPGP_options_Noth the Plaguebringer_val" inherits="GameFontNormal" parentArray="bosses" text="Noth the Plaguebringer">
 									<Color r="1" g="1" b="1"/>
 									<Anchors>
 										<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="CEPGP_options_Maexxna_val">
@@ -3424,7 +3424,7 @@
 										</Anchor>
 									</Anchors>
 								</FontString>
-								<FontString name="CEPGP_options_Heigan the Unclean_val" inherits="GameFontNormal" text="Heigan the Unclean: ">
+								<FontString name="CEPGP_options_Heigan the Unclean_val" inherits="GameFontNormal" parentArray="bosses" text="Heigan the Unclean">
 									<Color r="1" g="1" b="1"/>
 									<Anchors>
 										<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="CEPGP_options_Noth the Plaguebringer_val">
@@ -3434,7 +3434,7 @@
 										</Anchor>
 									</Anchors>
 								</FontString>
-								<FontString name="CEPGP_options_Loatheb_val" inherits="GameFontNormal" text="Loatheb: ">
+								<FontString name="CEPGP_options_Loatheb_val" inherits="GameFontNormal" parentArray="bosses" text="Loatheb">
 									<Color r="1" g="1" b="1"/>
 									<Anchors>
 										<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="CEPGP_options_Heigan the Unclean_val">
@@ -3444,7 +3444,7 @@
 										</Anchor>
 									</Anchors>
 								</FontString>
-								<FontString name="CEPGP_options_Instructor Razuvious_val" inherits="GameFontNormal" text="Instructor Razuvious: ">
+								<FontString name="CEPGP_options_Instructor Razuvious_val" inherits="GameFontNormal" parentArray="bosses" text="Instructor Razuvious">
 									<Color r="1" g="1" b="1"/>
 									<Anchors>
 										<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="CEPGP_options_Loatheb_val">
@@ -3454,7 +3454,7 @@
 										</Anchor>
 									</Anchors>
 								</FontString>
-								<FontString name="CEPGP_options_Gothik the Harvester_val" inherits="GameFontNormal" text="Gothik the Harvester: ">
+								<FontString name="CEPGP_options_Gothik the Harvester_val" inherits="GameFontNormal" parentArray="bosses" text="Gothik the Harvester">
 									<Color r="1" g="1" b="1"/>
 									<Anchors>
 										<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="CEPGP_options_Instructor Razuvious_val">
@@ -3464,7 +3464,7 @@
 										</Anchor>
 									</Anchors>
 								</FontString>
-								<FontString name="CEPGP_options_The Four Horsemen_val" inherits="GameFontNormal" text="The Four Horsemen: ">
+								<FontString name="CEPGP_options_The Four Horsemen_val" inherits="GameFontNormal" parentArray="bosses" text="The Four Horsemen">
 									<Color r="1" g="1" b="1"/>
 									<Anchors>
 										<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="CEPGP_options_Gothik the Harvester_val">
@@ -3474,7 +3474,7 @@
 										</Anchor>
 									</Anchors>
 								</FontString>
-								<FontString name="CEPGP_options_Patchwerk_val" inherits="GameFontNormal" text="Patchwerk: ">
+								<FontString name="CEPGP_options_Patchwerk_val" inherits="GameFontNormal" parentArray="bosses" text="Patchwerk">
 									<Color r="1" g="1" b="1"/>
 									<Anchors>
 										<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="CEPGP_options_The Four Horsemen_val">
@@ -3484,7 +3484,7 @@
 										</Anchor>
 									</Anchors>
 								</FontString>
-								<FontString name="CEPGP_options_Grobbulus_val" inherits="GameFontNormal" text="Grobbulus: ">
+								<FontString name="CEPGP_options_Grobbulus_val" inherits="GameFontNormal" parentArray="bosses" text="Grobbulus">
 									<Color r="1" g="1" b="1"/>
 									<Anchors>
 										<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="CEPGP_options_Patchwerk_val">
@@ -3494,7 +3494,7 @@
 										</Anchor>
 									</Anchors>
 								</FontString>
-								<FontString name="CEPGP_options_Gluth_val" inherits="GameFontNormal" text="Gluth: ">
+								<FontString name="CEPGP_options_Gluth_val" inherits="GameFontNormal" parentArray="bosses" text="Gluth">
 									<Color r="1" g="1" b="1"/>
 									<Anchors>
 										<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="CEPGP_options_Grobbulus_val">
@@ -3504,7 +3504,7 @@
 										</Anchor>
 									</Anchors>
 								</FontString>
-								<FontString name="CEPGP_options_Thaddius_val" inherits="GameFontNormal" text="Thaddius: ">
+								<FontString name="CEPGP_options_Thaddius_val" inherits="GameFontNormal" parentArray="bosses" text="Thaddius">
 									<Color r="1" g="1" b="1"/>
 									<Anchors>
 										<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="CEPGP_options_Gluth_val">
@@ -3514,7 +3514,7 @@
 										</Anchor>
 									</Anchors>
 								</FontString>
-								<FontString name="CEPGP_options_Sapphiron_val" inherits="GameFontNormal" text="Sapphiron: ">
+								<FontString name="CEPGP_options_Sapphiron_val" inherits="GameFontNormal" parentArray="bosses" text="Sapphiron">
 									<Color r="1" g="1" b="1"/>
 									<Anchors>
 										<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="CEPGP_options_Thaddius_val">
@@ -3524,7 +3524,7 @@
 										</Anchor>
 									</Anchors>
 								</FontString>
-								<FontString name="CEPGP_options_Kel'Thuzad_val" inherits="GameFontNormal" text="Kel'Thuzad: ">
+								<FontString name="CEPGP_options_Kel'Thuzad_val" inherits="GameFontNormal" parentArray="bosses" text="Kel'Thuzad">
 									<Color r="1" g="1" b="1"/>
 									<Anchors>
 										<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="CEPGP_options_Sapphiron_val">
@@ -3583,7 +3583,7 @@
 						</Anchors>
 						<Layers>
 							<Layer level="OVERLAY">
-								<FontString name="CEPGP_options_Doom Lord Kazzak_val" inherits="GameFontNormal" text="Doom Lord Kazzak: ">
+								<FontString name="CEPGP_options_Lord Kazzak_val" inherits="GameFontNormal" parentArray="bosses" text="Lord Kazzak">
 									<Color r="1" g="1" b="1"/>
 									<Anchors>
 										<Anchor point="TOPLEFT" relativePoint="TOPLEFT">
@@ -3593,17 +3593,17 @@
 										</Anchor>
 									</Anchors>
 								</FontString>
-								<FontString name="CEPGP_options_Azuregos_val" inherits="GameFontNormal" text="Azuregos: ">
+								<FontString name="CEPGP_options_Azuregos_val" inherits="GameFontNormal" parentArray="bosses" text="Azuregos">
 									<Color r="1" g="1" b="1"/>
 									<Anchors>
-										<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="CEPGP_options_Doom Lord Kazzak_val">
+										<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="CEPGP_options_Lord Kazzak_val">
 											<Offset>
 												<AbsDimension x="0" y="-10" />
 											</Offset>
 										</Anchor>
 									</Anchors>
 								</FontString>
-								<FontString name="CEPGP_options_Teremus the Devourer_val" inherits="GameFontNormal" text="Teremus the Devourer: ">
+								<FontString name="CEPGP_options_Emeriss_val" inherits="GameFontNormal" parentArray="bosses" text="Emeriss">
 									<Color r="1" g="1" b="1"/>
 									<Anchors>
 										<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="CEPGP_options_Azuregos_val">
@@ -3613,17 +3613,7 @@
 										</Anchor>
 									</Anchors>
 								</FontString>
-								<FontString name="CEPGP_options_Emeriss_val" inherits="GameFontNormal" text="Emeriss: ">
-									<Color r="1" g="1" b="1"/>
-									<Anchors>
-										<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="CEPGP_options_Teremus the Devourer_val">
-											<Offset>
-												<AbsDimension x="0" y="-10" />
-											</Offset>
-										</Anchor>
-									</Anchors>
-								</FontString>
-								<FontString name="CEPGP_options_Lethon_val" inherits="GameFontNormal" text="Lethon: ">
+								<FontString name="CEPGP_options_Lethon_val" inherits="GameFontNormal" parentArray="bosses" text="Lethon">
 									<Color r="1" g="1" b="1"/>
 									<Anchors>
 										<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="CEPGP_options_Emeriss_val">
@@ -3633,7 +3623,7 @@
 										</Anchor>
 									</Anchors>
 								</FontString>
-								<FontString name="CEPGP_options_Ysondre_val" inherits="GameFontNormal" text="Ysondre: ">
+								<FontString name="CEPGP_options_Ysondre_val" inherits="GameFontNormal" parentArray="bosses" text="Ysondre">
 									<Color r="1" g="1" b="1"/>
 									<Anchors>
 										<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="CEPGP_options_Lethon_val">
@@ -3643,7 +3633,7 @@
 										</Anchor>
 									</Anchors>
 								</FontString>
-								<FontString name="CEPGP_options_Taerar_val" inherits="GameFontNormal" text="Taerar: ">
+								<FontString name="CEPGP_options_Taerar_val" inherits="GameFontNormal" parentArray="bosses" text="Taerar">
 									<Color r="1" g="1" b="1"/>
 									<Anchors>
 										<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="CEPGP_options_Ysondre_val">
@@ -3656,17 +3646,15 @@
 							</Layer>
 						</Layers>
 						<Frames>
-							<CheckButton name="CEPGP_options_Doom Lord Kazzak_auto_check" inherits="AutoAwardEPCheckBox" />
+							<CheckButton name="CEPGP_options_Lord Kazzak_auto_check" inherits="AutoAwardEPCheckBox" />
 							<CheckButton name="CEPGP_options_Azuregos_auto_check" inherits="AutoAwardEPCheckBox" />
-							<CheckButton name="CEPGP_options_Teremus the Devourer_auto_check" inherits="AutoAwardEPCheckBox" />
 							<CheckButton name="CEPGP_options_Emeriss_auto_check" inherits="AutoAwardEPCheckBox" />
 							<CheckButton name="CEPGP_options_Lethon_auto_check" inherits="AutoAwardEPCheckBox" />
 							<CheckButton name="CEPGP_options_Ysondre_auto_check" inherits="AutoAwardEPCheckBox" />
 							<CheckButton name="CEPGP_options_Taerar_auto_check" inherits="AutoAwardEPCheckBox" />
 							
-							<EditBox name="CEPGP_options_Doom Lord Kazzak_EP_value" inherits="epValInputBoxTemplate" />
+							<EditBox name="CEPGP_options_Lord Kazzak_EP_value" inherits="epValInputBoxTemplate" />
 							<EditBox name="CEPGP_options_Azuregos_EP_value" inherits="epValInputBoxTemplate" />
-							<EditBox name="CEPGP_options_Teremus the Devourer_EP_value" inherits="epValInputBoxTemplate" />
 							<EditBox name="CEPGP_options_Emeriss_EP_value" inherits="epValInputBoxTemplate" />
 							<EditBox name="CEPGP_options_Lethon_EP_value" inherits="epValInputBoxTemplate" />
 							<EditBox name="CEPGP_options_Ysondre_EP_value" inherits="epValInputBoxTemplate" />
@@ -3977,6 +3965,7 @@
 				self:RegisterEvent("CHAT_MSG_BN_WHISPER");
 				self:RegisterEvent("PLAYER_ENTERING_WORLD");
 				self:RegisterEvent("RAID_INSTANCE_WELCOME");
+				self:RegisterEvent("ENCOUNTER_END");
 			</OnLoad>
 			<OnMouseDown>
 				self:StartMoving();

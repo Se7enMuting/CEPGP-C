@@ -31,6 +31,7 @@ CEPGP_responses = {};
 CEPGP_itemsTable = {};
 CEPGP_roster = {};
 CEPGP_raidRoster = {};
+CEPGP_subroster = {}; --plus
 CEPGP_vInfo = {};
 CEPGP_vSearch = "GUILD";
 CEPGP_ElvUI = nil;
@@ -92,15 +93,28 @@ local L = CEPGP_Locale:GetLocale("CEPGP")
 --[[ EVENT AND COMMAND HANDLER ]]--
 function CEPGP_OnEvent(event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9)
 	
+	local function isLootKeyword()
+		if string.lower(arg1) == string.lower(CEPGP_keyword) or string.lower(arg1) == string.lower(CEPGP_keyword_2) or string.lower(arg1) == string.lower(CEPGP_keyword_3) then
+			return true;
+		end
+		return false;
+	end
+	
 	if event == "ADDON_LOADED" and arg1 == "CEPGP" then --arg1 = addon name
 		CEPGP_initialise();
+		return;
+		
 	elseif event == "PLAYER_ENTERING_WORLD" or event == "RAID_INSTANCE_WELCOME" then --plus
 		local _,_, difficultyID = GetInstanceInfo(); --plus
 		if difficultyID == 0 and (CEPGP_lootChannel == "Say" or CEPGP_lootChannel == "Yell") then --plus
 			CEPGP_lootChannel = "RAID"; --plus
 		end --plus
+		return;
+		
 	elseif event == "GUILD_ROSTER_UPDATE" or event == "GROUP_ROSTER_UPDATE" then
+		CEPGP_subrosterUpdate(event); --plus
 		CEPGP_rosterUpdate(event);
+		return;
 		
 	elseif event == "PARTY_LOOT_METHOD_CHANGED" then
 		if GetLootMethod() == "master" and IsInRaid("player") and CEPGP_isML() == 0 then
@@ -108,8 +122,11 @@ function CEPGP_OnEvent(event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, ar
 		else
 			_G["CEPGP_confirmation"]:Hide();
 		end
+		return;
+		
 	elseif event == "CHAT_MSG_BN_WHISPER" then
 		local sender = arg2;
+		if not UnitInRaid("player") then return; end
 		for i = 1, BNGetNumFriends() do
 			local _, accName, _, _, name = BNGetFriendInfo(i);
 			local inRaid = false;
@@ -125,7 +142,7 @@ function CEPGP_OnEvent(event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, ar
 						not CEPGP_tContains(CEPGP_standbyRoster, name) and not inRaid and CEPGP_tContains(CEPGP_roster, name, true) then
 						CEPGP_addToStandby(name);
 					end
-				elseif ((string.lower(arg1) == string.lower(CEPGP_keyword) or string.lower(arg1) == string.lower(CEPGP_keyword_2) or string.lower(arg1) == string.lower(CEPGP_keyword_3)) and CEPGP_distributing) or --plus
+				elseif (isLootKeyword() and CEPGP_distributing) or --plus
 						(string.lower(arg1) == "!info" or string.lower(arg1) == "!infoguild" or
 						string.lower(arg1) == "!inforaid" or string.lower(arg1) == "!infoclass" or string.lower(arg1) == "!infoavegp") then --plus
 						CEPGP_handleComms("CHAT_MSG_WHISPER", arg1, name);
@@ -133,7 +150,7 @@ function CEPGP_OnEvent(event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, ar
 				return;
 			end
 		end
-		
+		return;
 	
 	elseif event == "CHAT_MSG_WHISPER" and string.lower(arg1) == string.lower(CEPGP_standby_whisper_msg) and CEPGP_standby_manual and CEPGP_standby_accept_whispers then
 		if not CEPGP_tContains(CEPGP_standbyRoster, arg5)
@@ -141,11 +158,13 @@ function CEPGP_OnEvent(event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, ar
 		and CEPGP_tContains(CEPGP_roster, arg5, true) then
 			CEPGP_addToStandby(arg5);
 		end
+		return;
 			
-	elseif (event == "CHAT_MSG_WHISPER" and (string.lower(arg1) == string.lower(CEPGP_keyword) or string.lower(arg1) == string.lower(CEPGP_keyword_2) or string.lower(arg1) == string.lower(CEPGP_keyword_3)) and CEPGP_distributing) or --plus
+	elseif (event == "CHAT_MSG_WHISPER" and isLootKeyword() and CEPGP_distributing) or --plus
 		(event == "CHAT_MSG_WHISPER" and string.lower(arg1) == "!info") or
 		(event == "CHAT_MSG_WHISPER" and (string.lower(arg1) == "!infoguild" or string.lower(arg1) == "!inforaid" or string.lower(arg1) == "!infoclass" or string.lower(arg1) == "!infoavegp")) then --plus
 			CEPGP_handleComms(event, arg1, arg5);
+			return;
 	
 	elseif (event == "CHAT_MSG_ADDON") then
 		if (arg1 == "CEPGP")then
@@ -154,58 +173,26 @@ function CEPGP_OnEvent(event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, ar
 			end
 			CEPGP_IncAddonMsg(arg2, arg4);
 		end
+		return;
+	end
 	
-	elseif CEPGP_use then --EPGP and loot distribution related 
-		if event == "COMBAT_LOG_EVENT_UNFILTERED" then
-			local _, action, _, _, _, _, _, guid, name = CombatLogGetCurrentEventInfo();
-			if action == "UNIT_DIED" and string.find(guid, "Creature") then
-				if name == L["Zealot Zath"] or name == L["Zealot Lor'Khan"] then
-					CEPGP_handleCombat(name);
-					return;
-				end
-				if name == L["Flamewaker Elite"] or name == L["Flamewaker Healer"] then
-					CEPGP_handleCombat(name, true);
-				end
-				if bossNameIndex[name] then
+	if CEPGP_use or CEPGP_debugMode then --EPGP and loot distribution related 
+	--	An encounter has been defeated
+		if event == "ENCOUNTER_END" and arg5 == 1 then
+			local id = tonumber(arg1);
+			local name = CEPGP_EncounterInfo.ID[id];
+			if name then
+				if AUTOEP[name] and tonumber(EPVALS[name]) > 0 then
 					CEPGP_handleCombat(name);
 				end
-			-- elseif action == "SPELL_CAST_SUCCESS" then
-				-- local spellID, spellName;
-				-- _, _, _, _, name, _, _, _, _, _, _, spellID = CombatLogGetCurrentEventInfo();
-				-- if name == L["Razorgore the Untamed"] and spellID == 19873 then --Razorgore casts destroy egg
-					-- CEPGP_kills = CEPGP_kills + 1;
-				-- end
 			end
-			
-		elseif event == "CHAT_MSG_MONSTER_EMOTE" then
-			if arg1 == L["%s is resurrected by a nearby ally!"] then
-				if arg2 == L["Zealot Lor'Khan"] then
-					CEPGP_THEKAL_PARAMS["LOR'KHAN_DEAD"] = false;
-				elseif arg2 == L["Zealot Zath"] then
-					CEPGP_THEKAL_PARAMS["ZATH_DEAD"] = false;
-				elseif arg2 == L["High Priest Thekal"] and not (CEPGP_THEKAL_PARAMS["LOR'KHAN_DEAD"] or CEPGP_THEKAL_PARAMS["ZATH_DEAD"]) then
-					CEPGP_THEKAL_PARAMS["THEKAL_DEAD"] = false;
-				end
-			end
-			
-		elseif event == "CHAT_MSG_MONSTER_YELL" then
-			if arg2 == L["The Prophet Skeram"] then
-				if arg1 == L["You only delay... the inevetable."] then
-					CEPGP_handleCombat(arg2, true);
-				end
-			end
-			
-		elseif (event == "LOOT_OPENED" or event == "LOOT_CLOSED" or event == "LOOT_SLOT_CLEARED") then
+			return;
+		end
+		if (event == "LOOT_OPENED" or event == "LOOT_CLOSED" or event == "LOOT_SLOT_CLEARED") then
 			CEPGP_handleLoot(event, arg1, arg2);
-		
-		elseif event == "PLAYER_REGEN_DISABLED" then -- Player has started combat
-			if CEPGP_debugMode then
-				CEPGP_print("Combat started");
-			end
-			CEPGP_kills = 0;
-			CEPGP_THEKAL_PARAMS = {["ZATH_DEAD"] = false, ["LOR'KHAN_DEAD"] = false, ["THEKAL_DEAD"] = false};
 		end
 	end
+	
 end
 
 function SlashCmdList.CEPGP(msg, editbox)
@@ -667,11 +654,12 @@ function CEPGP_addGP(player, amount, itemID, itemLink, msg)
 			EP = 0;
 		end
 		GuildRosterSetOfficerNote(index, EP .. "," .. GP);
+		local player_C = Re_Block_Words(player);
 		if not itemID then
 			if tonumber(amount) < 0 then -- Number is negative  --plus 原<=0
 				amount = string.sub(amount, 2, string.len(amount));
 				if msg ~= "" and msg ~= nil then
-					CEPGP_sendChatMessage(amount .. " GP被取走從 " .. player .. " (" .. msg .. ")", CHANNEL);
+					CEPGP_sendChatMessage(amount .. " GP被取走從 " .. player_C .. " (" .. msg .. ")", CHANNEL);
 					CEPGP_ShareTraffic(player, UnitName("player"), "減去GP " .. amount .. " (" .. msg .. ")", EP, EP, GP - amount, GPB);
 					TRAFFIC[CEPGP_ntgetn(TRAFFIC)+1] = {
 						[1] = player,
@@ -684,7 +672,7 @@ function CEPGP_addGP(player, amount, itemID, itemLink, msg)
 						[9] = time()
 					};
 				else
-					CEPGP_sendChatMessage(amount .. " GP被取走從 " .. player, CHANNEL);
+					CEPGP_sendChatMessage(amount .. " GP被取走從 " .. player_C, CHANNEL);
 					CEPGP_ShareTraffic(player, UnitName("player"), "減去GP " .. amount, EP, EP, GP - amount, GPB);
 					TRAFFIC[CEPGP_ntgetn(TRAFFIC)+1] = {
 						[1] = player,
@@ -699,7 +687,7 @@ function CEPGP_addGP(player, amount, itemID, itemLink, msg)
 				end
 			else -- Number is positive or 0
 				if msg ~= "" and msg ~= nil then
-					CEPGP_sendChatMessage(amount .. " GP被增加給 " .. player .. " (" .. msg .. ")", CHANNEL);
+					CEPGP_sendChatMessage(amount .. " GP被增加給 " .. player_C .. " (" .. msg .. ")", CHANNEL);
 					CEPGP_ShareTraffic(player, UnitName("player"), "增加GP " .. amount .. " (" .. msg .. ")", EP, EP, GPB, GP);
 					TRAFFIC[CEPGP_ntgetn(TRAFFIC)+1] = {
 						[1] = player,
@@ -712,7 +700,7 @@ function CEPGP_addGP(player, amount, itemID, itemLink, msg)
 						[9] = time()
 					};
 				else
-					CEPGP_sendChatMessage(amount .. " GP被增加給 " .. player, CHANNEL);
+					CEPGP_sendChatMessage(amount .. " GP被增加給 " .. player_C, CHANNEL);
 					CEPGP_ShareTraffic(player, UnitName("player"), "增加GP " .. amount, EP, EP, GPB, GP);
 					TRAFFIC[CEPGP_ntgetn(TRAFFIC)+1] = {
 						[1] = player,
@@ -774,7 +762,6 @@ function CEPGP_addGP(player, amount, itemID, itemLink, msg)
 		CEPGP_UpdateTrafficScrollBar();
 	else
 		CEPGP_print(player .. " not found in guild roster - no GP given");
-		CEPGP_print("If this was a mistake, you can manually award them GP via the CEPGP guild menu");
 	end
 end
 
@@ -803,10 +790,11 @@ function CEPGP_addEP(player, amount, msg)
 			EP = 0;
 		end
 		GuildRosterSetOfficerNote(index, EP .. "," .. GP);
+		local player_C = Re_Block_Words(player);
 		if tonumber(amount) <= 0 then
 			if msg ~= "" and msg ~= nil then
 				amount = string.sub(amount, 2, string.len(amount));
-				CEPGP_sendChatMessage(amount .. " EP被取走從 " .. player .. " (" .. msg .. ")", CHANNEL);
+				CEPGP_sendChatMessage(amount .. " EP被取走從 " .. player_C .. " (" .. msg .. ")", CHANNEL);
 				TRAFFIC[CEPGP_ntgetn(TRAFFIC)+1] = {
 					[1] = player,
 					[2] = UnitName("player"),
@@ -820,7 +808,7 @@ function CEPGP_addEP(player, amount, msg)
 				CEPGP_ShareTraffic(player, UnitName("player"), "減少EP -" .. amount .. " (" .. msg .. ")", EPB, EP, GP, GP);
 			else
 				amount = string.sub(amount, 2, string.len(amount));
-				CEPGP_sendChatMessage(amount .. " EP被取走從 " .. player, CHANNEL);
+				CEPGP_sendChatMessage(amount .. " EP被取走從 " .. player_C, CHANNEL);
 				TRAFFIC[CEPGP_ntgetn(TRAFFIC)+1] = {
 					[1] = player,
 					[2] = UnitName("player"),
@@ -835,7 +823,7 @@ function CEPGP_addEP(player, amount, msg)
 			end
 		else
 			if msg ~= "" and msg ~= nil then
-				CEPGP_sendChatMessage(amount .. " EP增加給 " .. player .. " (" .. msg .. ")", CHANNEL);
+				CEPGP_sendChatMessage(amount .. " EP增加給 " .. player_C .. " (" .. msg .. ")", CHANNEL);
 				TRAFFIC[CEPGP_ntgetn(TRAFFIC)+1] = {
 					[1] = player,
 					[2] = UnitName("player"),
@@ -848,7 +836,7 @@ function CEPGP_addEP(player, amount, msg)
 				};
 				CEPGP_ShareTraffic(player, UnitName("player"), "增加EP +" .. amount .. " (" .. msg ..")", EPB, EP, GP, GP);
 			else
-				CEPGP_sendChatMessage(amount .. " EP增加給 " .. player, CHANNEL);
+				CEPGP_sendChatMessage(amount .. " EP增加給 " .. player_C, CHANNEL);
 				TRAFFIC[CEPGP_ntgetn(TRAFFIC)+1] = {
 					[1] = player,
 					[2] = UnitName("player"),
@@ -864,7 +852,7 @@ function CEPGP_addEP(player, amount, msg)
 		end
 		CEPGP_UpdateTrafficScrollBar();
 	else
-		CEPGP_print("Player not found in guild CEPGP_roster.", true);
+		CEPGP_print(player .. " not found in guild roster - no EP given");
 	end
 end
 

@@ -739,30 +739,12 @@
 				local name = strsub(self:GetName(), 15, strfind(self:GetName(), "_EP")-1);
 				local value = self:GetText();
 				if value == "" or not CEPGP_isNumber(value) then
-					self:SetText(tostring(EPVALS[L[name]]));
-				elseif value == EPVALS[L[name]] then
+					self:SetText(tostring(EPVALS[name]));
+				elseif value == EPVALS[name] then
 					return;
-				elseif EPVALS[L[name]] ~= tonumber(value) then
-					if name == "The Edge of Madness" then
-						EPVALS[L["Gri'lek"]] = value;
-						EPVALS[L["Hazza'rah"]] = value;
-						EPVALS[L["Renataki"]] = value;
-						EPVALS[L["Wushoolay"]] = value;
-					elseif name == "The Bug Trio" then
-						EPVALS[L["Princess Yauj"]] = value;
-						EPVALS[L["Vem"]] = value;
-						EPVALS[L["Lord Kri"]] = value;
-					elseif name == "The Twin Emperors" then
-						EPVALS[L["Emperor Vek'lor"]] = value;
-						EPVALS[L["Emperor Vek'nilash"]] = value;
-					elseif name == "The Four Horsemen" then
-						EPVALS[L["Highlord Mograine"]] = value;
-						EPVALS[L["Thane Korth'azz"]] = value;
-						EPVALS[L["Lady Blaumeux"]] = value;
-						EPVALS[L["Sir Zeliek"]] = value;
-					else
-						EPVALS[L[name]] = value;
-					end
+				elseif EPVALS[name] ~= tonumber(value) then
+					value = tonumber(value);
+					EPVALS[name] = value;
 					CEPGP_print("Updated EP awarded for " .. L[name]);
 				end
 			</OnEditFocusLost>
@@ -771,16 +753,7 @@
 
 				local name = strsub(self:GetName(), 15, strfind(self:GetName(), "_EP")-1);
 				local target = _G["CEPGP_options_" .. name .. "_val"];
-				if name == "The Edge of Madness" then
-					name = "Gri'lek"; --All bosses in the edge of madness will have the same value
-				elseif name == "The Bug Trio" then
-					name = "Princess Yauj";
-				elseif name == "The Twin Emperors" then
-					name = "Emperor Vek'lor";
-				elseif name == "The Four Horsemen" then
-					name = "Highlord Mograine";
-				end				
-				self:SetText(tostring(EPVALS[L[name]]));
+				self:SetText(tostring(EPVALS[name]));
 				self:SetPoint('LEFT', target, 'LEFT', 275, 0); --FontStrings justify to the left, so for the sake of structuring, it's better to set the relative anchor to left
 			</OnShow>
 		</Scripts>
@@ -824,75 +797,20 @@
 			</OnLoad>
 			<OnClick>
 				local L = CEPGP_Locale:GetLocale("CEPGP")
-
+				
 				local name = strsub(self:GetName(), 15, strfind(self:GetName(), "_auto_check")-1);
-				if name == "The Edge of Madness" then
-					if self:GetChecked() then
-						AUTOEP[L["Gri'lek"]] = true;
-						AUTOEP[L["Hazza'rah"]] = true;
-						AUTOEP[L["Renataki"]] = true;
-						AUTOEP[L["Wushoolay"]] = true;
-					else
-						AUTOEP[L["Gri'lek"]] = false;
-						AUTOEP[L["Hazza'rah"]] = false;
-						AUTOEP[L["Renataki"]] = false;
-						AUTOEP[L["Wushoolay"]] = false;
-					end
-				elseif name == "The Bug Trio" then
-					if self:GetChecked() then
-						AUTOEP[L["Princess Yauj"]] = true;
-						AUTOEP[L["Vem"]] = true;
-						AUTOEP[L["Lord Kri"]] = true;
-					else
-						AUTOEP[L["Princess Yauj"]] = false;
-						AUTOEP[L["Vem"]] = false;
-						AUTOEP[L["Lord Kri"]] = false;
-					end
-				elseif name == "The Twin Emperors" then
-					if self:GetChecked() then
-						AUTOEP[L["Emperor Vek'lor"]] = true;
-						AUTOEP[L["Emperor Vek'nilash"]] = true;
-					else
-						AUTOEP[L["Emperor Vek'lor"]] = false;
-						AUTOEP[L["Emperor Vek'nilash"]] = false;
-					end
-				elseif name == "The Four Horsemen" then
-					if self:GetChecked() then
-						AUTOEP[L["Highlord Mograine"]] = true;
-						AUTOEP[L["Thane Korth'azz"]] = true;
-						AUTOEP[L["Lady Blaumeux"]] = true;
-						AUTOEP[L["Sir Zeliek"]] = true;
-					else
-						AUTOEP[L["Highlord Mograine"]] = false;
-						AUTOEP[L["Thane Korth'azz"]] = false;
-						AUTOEP[L["Lady Blaumeux"]] = false;
-						AUTOEP[L["Sir Zeliek"]] = false;
-					end
+				if self:GetChecked() then
+					AUTOEP[name] = true;
 				else
-					local name = strsub(self:GetName(), 15, strfind(self:GetName(), "_auto_check")-1);
-					if self:GetChecked() then
-						AUTOEP[L[name]] = true;
-					else
-						AUTOEP[L[name]] = false;
-					end
+					AUTOEP[name] = false;
 				end
 				CEPGP_print("Updated auto award for " .. L[name]);
 			</OnClick>
 			<OnShow>
 				local L = CEPGP_Locale:GetLocale("CEPGP")
-
 				local name = strsub(self:GetName(), 15, strfind(self:GetName(), "_auto_check")-1);
 				local target = _G["CEPGP_options_" .. name .. "_EP_value"];
-				if name == "The Edge of Madness" then
-					name = "Gri'lek"; --All bosses in the edge of madness will have the same value
-				elseif name == "The Bug Trio" then
-					name = "Princess Yauj";
-				elseif name == "The Twin Emperors" then
-					name = "Emperor Vek'lor";
-				elseif name == "The Four Horsemen" then
-					name = "Highlord Mograine";
-				end				
-				self:SetChecked(AUTOEP[L[name]]);
+				self:SetChecked(AUTOEP[name]);
 				self:SetPoint('LEFT', target, 'RIGHT', 25, 0);
 			</OnShow>
 		</Scripts>

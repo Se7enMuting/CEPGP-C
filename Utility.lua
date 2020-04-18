@@ -33,21 +33,54 @@ function CEPGP_initialise()
 	if CEPGP_keyword == nil then
 		CEPGP_keyword = "!need";
 	end
-	if CEPGP_ntgetn(AUTOEP) == 0 then
-		for k, v in pairs(bossNameIndex) do
+	for k, v in pairs(CEPGP_EncounterInfo.Bosses) do
+		if not EPVALS[k] or not tonumber(EPVALS[k]) then -- An expected number is missing
+			EPVALS[k] = v;
+		end
+		if AUTOEP[k] == nil then
 			AUTOEP[k] = true;
 		end
 	end
-	if CEPGP_ntgetn(EPVALS) == 0 then
-		for k, v in pairs(bossNameIndex) do
-			EPVALS[k] = v;
-		end
-	end
+	
+	EPVALS["Teremus the Devourer"] = nil; -- Obsolete entries that need to be removed
+	AUTOEP["Teremus the Devourer"] = nil;
+	EPVALS["Emperor Vek'nilash"] = nil;
+	AUTOEP["Emperor Vek'nilash"] = nil;
+	EPVALS["Emperor Vek'lor"] = nil;
+	AUTOEP["Emperor Vek'lor"] = nil;
+	EPVALS["Vem"] = nil;
+	AUTOEP["Vem"] = nil;
+	EPVALS["Lord Kri"] = nil;
+	AUTOEP["Lord Kri"] = nil;
+	EPVALS["Princess Yauj"] = nil;
+	AUTOEP["Princess Yauj"] = nil;
+	EPVALS["Highlord Mograine"] = nil;
+	AUTOEP["Highlord Mograine"] = nil;
+	EPVALS["Thane Kor'thazz"] = nil;
+	AUTOEP["Thane Kor'thazz"] = nil;
+	EPVALS["Lady Blaumeux"] = nil;
+	AUTOEP["Lady Blaumeux"] = nil;
+	EPVALS["Sir Zeliek"] = nil;
+	AUTOEP["Sir Zeliek"] = nil;
+	
 	-- Localize boss names on the config UI
 	local bossNames = _G["CEPGP_options_page_3_mc"].bosses
 	for k, entity in pairs(bossNames) do
 		entity:SetText(L[entity:GetText()])
 	end
+	local bossNames = _G["CEPGP_options_page_3_bwl"].bosses
+	for k, entity in pairs(bossNames) do
+		entity:SetText(L[entity:GetText()])
+	end
+	local bossNames = _G["CEPGP_options_page_3_aq40"].bosses
+	for k, entity in pairs(bossNames) do
+		entity:SetText(L[entity:GetText()])
+	end
+	local bossNames = _G["CEPGP_options_page_3_naxx"].bosses
+	for k, entity in pairs(bossNames) do
+		entity:SetText(L[entity:GetText()])
+	end
+	
 	if CEPGP_ntgetn(SLOTWEIGHTS) == 0 then
 		SLOTWEIGHTS = {
 			["2HWEAPON"] = 2,
@@ -86,8 +119,11 @@ function CEPGP_initialise()
 			STANDBYRANKS[i][2] = false;
 		end
 	end
+	CEPGP_subrosterUpdate("GUILD_ROSTER_UPDATE"); --plus
 	if UnitInRaid("player") then
 		CEPGP_rosterUpdate("GROUP_ROSTER_UPDATE");
+	else
+		CEPGP_rosterUpdate("GUILD_ROSTER_UPDATE"); --plus
 	end
 	if CEPGP_force_sync_rank == nil then
 		CEPGP_force_sync_rank = 1;
@@ -448,13 +484,13 @@ function CEPGP_rosterUpdate(event)
 		local numGuild = GetNumGuildMembers();
 		CEPGP_roster = {};
 		if CanEditOfficerNote() then
-			ShowUIPanel(CEPGP_guild_add_EP);
+			--ShowUIPanel(CEPGP_guild_add_EP);
 			ShowUIPanel(CEPGP_guild_decay);
 			--ShowUIPanel(CEPGP_guild_reset); --plus
 			ShowUIPanel(CEPGP_raid_add_EP);
 			ShowUIPanel(CEPGP_button_guild_restore);
 		else --[[ Hides context sensitive options if player cannot edit officer notes ]]--
-			HideUIPanel(CEPGP_guild_add_EP);
+			--HideUIPanel(CEPGP_guild_add_EP);
 			HideUIPanel(CEPGP_guild_decay);
 			--HideUIPanel(CEPGP_guild_reset); --plus
 			HideUIPanel(CEPGP_raid_add_EP);
@@ -1692,9 +1728,9 @@ end
 
 function CEPGP_sendChatMessage(msg, channel)
 	if not msg then return; end
-	--if tonumber(CEPGP_getReportChannel(channel)) then
-		--SendChatMessage(msg, "CHANNEL", CEPGP_LANGUAGE, CEPGP_getReportChannel(channel));
-	--else
+	-- if tonumber(CEPGP_getReportChannel(channel)) then
+		-- SendChatMessage(msg, "CHANNEL", CEPGP_LANGUAGE, CEPGP_getReportChannel(channel));
+	-- else
 		SendChatMessage(msg, channel, CEPGP_LANGUAGE);
-	--end
+	-- end
 end
