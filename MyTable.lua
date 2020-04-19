@@ -231,8 +231,15 @@ function CEPGP_subrosterUpdate(event)
 					local subname = string.sub(Note, starti+1, endj-1);
 					Note = string.sub(Note, endj+1);
 					if subname ~= "" then
-						CEPGP_subroster[x] = {true, name, subname};
-						x = x + 1;
+						if CEPGP_tContains(CEPGP_roster, subname, true) then
+							if not CEPGP_checkEPGP(CEPGP_roster[subname][5]) then
+								CEPGP_subroster[x] = {true, name, subname};
+								x = x + 1;
+							end
+						else
+							CEPGP_subroster[x] = {true, name, subname};
+							x = x + 1;
+						end
 					end
 				end
 			end
