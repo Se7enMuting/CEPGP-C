@@ -63,13 +63,13 @@ function CEPGP_UpdateLootScrollBar()
 				for i = 1, GetNumGroupMembers() do
 					if GetRaidRosterInfo(i) == name then
 						local class = select(5, GetRaidRosterInfo(i));
-						local rank = "非會員";
+						local rank = "[" .. calname .. "]"; --"非會員"
 						local rankIndex = 11;
 						local classFile = select(6, GetRaidRosterInfo(i));
 						tempTable[count] = {
 						[1] = name,
 						[2] = class,
-						[3] = "[" .. calname .. "]", --rank
+						[3] = rank,
 						[4] = rankIndex,
 						[5] = EP,
 						[6] = GP,
@@ -77,7 +77,7 @@ function CEPGP_UpdateLootScrollBar()
 						[8] = CEPGP_itemsTable[name][1] or "noitem",
 						[9] = CEPGP_itemsTable[name][2] or "noitem",
 						[10] = classFile,
-						[11] = CEPGP_itemsTable[name][3]-- Loot response
+						[11] = CEPGP_itemsTable[name][3] -- Loot response
 						};
 					end
 				end
