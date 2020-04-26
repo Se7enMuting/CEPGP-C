@@ -49,7 +49,7 @@ function CEPGP_UpdateLootScrollBar()
 				tempTable[count] = {
 					[1] = name,
 					[2] = CEPGP_roster[name][2], --Class
-					[3] = CEPGP_roster[name][3], --Rank
+					[3] = "[" .. calname .. "]", --Rank CEPGP_roster[name][3]
 					[4] = CEPGP_roster[name][4], --RankIndex
 					[5] = EP,
 					[6] = GP,
@@ -57,7 +57,7 @@ function CEPGP_UpdateLootScrollBar()
 					[8] = CEPGP_itemsTable[name][1] or "noitem",
 					[9] = CEPGP_itemsTable[name][2] or "noitem",
 					[10] = CEPGP_roster[name][7], --className in English
-					[11] = CEPGP_itemsTable[name][3] .. "[" .. calname .. "]" -- Loot response
+					[11] = CEPGP_itemsTable[name][3]-- Loot response
 				};
 			else --plus 工作角色不在公會中
 				for i = 1, GetNumGroupMembers() do
@@ -69,7 +69,7 @@ function CEPGP_UpdateLootScrollBar()
 						tempTable[count] = {
 						[1] = name,
 						[2] = class,
-						[3] = rank,
+						[3] = "[" .. calname .. "]", --rank
 						[4] = rankIndex,
 						[5] = EP,
 						[6] = GP,
@@ -77,7 +77,7 @@ function CEPGP_UpdateLootScrollBar()
 						[8] = CEPGP_itemsTable[name][1] or "noitem",
 						[9] = CEPGP_itemsTable[name][2] or "noitem",
 						[10] = classFile,
-						[11] = CEPGP_itemsTable[name][3] .. "[" .. calname .. "]" -- Loot response
+						[11] = CEPGP_itemsTable[name][3]-- Loot response
 						};
 					end
 				end
@@ -411,7 +411,7 @@ function CEPGP_UpdateRaidScrollBar()
 				tempTable[i] = {
 					[1] = name,
 					[2] = CEPGP_roster[name][2], --Class
-					[3] = "[" .. calname .. "]" .. CEPGP_roster[name][3], --Rank
+					[3] = "[" .. calname .. "]", --Rank .. CEPGP_roster[name][3]
 					[4] = EP,
 					[5] = GP,
 					[6] = math.floor((tonumber(EP)*100/tonumber(GP)))/100,
@@ -421,7 +421,7 @@ function CEPGP_UpdateRaidScrollBar()
 				tempTable[i] = {
 					[1] = name,
 					[2] = CEPGP_raidRoster[i][2], --Class
-					[3] = "[" .. calname .. "]" .. CEPGP_raidRoster[i][3], --Rank
+					[3] = "[" .. calname .. "]", --Rank .. CEPGP_raidRoster[i][3]
 					[4] = EP, --EP
 					[5] = GP, --GP
 					[6] = math.floor((tonumber(EP)*100/tonumber(GP)))/100, --PR
