@@ -550,7 +550,7 @@ function CEPGP_handleLoot(event, arg1, arg2)
 				CEPGP_loot:Show();
 			else
 				CEPGP_distributing = false;
-				SendChatMessage(_G["CEPGP_distribute_item_name"]:GetText() .. "沒有通過EPGP被分配", CHANNEL, CEPGP_LANGUAGE); --plus
+				SendChatMessage(_G["CEPGP_distribute_item_name"]:GetText() .. "流拍。要重拍請在團隊頻道提出申請。", CHANNEL, CEPGP_LANGUAGE); --plus
 				CEPGP_distribute_popup:Hide();
 				CEPGP_distribute:Hide();
 				_G["distributing"]:Hide();
