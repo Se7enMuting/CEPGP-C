@@ -436,6 +436,9 @@ function CEPGP_handleCombat(name)
 		local plurals = name == "The Four Horsemen" or name == "The Silithid Royalty" or name == "The Twin Emperors";
 		local message = format(L["%s " .. (plurals and "have" or "has") .. " been defeated! %d EP has been awarded to the raid"], localName, EP);
 		CEPGP_AddRaidEP(EP, message, localName);
+		if (name == "Ragnaros" or name == "Nefarian") and CEPGP_DissolveEP then --解散分
+			CEPGP_AddRaidEP(EP, "解散分"); --解散分
+		end --解散分
 		if STANDBYEP and tonumber(STANDBYPERCENT) > 0 then
 			CEPGP_addStandbyEP(EP*(tonumber(STANDBYPERCENT)/100), localName);
 		end
