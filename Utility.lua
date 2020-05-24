@@ -122,8 +122,6 @@ function CEPGP_initialise()
 	CEPGP_subrosterUpdate("GUILD_ROSTER_UPDATE"); --plus
 	if UnitInRaid("player") then
 		CEPGP_rosterUpdate("GROUP_ROSTER_UPDATE");
-	else
-		CEPGP_rosterUpdate("GUILD_ROSTER_UPDATE"); --plus
 	end
 	if CEPGP_force_sync_rank == nil then
 		CEPGP_force_sync_rank = 1;
