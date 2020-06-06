@@ -553,7 +553,7 @@ function CEPGP_handleLoot(event, arg1, arg2)
 				CEPGP_loot:Show();
 			else
 				CEPGP_distributing = false;
-				SendChatMessage(_G["CEPGP_distribute_item_name"]:GetText() .. "流拍。要重拍請在團隊頻道提出申請。", CHANNEL, CEPGP_LANGUAGE); --plus
+				SendChatMessage(_G["CEPGP_distribute_item_name"]:GetText() .. "流拍。再想用GP拿的，請在[團隊頻道]提出重拍申請。小號可用G購買。", CHANNEL, CEPGP_LANGUAGE); --plus
 				CEPGP_distribute_popup:Hide();
 				CEPGP_distribute:Hide();
 				_G["distributing"]:Hide();

@@ -57,6 +57,7 @@ CEPGP_tokens = {
 			[18265] = -100, 	-- [圖樣：光芒護腕]
 			[21371] = -100, 	-- [圖樣：熔火惡魔布包]
 			[18257] = -100, 	-- [配方：極效活力藥水]
+			
 			[19341] = -100, 	-- [生命寶石]
 			[19342] = -100, 	-- [毒性圖騰]
 			[19336] = -100, 	-- [秘法能量寶石]
@@ -66,7 +67,21 @@ CEPGP_tokens = {
 			[19344] = -100, 	-- [自然之盟水晶]
 			[19343] = -100, 	-- [盲目光芒卷軸]
 			[19340] = -100, 	-- [變形符文]
-			[20383] = -100 	-- [勒西雷爾的頭顱]
+			[20383] = -100, 	-- [勒西雷爾的頭顱]
+			
+			[21218] = -100, 	-- [藍色其拉共鳴水晶]
+			[21324] = -100, 	-- [黃色其拉共鳴水晶]
+			[21323] = -100, 	-- [綠色其拉共鳴水晶]
+			[21321] = -100, 	-- [紅色其拉共鳴水晶]
+			
+			[22222] = -100, 	-- TAQ鍛造圖紙
+			[20727] = -100, 	-- TAQ附魔
+			[20728] = -100, 	-- TAQ附魔
+			[20729] = -100, 	-- TAQ附魔
+			[20730] = -100, 	-- TAQ附魔
+			[20731] = -100, 	-- TAQ附魔
+			[20734] = -100, 	-- TAQ附魔
+			[20736] = -100 	-- TAQ附魔
 		}
 	},
 
@@ -91,35 +106,25 @@ CEPGP_tokens = {
 	},
 
 	AQ = {
-		["Cloak"] = {
-			[20885] = 67,	-- Martial Drake
-			[20889] = 67	-- Regal Drape
-		},
-		["Finger"] = {
-			[20888] = 65,	-- Ceremonial Ring
-			[20884] = 65	-- Magisterial Ring
-		},
-		["Weaponoffhand"] = {
-			[20886] = 70,	-- Spiked Hilt -- Exceptions apply - Paladin / Shaman weapon are main hand
-			[21232] = 79,	-- Imperial Qiraji Armaments -- Can also be a ranged weapon or shield
-		},
-		["Weaponmainhand"] = {
-			[20890] = 70	-- Ornate Hilt
-		},
-		["TwoHweapon"] = {
-			[21237] = 79	-- Imperial Qiraji Regalia -- Can also be a one-handed weapon
-		},
 		["Feet"] = {
 			[20928] = 78,	-- Qiraji Bindings of Command -- Can also be shoulders
 			[20932] = 78	-- Qiraji Bindings of Dominance -- same deal
+		},
+		["Head"] = {
+			[20926] = 81,	-- 
+			[20930] = 81	-- 
+		},
+		["Legs"] = {
+			[20927] = 81,	-- Ouro's Intact Hide
+			[20931] = 81	-- Skin of the Great Sandworm
 		},
 		["Chest"] = {
 			[20933] = 88,	-- Husk of the Old God
 			[20929] = 88	-- Carapace of the Old God
 		},
-		["Legs"] = {
-			[20927] = 81,	-- Ouro's Intact Hide
-			[20931] = 81	-- Skin of the Great Sandworm
+		["Trinket"] = {
+			[21237] = 79,	-- Imperial Qiraji Regalia -- Can also be a one-handed weapon
+			[21232] = 79	-- Imperial Qiraji Armaments -- Can also be a ranged weapon or shield
 		}
 	},
 

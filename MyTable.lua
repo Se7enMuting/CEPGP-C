@@ -1,5 +1,5 @@
 
-CEPGP_DissolveEP = true
+CEPGP_DissolveEP = false
 CEPGP_subroster = {}; --plus
 CEPGP_rate = 1; --plus
 CEPGP_greedrate = 0.1; --plus
@@ -11,7 +11,7 @@ MulDistID = "17966"; --plus 奧妮克希亞皮袋 17966 統計此人拾取次數
 
 CEPGP_T2Mes = "L1，T2不可貪婪(狂暴戰/野德除外),要被強X";
 CEPGP_AllGreedMes = "可以貪婪";
-CEPGP_CallItemMes = "要[需求]此裝備，請密我打\"1\"，要[貪婪]密我\"2\"，要[放棄]密我\"3\"。";
+CEPGP_CallItemMes = "全分[需求]此裝備，請M我\"1\"; [貪婪]M我\"2\"(算10% GP); [Pass/放棄]M我\"3\"。";
 
 ---["物品ID"] = {"物品說明", 0 }---(0=不增加通告，1=另外增加通告：此裝備歷史分配數量)
 CEPGP_ItemPR = {
