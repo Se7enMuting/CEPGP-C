@@ -1,11 +1,12 @@
 
-CEPGP_DissolveEP = false
+CEPGP_DissolveEP = false;
 CEPGP_subroster = {}; --plus
 CEPGP_rate = 1; --plus
 CEPGP_greedrate = 0.1; --plus
 CEPGP_response_buttons = {[1]="需求",[2]="貪婪",[3]="放棄"}; --plus
 CEPGP_keyword_2 = "2"; --plus
 CEPGP_keyword_3 = "3"; --plus
+CEPGP_suppress_sub_announcements = true; --小號暗拍plus
 
 MulDistID = "17966"; --plus 奧妮克希亞皮袋 17966 統計此人拾取次數
 
